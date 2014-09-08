@@ -23,7 +23,14 @@ public class WorkerTh implements Runnable {
         for (int k = 0; k < B.length; k++) {
             C[row][col] += A[row][k] * B[k][col];
         }
-
+        System.out.println("------------ Test--");
+        for (row = 0; row < 4; row++) {
+            for (col = 0; col < 4; col++) {
+                System.out.print("  " + C[row][col]);
+            }
+            System.out.println("");
+        }
     }
 
 }
+
