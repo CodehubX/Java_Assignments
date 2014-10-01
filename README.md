@@ -1,21 +1,8 @@
-# Homeworks 5th Semester #
-## Verteilte Systeme Prof.Dr.E.Ammann  ##
-
-**Assignment #1**
+# Homeworks5 #
 
 
+Similar to [Homeworks2](https://github.com/Johnmalc/Homeworks2) these are assignments created by me and one girl in the 5.semester for our Computer Science (Java) class at the Reutlingen University (autumn 2014/15). High five to Prof.Dr.E.Ammann - our Professor.
 
-**Assignment #2:**
+MIT License
 
-> Schreiben Sie ein Multithread-Programm, in dem eine Matrizenmultiplikation C = A * B
-> von zwei 4x4-Matrizen A und B mit Integerelementen wahlweise von einer beliebigen
-> Anzahl von Threads (also von einem, von zwei, von drei, ..., von vierzehn, von fünfzehn
-> oder von sechzehn Threads) arbeitsteilig durchgeführt wird. Die Zahl der arbeitenden
-> Threads soll beim Aufruf des Programms als Aufrufparameter angegeben werden können.
-> 
-> Verwenden Sie dabei die beiden Ausgangsmatrizen ......
-> 
-> Ihr Programm sollte als Ergebnis die beiden Ausgangsmatrizen A und B sowie
-> die arbeitsteilig berechnete Produktmatrix C = A * B ausgeben.
-> Kontrollieren Sie auf alle Fälle auch durch direktes Nachrechnen, ob die von Ihrem
-> Programm berechnete Produktmatrix auch stimmt. 
+We will try to follow this [Google Java Style Guide](https://google-styleguide.googlecode.com/svn/trunk/javaguide.html).
