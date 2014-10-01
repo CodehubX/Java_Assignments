@@ -11,7 +11,7 @@
 hs_err_pid*
 
 # IDEA
-*.iml
+Assignment1.iml
 .idea/
 out/
 bin/
