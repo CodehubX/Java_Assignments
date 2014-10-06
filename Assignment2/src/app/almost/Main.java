@@ -1,7 +1,8 @@
 package app.almost;
 
 import java.lang.management.ManagementFactory;
-import java.util.concurrent.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class Main {
     public static void main(String args[]) {

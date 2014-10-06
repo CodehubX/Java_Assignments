@@ -7,7 +7,7 @@ import java.util.concurrent.Semaphore;
  */
 public class ThreadAtwo implements Runnable {
     Thread th2;
-    Semaphore sem = new Semaphore(2) ;
+    Semaphore sem = new Semaphore(2);
 
 
     public ThreadAtwo() {

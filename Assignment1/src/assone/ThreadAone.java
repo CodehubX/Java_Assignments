@@ -6,6 +6,7 @@ package assone;
 public class ThreadAone implements Runnable {
 
     Thread th1;
+
     public ThreadAone() {
         th1 = new Thread(this);
     }

@@ -18,7 +18,8 @@ public class Thread7 implements Runnable {
     }
 
     public void testMethod() {
-        System.out.println("Thread #7 is running - finito: " + thr.getName() + " / " + Thread.activeCount());
+        System.out.println(
+            "Thread #7 is running - finito: " + thr.getName() + " / " + Thread.activeCount());
     }
 
     @Override

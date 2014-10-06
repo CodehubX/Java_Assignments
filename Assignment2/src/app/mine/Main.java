@@ -10,13 +10,13 @@ public class Main {
 
         System.out.println("Enter your size of matrix A (e.g. 4 means it will be 4x4)");
         mat.setSizeA(inputValues.nextInt());
-        System.out.println("You entered: "  + mat.getSizeA());
+        System.out.println("You entered: " + mat.getSizeA());
         System.out.println("Please, now enter values of the first matrix (A)");
         mat.matrixA();
 
         System.out.println("Enter your size of matrix B (e.g. 4 means it will be 4x4)");
         mat.setSizeB(inputValues.nextInt());
-        System.out.println("You entered: "  + mat.getSizeB());
+        System.out.println("You entered: " + mat.getSizeB());
         System.out.println("Please, now enter values of the first matrix (B)");
         mat.matrixB();
 
@@ -28,6 +28,7 @@ public class Main {
         dw.start();
 
     }
+
     public static String startUnitTest() {
         //Main.main(new String[]{""});
         return "OK";

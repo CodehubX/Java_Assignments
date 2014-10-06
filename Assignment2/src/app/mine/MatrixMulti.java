@@ -16,7 +16,7 @@ public class MatrixMulti {
     }
 
     private static double[][] reconstructAnswer(double[][] r, double[][] s,
-                                                double[][] t, double[][] u) {
+        double[][] t, double[][] u) {
         int n = r.length * 2;
         double[][] C = new double[n][n];
         copyBack(C, r, 0, 0);

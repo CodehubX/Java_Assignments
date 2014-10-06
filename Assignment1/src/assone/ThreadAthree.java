@@ -5,6 +5,7 @@ package assone;
  */
 public class ThreadAthree implements Runnable {
     Thread th3;
+
     public ThreadAthree() {
         th3 = new Thread(this);
     }

@@ -3,8 +3,9 @@ package assone;
 /**
  * Created by jm on 9/24/2014.
  */
-public class ThreadAfour  implements Runnable {
+public class ThreadAfour implements Runnable {
     Thread th4;
+
     public ThreadAfour() {
         th4 = new Thread(this);
     }

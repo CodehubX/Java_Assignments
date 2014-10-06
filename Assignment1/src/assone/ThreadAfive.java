@@ -5,6 +5,7 @@ package assone;
  */
 public class ThreadAfive implements Runnable {
     Thread th5;
+
     public ThreadAfive() {
         th5 = new Thread(this);
     }
