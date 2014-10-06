@@ -13,19 +13,19 @@ public class Matrix implements MatrixInterface, Runnable {
     }
 
     @Override
-    public void setMatrixA(int sizeA) {
-        this.matrixA = new double[sizeA][sizeA];
-    }
-
-    @Override
     public double[][] getMatrixA() {
-        for (int row = 0; row < sizeA; row++){
-            for (int col = 0; col < sizeA; col++){
-                System.out.printf("%d   ", (int)matrixA[row][col]);
+        for (int row = 0; row < sizeA; row++) {
+            for (int col = 0; col < sizeA; col++) {
+                System.out.printf("%d   ", (int) matrixA[row][col]);
             }
             System.out.print("\n");
         }
         return matrixA;
+    }
+
+    @Override
+    public void setMatrixA(int sizeA) {
+        this.matrixA = new double[sizeA][sizeA];
     }
 
     @Override
@@ -37,8 +37,8 @@ public class Matrix implements MatrixInterface, Runnable {
 
         System.out.println("--------The new One----------");
 
-        for (int d = 0; d < newar.length;d++){
-            for(int w = 0; w < newar[0].length;w++){
+        for (int d = 0; d < newar.length; d++) {
+            for (int w = 0; w < newar[0].length; w++) {
                 System.out.printf("%d   ", (int) newar[d][w]);
             }
             System.out.print("\n");
@@ -64,8 +64,8 @@ public class Matrix implements MatrixInterface, Runnable {
         }
         long estimatedTime = System.nanoTime() - startTime;
 
-        for (int d = 0; d < newMatrix.length;d++){
-            for(int w = 0; w < newMatrix[0].length;w++){
+        for (int d = 0; d < newMatrix.length; d++) {
+            for (int w = 0; w < newMatrix[0].length; w++) {
                 System.out.printf("%d   ", (int) newMatrix[d][w]);
             }
             System.out.print("\n");
@@ -74,18 +74,13 @@ public class Matrix implements MatrixInterface, Runnable {
     }
 
     @Override
-    public void setSizeA(int sizeA) {
-        this.sizeA =sizeA;
-    }
-
-    @Override
     public int getSizeA() {
         return sizeA;
     }
 
     @Override
-    public void setSizeB(int sizeB) {
-        this.sizeB = sizeB;
+    public void setSizeA(int sizeA) {
+        this.sizeA = sizeA;
     }
 
     @Override
@@ -94,19 +89,24 @@ public class Matrix implements MatrixInterface, Runnable {
     }
 
     @Override
-    public void setMatrixB(int sizeB) {
-        this.matrixB = new double[sizeB][sizeB];
+    public void setSizeB(int sizeB) {
+        this.sizeB = sizeB;
     }
 
     @Override
     public double[][] getMatrixB() {
-        for (int rows = 0; rows < sizeB; rows++){
-            for (int cols = 0; cols < sizeB; cols++){
-                System.out.printf("%d   ", (int)matrixB[rows][cols]);
+        for (int rows = 0; rows < sizeB; rows++) {
+            for (int cols = 0; cols < sizeB; cols++) {
+                System.out.printf("%d   ", (int) matrixB[rows][cols]);
             }
             System.out.print("\n");
         }
         return matrixB;
+    }
+
+    @Override
+    public void setMatrixB(int sizeB) {
+        this.matrixB = new double[sizeB][sizeB];
     }
 
     @Override
@@ -115,7 +115,7 @@ public class Matrix implements MatrixInterface, Runnable {
         setMatrixA(sizeA);
         for (int i = 0; i < sizeA; i++) {
             for (int k = 0; k < sizeA; k++) {
-                matrixA[i][k]= (int)inputValuesA.nextDouble();
+                matrixA[i][k] = (int) inputValuesA.nextDouble();
             }
         }
         int p = matrixA.length;
@@ -129,20 +129,20 @@ public class Matrix implements MatrixInterface, Runnable {
         setMatrixB(sizeB);
         for (int i = 0; i < sizeB; i++) {
             for (int k = 0; k < sizeB; k++) {
-                matrixB[i][k]= (int)inputValuesB.nextDouble();
+                matrixB[i][k] = (int) inputValuesB.nextDouble();
             }
         }
         getMatrixB();
     }
 
     @Override
-    public void setThreads(int threads) {
-        this.threads = threads;
+    public int getThreads() {
+        return threads;
     }
 
     @Override
-    public int getThreads() {
-        return threads;
+    public void setThreads(int threads) {
+        this.threads = threads;
     }
 
     @Override
