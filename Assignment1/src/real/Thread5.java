@@ -5,7 +5,7 @@ import java.util.concurrent.Semaphore;
 /**
  * Created by jm on 10/4/2014.
  */
-public class Thread5  implements Runnable {
+public class Thread5 implements Runnable {
     Semaphore[] sem;
     String str;
     Thread thr;

@@ -17,8 +17,8 @@ public class Main {
         for (row = 0; row < 4; row++) {
             for (col = 0; col < 4; col++) {
                 //Runnable wo = new WorkerTh(row, col, A, B, C);
-                threadPool.submit(new WorkerTh(row, col, A, B, C));
-                threadPool.execute(new WorkerTh(row, col, A, B, C));
+                threadPool.submit(new Test(row, col, A, B, C));
+                //threadPool.submit(new Test(row, col, A, B, C));
             }
         }
 
