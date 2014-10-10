@@ -1,3 +1,5 @@
+package firsttry;
+
 import com.rabbitmq.client.AMQP.BasicProperties;
 import com.rabbitmq.client.Consumer;
 import com.rabbitmq.client.Envelope;
@@ -19,7 +21,8 @@ import java.util.Map;
  */
 public class Cons extends Masin implements Runnable, Consumer {
 
-    public Cons(String endPointName) throws IOException, NoSuchAlgorithmException, KeyManagementException, URISyntaxException {
+    public Cons(String endPointName)
+        throws IOException, NoSuchAlgorithmException, KeyManagementException, URISyntaxException {
         super(endPointName);
     }
 
@@ -43,7 +46,7 @@ public class Cons extends Masin implements Runnable, Consumer {
      * Called when new message is available.
      */
     public void handleDelivery(String consumerTag, Envelope env,
-                               BasicProperties props, byte[] body) throws IOException {
+        BasicProperties props, byte[] body) throws IOException {
         Map map = (HashMap) SerializationUtils.deserialize(body);
         System.out.println("Message Number " + map.get("message number") + " received.");
 

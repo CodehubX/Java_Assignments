@@ -1,3 +1,5 @@
+package firsttry;
+
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
@@ -13,7 +15,8 @@ public abstract class Masin {
     protected Connection connection;
     protected String endPointName;
 
-    public Masin(String endpointName) throws IOException, NoSuchAlgorithmException, KeyManagementException, URISyntaxException {
+    public Masin(String endpointName)
+        throws IOException, NoSuchAlgorithmException, KeyManagementException, URISyntaxException {
         this.endPointName = endpointName;
 
         //Create a connection factory
