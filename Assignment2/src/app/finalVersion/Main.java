@@ -1,6 +1,5 @@
-package app.almost;
+package app.finalVersion;
 
-import java.lang.management.ManagementFactory;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -14,34 +13,58 @@ public class Main {
         int anzahl = Integer.valueOf(args[0]);
 
         ExecutorService threadPool = Executors.newFixedThreadPool(anzahl);
-
+        /**
+         * Submit each element (position) to the threadpool to
+         * E.g. it submits first element to thread pool to calculate A*B to get C
+         * Then it submit another number (element) to THPL to do the same
+         */
         for (row = 0; row < 4; row++) {
             for (col = 0; col < 4; col++) {
-                //Runnable wo = new WorkerTh(row, col, A, B, C);
-                threadPool.submit(new Test(row, col, A, B, C));
-                //threadPool.submit(new Test(row, col, A, B, C));
+                //Runnable wo = new Runn(row, col, A, B, C);
+                threadPool.submit(new Call(row, col, A, B, C));
+                //threadPool.submit(new Runn(row, col, A, B, C));
             }
         }
 
-        int m = ManagementFactory.getThreadMXBean().getThreadCount();
-        System.out.println("asdf: " + m);
 
         System.out.println("thread count: " + Thread.activeCount());
         threadPool.shutdown();
 
-        while (!threadPool.isTerminated()) {
+
+        /**
+         * Final Matrix C
+         */
+        try {
+            Thread.sleep(3000);
+
+            System.out.println(" Resulting C Matrix -----------: ");
+            for (row = 0; row < 4; row++) {
+                for (col = 0; col < 4; col++) {
+                    System.out.print("  " + C[row][col]);
+                }
+                System.out.println();
+            }
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
-        System.out.println("Finished all threads");
 
-
+        /**
+         * Print matrix A from the input
+         */
+        /*
         System.out.println(" A Matrix : ");
         for (row = 0; row < 4; row++) {
             for (col = 0; col < 4; col++) {
                 System.out.print("  " + A[row][col]);
             }
             System.out.println();
-        }
+        }*/
 
+        /**
+         * Print matrix B from input
+         */
+        /*
         System.out.println(" B Matrix : ");
         for (row = 0; row < 4; row++) {
             for (col = 0; col < 4; col++) {
@@ -49,14 +72,7 @@ public class Main {
             }
             System.out.println();
         }
-
-        System.out.println(" Resulting C Matrix -----------: ");
-        for (row = 0; row < 4; row++) {
-            for (col = 0; col < 4; col++) {
-                System.out.print("  " + C[row][col]);
-            }
-            System.out.println();
-        }
+        */
 
     }
 

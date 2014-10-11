@@ -18,7 +18,7 @@ public class Pro extends Masin {
     public void sendMessage(Serializable object) throws IOException {
         channel.basicPublish("", endPointName, null, SerializationUtils.serialize(object));
     }
-    public String me () {
-        return channel.basicConsume("", endPointName);
+    public String me () throws IOException {
+        return channel.basicConsume(null, null);
     }
 }
