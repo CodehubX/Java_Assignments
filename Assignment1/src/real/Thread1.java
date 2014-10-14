@@ -19,17 +19,15 @@ public class Thread1 implements Runnable {
 
     public void testMethod() {
         System.out.println("Thread #1 is running: " + thr.getName() + " / " + Thread.activeCount());
+        Thread d = Thread.currentThread();
+
     }
 
     @Override
     public void run() {
         testMethod();
-        try {
-            sem[0].acquire();
-            sem[1].acquire();
-            sem[2].acquire();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        sem[0].release();
+        sem[1].release();
+        sem[2].release();
     }
 }

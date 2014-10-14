@@ -26,10 +26,11 @@ public class Main {
     public static void main(String[] args) {
 
         ExecutorService threadpool = Executors.newFixedThreadPool(8);
-        Semaphore[] sem = new Semaphore[10];
+        Semaphore[] sem = new Semaphore[9];
 
         for (int i = 0; i < sem.length; i++) {
-            sem[i] = new Semaphore(5);
+            sem[i] = new Semaphore(0);
+            // initial number; when Sem start; wenn >0, dann laufen allen
         }
         threadpool.submit(new Thread1(sem, "#1"));
         threadpool.submit(new Thread2(sem, "#2"));
