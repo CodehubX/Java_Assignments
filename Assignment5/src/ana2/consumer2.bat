@@ -1,0 +1,1 @@
+java -cp bin;%JBOSSCLIENT_PATH% Consumer2 %1
