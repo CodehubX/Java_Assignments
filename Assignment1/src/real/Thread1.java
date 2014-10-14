@@ -19,8 +19,6 @@ public class Thread1 implements Runnable {
 
     public void testMethod() {
         System.out.println("Thread #1 is running: " + thr.getName() + " / " + Thread.activeCount());
-        Thread d = Thread.currentThread();
-
     }
 
     @Override

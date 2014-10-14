@@ -30,7 +30,8 @@ public class Main {
 
         for (int i = 0; i < sem.length; i++) {
             sem[i] = new Semaphore(0);
-            // initial number; when Sem start; wenn >0, dann laufen allen
+            // initial number when Semaphore starts, how many permits does it have;
+            // wenn >= 0 dann laufen alle
         }
         threadpool.submit(new Thread1(sem, "#1"));
         threadpool.submit(new Thread2(sem, "#2"));

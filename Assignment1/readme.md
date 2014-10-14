@@ -9,10 +9,10 @@
 > Modellieren Sie diese nebenläufigen Aktivitäten der einzelnen Threads mit einem
 > Petrinetz.
 
+realse ist V
+ac ist P
 
-(not correct)
-
-| Thread Number	| Acquire (V) 	| Release (P)
+| Thread Number	| Release/V (+1) | Acquire/P (-1)
 |------------|-------|---------
 | 1				|	0 1 2 	| \
 | 2				|   3	 	|0 	
