@@ -1,4 +1,7 @@
-package ver1;
+package ana;
+
+import java.rmi.Remote;
+import java.rmi.RemoteException;
 
 public interface ServerInterface extends Remote {
     public Meldung einstellen() throws RemoteException;

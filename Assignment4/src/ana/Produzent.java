@@ -1,4 +1,4 @@
-package ver1;
+package ana;
 
 import java.rmi.Naming;
 

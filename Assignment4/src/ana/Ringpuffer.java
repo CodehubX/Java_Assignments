@@ -1,4 +1,4 @@
-package ver1;
+package ana;
 
 /* Datei FIFOPuffer.java                E. Ammann      */
 /* Klasse fuer den Ringpuffer zur Benutzung durch      */

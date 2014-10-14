@@ -1,5 +1,6 @@
-package ver1;
+package ana;
 
+import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
 public class ServerImpl extends UnicastRemoteObject

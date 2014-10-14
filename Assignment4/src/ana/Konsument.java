@@ -1,4 +1,6 @@
-package ver1;
+package ana;
+
+import java.rmi.Naming;
 
 public class Konsument {
     public static void main(String args[]) {
