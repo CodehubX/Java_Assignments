@@ -1,8 +1,10 @@
-> Schreiben Sie ein verteiltes Programm, das eine Online-Meinungsumfrage zu einem vorgegebenen Thema umsetzt.
+> Schreiben Sie ein verteiltes Programm, das eine **Online-Meinungsumfrage zu einem vorgegebenen Thema** umsetzt.
 > 
-> Auf dem serverseitigen Teil wird dabei der aktuelle Stand der Meinungsumfrage (Abstimmmöglichkeiten: Zustimmung=ja, Ablehnung=nein, Enthaltung=sonstiges) verwaltet. Der momentane Abstimmungsstand soll dabei persistent in einer Datei abgespeichert werden. Dieser Serverteil soll als konkurrenter Server umgesetzt werden.
+> Auf dem **serverseitigen Teil** wird dabei der aktuelle Stand der Meinungsumfrage (Abstimmmöglichkeiten: **Zustimmung=ja, Ablehnung=nein, Enthaltung=sonstiges)** verwaltet.
+
+>Der momentane Abstimmungsstand soll dabei **persistent in einer Datei abgespeichert werden**. Dieser Serverteil soll als **konkurrenter Server** umgesetzt werden.
 > 
-> Unter Nutzung des Cliententeil können beliebig viele Nutzer sowohl ihre Meinung zu diesem Thema kundtun (ja, nein, Enthaltung) als auch den aktuellen Stand der Abstimmung vom Server erfragen.
+> Unter Nutzung des **Cliententeil** können beliebig viele Nutzer **sowohl ihre Meinung zu diesem Thema kundtun (ja, nein, Enthaltung) als auch den aktuellen Stand der Abstimmung vom Server erfragen.**
 > 
 > **Diese Aufgabe 3 ist unter Nutzung des verteilten Programmieransatzes Socket-Programmierung zu bearbeiten.**
 > 
