@@ -10,7 +10,7 @@ import java.util.concurrent.Executors;
 
 
 
-public class ServerCommunicatorThreadpool {
+public class ServerTP {
 
     private final static int PORT = 7824;
 
