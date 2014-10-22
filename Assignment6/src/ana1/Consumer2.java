@@ -1,4 +1,4 @@
-package ver1;
+package ana;
 
 import javax.jms.*;
 import javax.naming.Context;

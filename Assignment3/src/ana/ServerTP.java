@@ -13,13 +13,8 @@ import java.util.concurrent.Executors;
 public class ServerTP {
 
     private final static int PORT = 7824;
-
     private static ServerSocket serverSocket;
-
-    //private static Server server;
-
     private static Socket socket;
-
     private static ExecutorService pool;
 
     public static void main(String args[]) {

@@ -1,4 +1,4 @@
-package ver1;
+package ana1;
 
 import javax.jms.*;
 import javax.naming.Context;
@@ -15,8 +15,8 @@ public class Kommander {
     private static final String PASSWORD = "guest";
 
     private QueueConnectionFactory factory;
-    private javax.jms.Queue queue1;
-    private javax.jms.Queue queue2;
+    private Queue queue1;
+    private Queue queue2;
     private javax.jms.Queue queue3;
     private QueueConnection connection;
     private QueueSession session;
