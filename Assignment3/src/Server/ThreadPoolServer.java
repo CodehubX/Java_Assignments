@@ -1,6 +1,6 @@
 package Server;
 
-import Client.Question;
+import Client.*;
 
 import java.io.*;
 import java.net.Socket;
@@ -26,19 +26,19 @@ public class ThreadPoolServer implements Runnable {
     }
 
     @Override public void run() {
-        try {
-            System.out.println(qus.getDeineAbstimmung());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        try {
-            System.out.println("Client :" + qus.getId() + " said " + ois.readUTF() + ois.readObject());
-        } catch (EOFException e) {
-            e.getMessage();
-        } catch (IOException e) {
-            e.getLocalizedMessage();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+        if (Client.counterClients == 0) {
+            try {
+                System.out.println(qus.getDeineAbstimmung());
+                System.out.println("Client :" + /*qus.getId() +*/ " said " + ois.readUTF() + ois.readObject());
+            } catch (EOFException e) {
+                e.getMessage();
+            } catch (IOException e) {
+                e.getLocalizedMessage();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        } else {
+            System.out.println("There are not clients at the time");
         }
 
     }

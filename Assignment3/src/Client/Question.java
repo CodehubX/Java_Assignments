@@ -17,22 +17,27 @@ public class Question implements Serializable {
     String ja = "ja";
     String nein = "nein";
     String maybe = "maybe";
+
     String DeineAbstimmung = null;
+    ObjectOutputStream ds = null;
+    FileOutputStream file = null;
+
     int counterJA = 0;
     int counterMAYBE = 0;
     int counterNEIN = 0;
-    FileOutputStream file = null;
-    ObjectOutputStream ds = null;
+
     Vector<UUID> list;
 
     public Question(UUID uniqueKey) throws IOException {
         file = new FileOutputStream("answers.ser");
         ds = new ObjectOutputStream(file);
-        list = new Vector<>();
+        list = new Vector<UUID>();
         list.add(uniqueKey);
     }
 
-    public Question() throws IOException {
+    public Question() {
+        list = new Vector<UUID>();
+
         //        file = new FileOutputStream("answers.ser");
         //        ds = new ObjectOutputStream(file);
     }
@@ -43,12 +48,16 @@ public class Question implements Serializable {
      * @return server Abstimmung
      */
     public synchronized String getDeineAbstimmung() throws IOException {
-        System.out.println("\n How many people have provided opinion? ->");
-        System.out.println("For 'ja' -> " + counterJA);
-        System.out.println("For 'nein' -> " + counterNEIN);
-        System.out.println("For 'maybe' -> " + counterMAYBE);
-        System.out.println("Anzahl der unique clients ID: " + getId()); // method below
-        return DeineAbstimmung;
+        if (DeineAbstimmung != null) {
+            System.out.println("\nHow many people have provided opinion? ->");
+            System.out.println("For 'ja' -> " + counterJA);
+            System.out.println("For 'nein' -> " + counterNEIN);
+            System.out.println("For 'maybe' -> " + counterMAYBE);
+            System.out.println("Anzahl der unique clients ID: " + getSize()); // method below
+        } else {
+            System.out.println("DeineAbstimmung ist null");
+        }
+        return "test";
     }
 
     /**
@@ -86,12 +95,12 @@ public class Question implements Serializable {
         }
     }
 
-    public synchronized int getSize() throws IOException {
+    public int getSize() throws IOException {
         ds.writeInt(list.size());
         return list.size();
     }
 
-    public synchronized UUID getId() {
+    public UUID getId() {
         if (list.isEmpty()) {
             System.out.println("There are no clients connected to the server. ");
         } else {

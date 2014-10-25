@@ -13,12 +13,13 @@ import java.util.UUID;
  */
 public class Client {
 
+    public static int counterClients = 0;
 
     public static void main(String[] args) throws IOException {
         Scanner sc = new Scanner(System.in);
         Socket ss = new Socket("localhost", OurServer.port); // vznikne socket, ktery se pripoji na dany port a host
         UUID uniqueKey = UUID.randomUUID();
-
+        counterClients++;
         System.out.println("Client Connection to Server is OK! " + ss.getInetAddress() + " " + ss.getLocalPort() + "\n" + OurServer.frage);
 
         Question qs = new Question(uniqueKey); // ulozi UUID a pripravi object pro Q/A
