@@ -6,7 +6,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.net.Socket;
 import java.util.UUID;
 import java.util.Vector;
 
@@ -18,26 +17,24 @@ public class Question implements Serializable {
     String ja = "ja";
     String nein = "nein";
     String maybe = "maybe";
-    String DeineAbstimmung;
+    String DeineAbstimmung = null;
     int counterJA = 0;
     int counterMAYBE = 0;
     int counterNEIN = 0;
     FileOutputStream file = null;
     ObjectOutputStream ds = null;
     Vector<UUID> list;
-    Socket soc;
-    UUID id;
 
     public Question(UUID uniqueKey) throws IOException {
-        file = new FileOutputStream("answers.txt");
+        file = new FileOutputStream("answers.ser");
         ds = new ObjectOutputStream(file);
         list = new Vector<>();
         list.add(uniqueKey);
     }
 
     public Question() throws IOException {
-        file = new FileOutputStream("answers.txt");
-        ds = new ObjectOutputStream(file);
+        //        file = new FileOutputStream("answers.ser");
+        //        ds = new ObjectOutputStream(file);
     }
 
     /**
@@ -45,44 +42,40 @@ public class Question implements Serializable {
      *
      * @return server Abstimmung
      */
-    public synchronized String getDeineAbstimmung() {
-        System.out.println("How many people have provided opinion? ->");
+    public synchronized String getDeineAbstimmung() throws IOException {
+        System.out.println("\n How many people have provided opinion? ->");
         System.out.println("For 'ja' -> " + counterJA);
-        //        BufferedInputStream bufferedInputStream = new BufferedInputStream();
         System.out.println("For 'nein' -> " + counterNEIN);
         System.out.println("For 'maybe' -> " + counterMAYBE);
-        System.out.println("Anzahl der unique clients ID: " + list.size());
+        System.out.println("Anzahl der unique clients ID: " + getId()); // method below
         return DeineAbstimmung;
     }
 
     /**
      * Store Cleints meinung in Object Output Stream
      *
-     * @param meinungTest
-     * @throws IOException
+     * @param meinung meinung of the Client
+     * @throws java.io.IOException
      */
-    public synchronized void setDeineAbstimmung(String meinungTest) throws IOException {
-        if (meinungTest != null) {
-            if (meinungTest.equals(ja)) {
-                this.DeineAbstimmung = meinungTest;
-                System.out
-                    .println("Ihre Meinung zur: " + OurServer.frage + " ist: " + DeineAbstimmung);
+    public synchronized void setDeineAbstimmung(String meinung) throws IOException {
+        if (meinung != null) {
+            if (meinung.equals(ja)) {
+                this.DeineAbstimmung = meinung;
+                System.out.println("Ihre Meinung zur: " + OurServer.frage + " ist: " + DeineAbstimmung);
                 counterJA++;
-                ds.writeUTF(meinungTest);
+                ds.writeUTF(meinung);
                 ds.flush();
-            } else if (meinungTest.equals(nein)) {
-                this.DeineAbstimmung = meinungTest;
-                System.out
-                    .println("Ihre Meinung zur: " + OurServer.frage + " ist: " + DeineAbstimmung);
+            } else if (meinung.equals(nein)) {
+                this.DeineAbstimmung = meinung;
+                System.out.println("Ihre Meinung zur: " + OurServer.frage + " ist: " + DeineAbstimmung);
                 counterNEIN++;
-                ds.writeUTF(meinungTest);
+                ds.writeUTF(meinung);
                 ds.flush();
-            } else if (meinungTest.equals(maybe)) {
-                this.DeineAbstimmung = meinungTest;
-                System.out
-                    .println("Ihre Meinung zur: " + OurServer.frage + " ist: " + DeineAbstimmung);
+            } else if (meinung.equals(maybe)) {
+                this.DeineAbstimmung = meinung;
+                System.out.println("Ihre Meinung zur: " + OurServer.frage + " ist: " + DeineAbstimmung);
                 counterMAYBE++;
-                ds.writeUTF(meinungTest);
+                ds.writeUTF(meinung);
                 ds.flush();
             } else {
                 System.out.println("Nur 'ja', 'nein' oder 'maybe' sind mogliche Antworten");
@@ -93,12 +86,18 @@ public class Question implements Serializable {
         }
     }
 
-    public synchronized UUID getId() {
-        return id;
+    public synchronized int getSize() throws IOException {
+        ds.writeInt(list.size());
+        return list.size();
     }
 
-    public synchronized void setId(UUID id) {
-        this.id = id;
+    public synchronized UUID getId() {
+        if (list.isEmpty()) {
+            System.out.println("There are no clients connected to the server. ");
+        } else {
+            return list.elementAt(0);
+        }
+        return null;
     }
 
 }

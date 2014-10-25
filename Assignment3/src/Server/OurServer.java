@@ -13,19 +13,16 @@ public class OurServer {
     public static final int port = 5147;
     public static final String frage = "Is Mr. Obama right-wing ?";
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, ClassNotFoundException {
         ServerSocket ser = new ServerSocket(port);
-
-        System.out.println("ServerSocket has been established " + " : " + ser
-            .getLocalPort());
+        System.out.println("ServerSocket has been established " + " : " + ser.getLocalPort());
         ExecutorService ex = Executors.newFixedThreadPool(10);
-//        ex.execute(new Question());
+
 
         while (true) {
             Socket soc = ser.accept();
-            System.out.println(
-                "Socket Connection has been created" + soc.getLocalAddress() + " <: " + soc
-                    .getPort());
+            System.out.println("Socket Connection has been created" + soc.getLocalAddress() + " <: " + soc.getPort());
+            ex.execute(new ThreadPoolServer(soc));
         }
     }
 }

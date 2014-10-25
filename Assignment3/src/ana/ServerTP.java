@@ -68,8 +68,7 @@ public class ServerTP {
                     "Ist, Ihrer Meinung nach, die Aufgabe3 kompliziert? \nBitte 'ja','nein' oder 'sonstiges' fuer Enthaltung eingeben.";
                 out.writeUTF(nachricht);// Antwort senden
                 out.flush();
-                System.out.println("Server: "
-                    + nachricht);
+                System.out.println("Server: "    + nachricht);
                 while (true) {
                     nachricht = in.readUTF();// // auf die Antwort/Anfrage warten
                     System.out.println(myconnection.getInetAddress().getHostName() + ": "
