@@ -1,15 +1,20 @@
-package Server;
+package Client;
 
-import java.io.*;
+import Server.OurServer;
+
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+import java.net.Socket;
 import java.util.UUID;
 import java.util.Vector;
 
 /**
- * !!!!!!!!!!!Second part of the server!!!!!!!!
+ * !!!!!!!!!!!Second part of the client!!!!!!!!
  * Created by jm on 10/10/2014.
  */
-public class Question implements Runnable, Serializable {
-    UUID id;
+public class Question implements Serializable {
     String ja = "ja";
     String nein = "nein";
     String maybe = "maybe";
@@ -18,19 +23,21 @@ public class Question implements Runnable, Serializable {
     int counterMAYBE = 0;
     int counterNEIN = 0;
     FileOutputStream file = null;
-    DataOutputStream ds = null;
+    ObjectOutputStream ds = null;
     Vector<UUID> list;
+    Socket soc;
+    UUID id;
 
     public Question(UUID uniqueKey) throws IOException {
         file = new FileOutputStream("answers.txt");
-        ds = new DataOutputStream(file);
+        ds = new ObjectOutputStream(file);
         list = new Vector<>();
         list.add(uniqueKey);
     }
 
-    public Question() throws FileNotFoundException {
+    public Question() throws IOException {
         file = new FileOutputStream("answers.txt");
-        ds = new DataOutputStream(file);
+        ds = new ObjectOutputStream(file);
     }
 
     /**
@@ -48,21 +55,32 @@ public class Question implements Runnable, Serializable {
         return DeineAbstimmung;
     }
 
+    /**
+     * Store Cleints meinung in Object Output Stream
+     *
+     * @param meinungTest
+     * @throws IOException
+     */
     public synchronized void setDeineAbstimmung(String meinungTest) throws IOException {
-        //        System.out.println("Ihre Meinung zur: " + frage);
         if (meinungTest != null) {
             if (meinungTest.equals(ja)) {
                 this.DeineAbstimmung = meinungTest;
+                System.out
+                    .println("Ihre Meinung zur: " + OurServer.frage + " ist: " + DeineAbstimmung);
                 counterJA++;
                 ds.writeUTF(meinungTest);
                 ds.flush();
             } else if (meinungTest.equals(nein)) {
                 this.DeineAbstimmung = meinungTest;
+                System.out
+                    .println("Ihre Meinung zur: " + OurServer.frage + " ist: " + DeineAbstimmung);
                 counterNEIN++;
                 ds.writeUTF(meinungTest);
                 ds.flush();
             } else if (meinungTest.equals(maybe)) {
                 this.DeineAbstimmung = meinungTest;
+                System.out
+                    .println("Ihre Meinung zur: " + OurServer.frage + " ist: " + DeineAbstimmung);
                 counterMAYBE++;
                 ds.writeUTF(meinungTest);
                 ds.flush();
@@ -83,12 +101,4 @@ public class Question implements Runnable, Serializable {
         this.id = id;
     }
 
-    @Override public void run() {
-        try {
-            Question qs = new Question();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 }

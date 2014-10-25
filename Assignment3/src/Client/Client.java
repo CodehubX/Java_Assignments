@@ -1,7 +1,6 @@
 package Client;
 
 import Server.OurServer;
-import Server.Question;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -24,8 +23,8 @@ public class Client {
             "Client Connection to Server is OK! " + ss.getInetAddress() + " " + ss
                 .getLocalPort() + "\n" + OurServer.frage);
 
-//        ObjectInputStream br = new ObjectInputStream(ss.getInputStream());
-//        ObjectOutputStream bw = new ObjectOutputStream(ss.getOutputStream());
+        //        ObjectInputStream br = new ObjectInputStream(ss.getInputStream());
+        //        ObjectOutputStream bw = new ObjectOutputStream(ss.getOutputStream());
 
         Question qs = new Question(uniqueKey);
         System.out.println("\nProvide your opinion or ask server for information.");

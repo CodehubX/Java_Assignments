@@ -19,11 +19,10 @@ public class OurServer {
         System.out.println("ServerSocket has been established " + " : " + ser
             .getLocalPort());
         ExecutorService ex = Executors.newFixedThreadPool(10);
-        ex.execute(new Question());
+//        ex.execute(new Question());
 
         while (true) {
             Socket soc = ser.accept();
-//            ObjectInputStream in = new ObjectInputStream(soc.getInputStream());
             System.out.println(
                 "Socket Connection has been created" + soc.getLocalAddress() + " <: " + soc
                     .getPort());
