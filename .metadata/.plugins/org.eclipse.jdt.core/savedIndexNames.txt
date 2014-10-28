@@ -14,8 +14,6 @@ INDEX VERSION 1.126+/Users/alexanderbaron/Documents/workspace/Homeworks5/.metada
 156905802.index
 4031328055.index
 4034374388.index
-3443170566.index
-1412680892.index
 1692234390.index
 3712507179.index
 3302703152.index
