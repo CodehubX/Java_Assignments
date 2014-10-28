@@ -23,18 +23,20 @@ public class Thread6 implements Runnable {
 
     @Override
     public void run() {
-        sem[5].release();
-        sem[6].release();
+        try {
+            sem[5].acquire();
+            sem[6].acquire();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         testMethod();
         /*Thread d = Thread.currentThread();
         d.interrupt();
         System.out.println(d.isInterrupted());
         */
-        try {
-            sem[8].acquire();
-            //System.out.println(sem[8].tryAcquire());
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+
+        sem[8].release();
+        //System.out.println(sem[8].tryAcquire());
+
     }
 }

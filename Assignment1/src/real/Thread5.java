@@ -23,15 +23,17 @@ public class Thread5 implements Runnable {
 
     @Override
     public void run() {
-        sem[3].release();
-        sem[4].release();
-        testMethod();
-
         try {
-            sem[7].acquire();
+            sem[3].acquire();
+            sem[4].acquire();
+
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        testMethod();
+
+
+        sem[7].release();
 
     }
 }

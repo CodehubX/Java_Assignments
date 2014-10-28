@@ -24,8 +24,12 @@ public class Thread7 implements Runnable {
 
     @Override
     public void run() {
-        sem[7].release();
-        sem[8].release();
+        try {
+            sem[7].acquire();
+            sem[8].acquire();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         testMethod();
 
     }

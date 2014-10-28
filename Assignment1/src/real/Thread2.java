@@ -23,15 +23,16 @@ public class Thread2 implements Runnable {
 
     @Override
     public void run() {
-        sem[0].release();
-        testMethod();
         try {
-            //System.out.println(sem[3].tryAcquire());
-            //System.out.println(sem[3].availablePermits());
-            sem[3].acquire();
-
+            sem[0].acquire();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        testMethod();
+
+        //System.out.println(sem[3].tryAcquire());
+        //System.out.println(sem[3].availablePermits());
+        sem[3].release();
+
     }
 }

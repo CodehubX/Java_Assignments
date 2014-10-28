@@ -23,13 +23,15 @@ public class Thread3 implements Runnable {
 
     @Override
     public void run() {
-        sem[1].release();
-        testMethod();
         try {
-            sem[4].acquire();
-            sem[5].acquire();
+            sem[1].acquire();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        testMethod();
+
+        sem[4].release();
+        sem[5].release();
+
     }
 }
