@@ -31,11 +31,9 @@ class Client {
         ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
 
 
-        BufferedReader keyboard = new BufferedReader(new InputStreamReader(
-            System.in));
+        BufferedReader keyboard = new BufferedReader(new InputStreamReader(System.in));
         String nachricht = null;
-        System.out.println("Verbunden mit "
-            + socket.getInetAddress().getHostName() + ".");
+        System.out.println("Verbunden mit " + socket.getInetAddress().getHostName() + ".");
 
 
 
