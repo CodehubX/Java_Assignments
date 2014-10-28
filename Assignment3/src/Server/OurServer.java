@@ -21,7 +21,8 @@ public class OurServer {
         while (true) {
             Socket soc = ser.accept();
             System.out.println("Socket Connection has been created" + soc.getLocalAddress() + " <: " + soc.getPort());
-            ex.execute(new ThreadPoolServer(soc));
+
+            ex.submit(new ThreadPoolServer(soc));
 
         }
     }

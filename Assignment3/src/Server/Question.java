@@ -26,12 +26,16 @@ public class Question implements Serializable {
 
     Vector<UUID> list;
 
-    public Question(UUID uniqueKey) throws IOException {
-        fileOu = new FileOutputStream("answers.ser");
-        oos = new ObjectOutputStream(fileOu);
+    public Question(UUID uniqueKey) {
+        try {
+            fileOu = new FileOutputStream("answers.ser");
+            oos = new ObjectOutputStream(fileOu);
+            fileIn = new FileInputStream("answers.ser");
+            ois = new ObjectInputStream(fileIn);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-        fileIn = new FileInputStream("answers.ser");
-        ois = new ObjectInputStream(fileIn);
 
         list = new Vector<UUID>();
         list.add(uniqueKey);
@@ -58,14 +62,13 @@ public class Question implements Serializable {
      *
      * @return server Abstimmung
      */
-    public synchronized String getDeineAbstimmungPerClient() throws IOException, ClassNotFoundException {
-        if(status==true) {
+    public synchronized String getDeineAbstimmungPerClient() {
+        if (status == true) {
             System.out.println("\nHow many people have provided opinion? ->");
             System.out.println("For 'ja' -> " + counterJA);
             System.out.println("For 'nein' -> " + counterNEIN);
             System.out.println("For 'maybe' -> " + counterMAYBE);
             System.out.println("Anzahl der unique clients ID: " + list.size()); // method below
-            System.out.println("" +ois.readUTF()); // deserialiertes string
             return DeineAbstimmung;
         } else {
             System.out.println("there were no clients stored");
@@ -86,27 +89,27 @@ public class Question implements Serializable {
             System.out.println("Ihre Meinung zur: " + OurServer.frage + " ist: " + DeineAbstimmung);
             counterJA++;
             oos.writeUTF(meinung);
-//            oos.writeObject(meinung);
+            //            oos.writeObject(meinung);
             oos.flush();
-//            oos.close();
+            //            oos.close();
         } else if (meinung.equals(nein)) {
             status = true;
             this.DeineAbstimmung = meinung;
             System.out.println("Ihre Meinung zur: " + OurServer.frage + " ist: " + DeineAbstimmung);
             counterNEIN++;
             oos.writeUTF(meinung);
-//            oos.writeObject(meinung);
+            //            oos.writeObject(meinung);
             oos.flush();
-//            oos.close();
+            //            oos.close();
         } else if (meinung.equals(maybe)) {
             status = true;
             this.DeineAbstimmung = meinung;
             System.out.println("Ihre Meinung zur: " + OurServer.frage + " ist: " + DeineAbstimmung);
             counterMAYBE++;
             oos.writeUTF(meinung);
-//            oos.writeObject(meinung);
+            //            oos.writeObject(meinung);
             oos.flush();
-//            oos.close();
+            //            oos.close();
         } else {
             System.out.println("Nur 'ja', 'nein' oder 'maybe' sind mogliche Antworten");
             System.out.println("Your input is wrong. Read instructions again");
@@ -121,7 +124,7 @@ public class Question implements Serializable {
     //        }
     //        return null;
     //    }
-    public int getSize(){
+    public int getSize() {
         return list.size();
     }
 

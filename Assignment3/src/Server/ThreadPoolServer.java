@@ -3,7 +3,6 @@ package Server;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.UUID;
 
@@ -11,40 +10,45 @@ import java.util.UUID;
  * Created by jm on 10/25/2014.
  */
 public class ThreadPoolServer implements Runnable {
-    ObjectInputStream ois = null;
-    ObjectOutputStream ous = null;
+    ObjectInputStream ois;
     Question qus;
-
     Socket soc;
 
-    public ThreadPoolServer(Socket socket) {
-        try {
-            this.soc = socket;
-            ois = new ObjectInputStream(new FileInputStream("answers.ser"));
-            //            ois = new ObjectInputStream(soc.getInputStream());
+    public ThreadPoolServer(Socket socket) throws IOException {
+        this.soc = socket;
+        ois = new ObjectInputStream(new FileInputStream("answers.ser"));
+        //            ois = new ObjectInputStream(soc.getInputStream());
+        //            ous = new ObjectOutputStream(new FileOutputStream("answers.ser"));
 
-            //            ous = new ObjectOutputStream(new FileOutputStream("answers.ser"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     @Override public void run() {
-        try {
-            System.out.println(ois.readInt());
-            if (ois.readInt() == 1) {
-                System.out.println("your vote please here");
-                UUID uuid = (UUID) ois.readObject();
-                System.out.println(uuid);
+        while (true) {
+            int menuChoice = 0;
+            UUID uuid = null;
+            String inputmsg = null;
+
+
+            try {
+                menuChoice = ois.readInt();
+                inputmsg = ois.readUTF();
+                uuid = (UUID) ois.readObject();
+
+            } catch (IOException|ClassNotFoundException e) {
+                System.out.println("we read nothing" + e.getMessage());
+            }
+
+            System.out.println(menuChoice + " : " + inputmsg + " : " + uuid);
+
+            if (menuChoice == 1) {
                 qus = new Question(uuid);
-                qus.setDeineAbstimmung(ois.readUTF());
-            } else if (ois.readInt() == 2) {
+                try {
+                    qus.setDeineAbstimmung(inputmsg);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 qus.getDeineAbstimmungPerClient();
             }
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
         }
         //            try {
         //                System.out.println("Client :" + /*qus.getId() +*/ " said " + ois.readUTF() + ois.readObject());
@@ -56,6 +60,6 @@ public class ThreadPoolServer implements Runnable {
         //        } else {
         //            System.out.println("There are not clients at the time");
         //        }
+
     }
 }
-
