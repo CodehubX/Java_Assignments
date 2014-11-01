@@ -1,4 +1,4 @@
-package newTestRabbitMW;
+package Fib;
 
 import com.rabbitmq.client.AMQP.BasicProperties;
 import com.rabbitmq.client.Channel;

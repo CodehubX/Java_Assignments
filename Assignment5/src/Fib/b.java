@@ -1,4 +1,4 @@
-package newTestRabbitMW;
+package Fib;
 
 import com.rabbitmq.client.ConnectionFactory;
 import com.rabbitmq.client.Connection;
