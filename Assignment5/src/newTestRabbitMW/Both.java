@@ -28,26 +28,40 @@ public class Both {
         Part of prod
          */
         Channel channel = connection.createChannel();
-        channel.exchangeDeclare("chat", "fanout");
-        channel.queueDeclare(ExchangevarNameQue, false, false, false, null);
+        channel.exchangeDeclare("chat", "fanout"); // it will publish message to all queues,
+        // no matter what rounting key will be used
+//        channel.queueDeclare(ExchangevarNameQue, false, false, false, null);
+        System.out.println("You have connected to the chat room");
+        System.out.println("Insert your name");
+        String name = sc.next();
+        System.out.println("Now, you can chat");
 
         /*
         Part of consumer
          */
         Channel channeltoBind = connection.createChannel();
-        channeltoBind.queueBind(ExchangevarNameQue, "chat", "");
+        channeltoBind.exchangeDeclare("chat", "fanout");
+        String que = channel.queueDeclare().getQueue(); // random queue
+        channeltoBind.queueBind(que,"chat","");
+//        channeltoBind.queueBind(ExchangevarNameQue, "chat", "");
         QueueingConsumer qr = new QueueingConsumer(channeltoBind);
-        channeltoBind.basicConsume(ExchangevarNameQue, true, qr);
+//        channeltoBind.basicConsume(ExchangevarNameQue, true, qr);
+        channeltoBind.basicConsume(que, true, qr);
 
         while (true) {
+            /*
+            Producer part
+             */
             String yourmsg = sc.next();
             channel.basicPublish("chat", "", null, yourmsg.getBytes());
 
+            /*
+            Consumer part
+             */
             QueueingConsumer.Delivery delivery = qr.nextDelivery();
             String delMsg = new String(delivery.getBody());
-            String routingKey = delivery.getEnvelope().getRoutingKey();
-            System.out.println(" [x] Received '" + routingKey + "':'" + delMsg + "'");
-
+            //            String routingKey = delivery.getEnvelope().getRoutingKey();
+            System.out.println(name + " says: " + delMsg + "");
         }
 
     }
