@@ -68,7 +68,7 @@ public class Client2 {
     }
 
     /**
-     * To send a message to the console or the GUI
+     * To send a message to the console
      */
     public void display(String msg) {
         System.out.println(msg);      // println in console mode

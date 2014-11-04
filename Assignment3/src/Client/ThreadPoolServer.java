@@ -33,9 +33,9 @@ public class ThreadPoolServer implements Runnable {
             sInput = new ObjectInputStream(socket.getInputStream());
             // read the ID
             id = (UUID) sInput.readObject();
-            display(id + " just connected");
+            System.out.println(id + " just connected");
         } catch (IOException | ClassNotFoundException e) {
-            display("Exception creating new Input/output Streams: " + e);
+            System.out.println("Exception creating new Input/output Streams: " + e);
             return;
         }
         date = new Date().toString() + "\n";
@@ -48,37 +48,28 @@ public class ThreadPoolServer implements Runnable {
                 //username = (String) sInput.readObject();
                 cm = (String) sInput.readObject();
                 qs = new Question(cm);
-                display("input was " + cm);
+                //                System.out.println(("input was " + cm);
             } catch (IOException | ClassNotFoundException e) {
-                display(" Exception reading Streams:  " + id + " " + e);
+                System.out.println((" Exception reading Streams:  " + id + " " + e);
                 break;
             }
             // Switch on the type of message receive
             switch (qs.getDeineAbstimmung()) {
                 case "ja":
-                    try {
-                        broadcast(": " + qs.counterJA);
-                        writeMsg("");
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    broadcast("you answers was : " + cm);
+                    //                        writeMsg("you answers was : " + cm); // aka input was
                     break;
                 case "nein":
-                    try {
-                        broadcast(": " + qs.counterNEIN);
-                        writeMsg("List of the users connected at " + sdf.format(new Date()) + "\n");
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    broadcast("you answers was : " + cm);
+                    //                        writeMsg("you answers was : " + cm); // aka input was
                     break;
                 case "maybe":
-                    try {
-                        broadcast(": " + qs.counterMAYBE);
-                        writeMsg("List of the users connected at " + sdf.format(new Date()) + "\n");
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    broadcast("you answers was : " + cm);
+                    //                        writeMsg("you answers was : " + cm); // aka input was
                     break;
+                case "Statistics":
+                    //                        writeMsg(qs.getDeineAbstimmungPerClient() + id);
+                    broadcast(qs.getDeineAbstimmungPerClient() + id);
             }
         }
 
@@ -103,35 +94,36 @@ public class ThreadPoolServer implements Runnable {
         if (!socket.isConnected()) {
             close();
             return false;
+        } else {
+            // write the message to the stream
+            try {
+                sOutput.writeObject(msg);
+            } catch (IOException e) {
+                // if an error occurs, do not abort just inform the user
+                System.out.println(("Error sending message to " + id);
+                System.out.println((e.toString());
+            }
+            return true;
         }
-        // write the message to the stream
-        try {
-            sOutput.writeObject(msg);
-        }
-        // if an error occurs, do not abort just inform the user
-        catch (IOException e) {
-            display("Error sending message to " + id);
-            display(e.toString());
-        }
-        return true;
     }
 
     /**
      * Display a message to the console
      */
-    public void display(String msg) {
+    public void System.out.println((String msg) {
         String time = sdf.format(new Date()) + " " + msg;
         System.out.println(time);
     }
 
     /**
      * to broadcast a message to all Clients
+     * not used anymore
      */
-    private synchronized void broadcast(String message) throws IOException {
+    private synchronized void broadcast(String message) {
         // add HH:mm:ss and \n to the message
         String time = sdf.format(new Date());
         String messageLf = time + " " + message + "\n";
-        // display message on console
+        // System.out.println( message on console
         System.out.print(messageLf);
     }
 }

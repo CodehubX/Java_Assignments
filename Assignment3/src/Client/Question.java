@@ -2,14 +2,10 @@ package Client;
 
 import java.io.Serializable;
 
-/**
- * !!!!!!!!!!!Second part of the client!!!!!!!!
- * Created by jm on 10/10/2014.
- */
 public class Question implements Serializable {
-    public static String ja = "ja";
-    public static String nein = "nein";
-    public static String maybe = "maybe";
+    public String ja = "ja";
+    public String nein = "nein";
+    public String maybe = "maybe";
     public String DeineAbstimmung;
     public int counterJA = 0;
     public int counterMAYBE = 0;
@@ -49,15 +45,30 @@ public class Question implements Serializable {
     }
 
     public void schickeNein(String msg) {
+        //        this.DeineAbstimmung = msg;
         this.nein = msg;
         counterNEIN++;
     }
 
     public void schickeMaybe(String msg) {
+        //        this.DeineAbstimmung = msg;
         this.maybe = msg;
         counterMAYBE++;
     }
 
+    /**
+     * This return # of people and how they voted
+     *
+     * @return server Abstimmung
+     */
+    public synchronized String getDeineAbstimmungPerClient() {
+        System.out.println("\nHow many people have provided opinion? ->");
+        System.out.println("For 'ja' -> " + counterJA);
+        System.out.println("For 'nein' -> " + counterNEIN);
+        System.out.println("For 'maybe' -> " + counterMAYBE);
+        System.out.println("Anzahl der unique clients ID: "); // method below
+        return DeineAbstimmung;
+    }
     //    public String getJa() {
     //        return ja;
     //    }
@@ -70,25 +81,7 @@ public class Question implements Serializable {
     //        return maybe;
     //    }
 
-    /**
-     * This return # of people and how they voted
-     *
-     * @return server Abstimmung
 
-    public synchronized String getDeineAbstimmungPerClient() {
-    if (status == true) {
-    System.out.println("\nHow many people have provided opinion? ->");
-    System.out.println("For 'ja' -> " + counterJA);
-    System.out.println("For 'nein' -> " + counterNEIN);
-    System.out.println("For 'maybe' -> " + counterMAYBE);
-    System.out.println("Anzahl der unique clients ID: " + list.size()); // method below
-    return DeineAbstimmung;
-    } else {
-    System.out.println("there were no clients stored");
-    return null;
-    }
-    }
-     */
 
     /**
      * Store Cleints meinung in Object Output Stream

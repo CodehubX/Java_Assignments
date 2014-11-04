@@ -4,9 +4,10 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.UUID;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * Created by jm on 11/4/2014.
@@ -14,14 +15,13 @@ import java.util.UUID;
 public class ServerStart {
     // a unique ID for each connection
     private static UUID uniqueId;
-    // an ArrayList to keep the list of the Client
-    private ArrayList<ThreadPoolServer> al;
     // to display time
     private SimpleDateFormat sdf;
     // the port number to listen for connection
     private int port;
     // the boolean that will be turned of to stop the server
     private boolean keepGoing;
+    ExecutorService ex;
 
     /**
      * server constructor that receive the port to listen to for connection as parameter
@@ -30,43 +30,31 @@ public class ServerStart {
     public ServerStart() {
         this.port = 8474;
         sdf = new SimpleDateFormat("HH:mm:ss");
-        // ArrayList for the Client list
-        al = new ArrayList<ThreadPoolServer>();
     }
 
     public void start() throws IOException {
         keepGoing = true;
 
-        ServerSocket ser = new ServerSocket(8474);
+        ServerSocket ser = new ServerSocket(port);
         // infinite loop to wait for connections
         while (keepGoing) {
             // format message saying we are waiting
             display("Server waiting for Clients on port " + port + ".");
 
             Socket socket = ser.accept();    // accept connection
-            // if I was asked to stop
+
+            ThreadPoolServer t = new ThreadPoolServer(socket);  // make a thread of it
+            ex = Executors.newFixedThreadPool(10);
+            ex.submit(t);
+
+            // if cannot
             if (!keepGoing) {
                 break;
             }
-
-            ThreadPoolServer t = new ThreadPoolServer(socket);  // make a thread of it
-            Thread th = new Thread(t);
-            al.add(t);                  // save it in the ArrayList
-            th.start();
         }
         // I was asked to stop
         try {
-            ser.close();
-            for (int i = 0; i < al.size(); ++i) {
-                ThreadPoolServer tc = al.get(i);
-                try {
-                    tc.sInput.close();
-                    tc.sOutput.close();
-                    tc.socket.close();
-                } catch (IOException ioE) {
-                    // not much I can do
-                }
-            }
+            ex.shutdown();
         } catch (Exception e) {
             display("Exception closing the server and clients: " + e);
         }
@@ -79,7 +67,6 @@ public class ServerStart {
     public void display(String msg) {
         String time = sdf.format(new Date()) + " " + msg;
         System.out.println(time);
-
     }
 
 }
