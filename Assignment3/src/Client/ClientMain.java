@@ -12,8 +12,8 @@ public class ClientMain {
 
         UUID uniqueKey = UUID.randomUUID();
         Client2 client = new Client2(uniqueKey, 8474);
-        System.out.println("\nProvide your opinion or ask server for information.");
         client.connect();
+
         // loop forever for message from the user
         while (true) {
             try {
@@ -21,7 +21,7 @@ public class ClientMain {
                 int menuChoice = sc.nextInt();
                 if (menuChoice == 1) {
                     System.out.println("please answer this question: Is he black ? Only ja, maybe, nein");
-                    System.out.print("> ");
+                    System.out.print("-> ");
                     // read message from user
                     String msg = sc.next();
                     if (msg.equalsIgnoreCase("ja")) {
@@ -33,13 +33,16 @@ public class ClientMain {
                     } else {
                         System.out.println("Wrong answer, you will be disconnected");
                         client.disconnect();
+                        break;
                     }
                 } else if (menuChoice == 2) {
                     client.sendMessage("Statistics");
+//                    client.recieveMessage();
                 }
             } catch (InputMismatchException e) {
                 System.out.println(e.getMessage() + " only number are allowed");
                 client.disconnect();
+                break;
             }
         }
     }

@@ -5,21 +5,22 @@ import java.io.Serializable;
 public class Question implements Serializable {
     public String ja = "ja";
     public String nein = "nein";
-    public String maybe = "maybe";
     public String DeineAbstimmung;
     public int counterJA = 0;
-    public int counterMAYBE = 0;
-    public int counterNEIN = 0;
+    public int counterMAYBE = 3;
+    public int counterNEIN = 2;
 
     public Question(String antwort) {
         this.DeineAbstimmung = antwort;
 
-        if (antwort.equals("ja")) {
-            schickeJa(antwort);
-        } else if (antwort.equals("nein")) {
-            schickeNein(antwort);
-        } else {
-            schickeMaybe(antwort);
+        if (DeineAbstimmung.equals("ja")) {
+            counterJA++;
+        }
+        if (DeineAbstimmung.equals("nein")) {
+            counterNEIN++;
+        }
+        if (DeineAbstimmung.equals("maybe")){
+            counterMAYBE++;
         }
         //        fileOu = new FileOutputStream("answers.ser");
         //        oos = new ObjectOutputStream(fileOu);
@@ -39,22 +40,6 @@ public class Question implements Serializable {
         return DeineAbstimmung;
     }
 
-    public void schickeJa(String msg) {
-        this.ja = msg;
-        counterJA++;
-    }
-
-    public void schickeNein(String msg) {
-        //        this.DeineAbstimmung = msg;
-        this.nein = msg;
-        counterNEIN++;
-    }
-
-    public void schickeMaybe(String msg) {
-        //        this.DeineAbstimmung = msg;
-        this.maybe = msg;
-        counterMAYBE++;
-    }
 
     /**
      * This return # of people and how they voted
@@ -66,22 +51,8 @@ public class Question implements Serializable {
         System.out.println("For 'ja' -> " + counterJA);
         System.out.println("For 'nein' -> " + counterNEIN);
         System.out.println("For 'maybe' -> " + counterMAYBE);
-        System.out.println("Anzahl der unique clients ID: "); // method below
-        return DeineAbstimmung;
+        return "";
     }
-    //    public String getJa() {
-    //        return ja;
-    //    }
-    //
-    //    public String getNein() {
-    //        return nein;
-    //    }
-    //
-    //    public String getMaybe() {
-    //        return maybe;
-    //    }
-
-
 
     /**
      * Store Cleints meinung in Object Output Stream

@@ -15,21 +15,25 @@ import java.util.concurrent.Executors;
 public class ServerStart {
     // a unique ID for each connection
     private static UUID uniqueId;
+    ExecutorService ex;
     // to display time
     private SimpleDateFormat sdf;
     // the port number to listen for connection
-    private int port;
+    private int port = 8474;
     // the boolean that will be turned of to stop the server
-    private boolean keepGoing;
-    ExecutorService ex;
+    public boolean keepGoing;
 
     /**
      * server constructor that receive the port to listen to for connection as parameter
      * in console
      */
     public ServerStart() {
-        this.port = 8474;
         sdf = new SimpleDateFormat("HH:mm:ss");
+    }
+
+    public static void main(String[] args) throws IOException, ClassNotFoundException {
+        ServerStart serverStart = new ServerStart();
+        serverStart.start();
     }
 
     public void start() throws IOException {

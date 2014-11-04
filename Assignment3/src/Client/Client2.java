@@ -10,8 +10,8 @@ public class Client2 {
     boolean status;
     String server;    // for I/O
 
-    FileOutputStream fos;
-    BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
+    ObjectOutputStream oos;
+    ObjectInputStream ios;
     private ObjectInputStream sInput;    // to read from the socket
     private ObjectOutputStream sOutput;    // to write on the socket
     private Socket socket;
@@ -33,7 +33,8 @@ public class Client2 {
         try {
             // try to connect to the server
             socket = new Socket(server, port);
-            fos = new FileOutputStream("answers.ser");
+            oos = new ObjectOutputStream(new FileOutputStream("answers.ser"));
+            ios = new ObjectInputStream(new FileInputStream("answers.ser"));
         } catch (Exception ec) {
             // if it failed not much I can so
             display("Error connectiong to server:" + ec);
@@ -54,7 +55,9 @@ public class Client2 {
         }
 
         // creates the Thread to listen from the server
-        new ListenFromServer();
+        ListenFromServer listenFromServer = new ListenFromServer();
+        Thread th = new Thread(listenFromServer);
+        th.start();
 
         try {
             sOutput.writeObject(uniqueKey);
@@ -101,14 +104,14 @@ public class Client2 {
      * System.out.println() it in console mode
      */
     class ListenFromServer implements Runnable {
-
         public void run() {
             while (true) {
                 try {
                     String msg = (String) sInput.readObject();
+                    //                    String msgr = (String) ios.readObject();
                     // if console mode print the message and add back the prompt
                     System.out.println(msg);
-                    System.out.print("> ");
+                    System.out.print("-> ");
                 } catch (IOException | ClassNotFoundException e) {
                     display("Server has close the connection: " + e);
                     break;
