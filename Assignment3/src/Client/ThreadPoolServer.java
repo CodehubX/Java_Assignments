@@ -6,28 +6,26 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
 
-public class ThreadPoolServer implements Runnable {
-    public String ja = "ja";
-    public String nein = "nein";
-    public String DeineAbstimmung;
-    public int counterJA = 0;
-    public int counterMAYBE = 0;
-    public int counterNEIN = 0;
-
-    // the socket where to listen/talk
-    Socket socket;
-    ObjectInputStream sInput;
-    ObjectOutputStream sOutput;
+class ThreadPoolServer implements Runnable {
     //    Question qs;
-    ObjectOutputStream oos;
-    ObjectInputStream ios;
-    UUID id; // uniqie ID client
-    String cm; //answer
-    SimpleDateFormat sdf;
-    String date; // the date/time
+    private ObjectOutputStream oos;
+    //    public String ja = "ja";
+    //    public String nein = "nein";
+    private int counterJA = 0;
+    private int counterMAYBE = 0;
+    private int counterNEIN = 0;
+    // the socket where to listen/talk
+    private Socket socket;
+    private ObjectInputStream sInput;
+    private ObjectOutputStream sOutput;
+    private ObjectInputStream ios;
+    private UUID id; // uniqie ID client
+    private String cm; //answer
+    private SimpleDateFormat sdf;
+    //    String date; // the date/time
 
 
-    public ThreadPoolServer(Socket socket) throws IOException {
+    public ThreadPoolServer(Socket socket) {
         this.socket = socket;
         sdf = new SimpleDateFormat("HH:mm:ss");
 
@@ -36,16 +34,17 @@ public class ThreadPoolServer implements Runnable {
             // create output first
             sOutput = new ObjectOutputStream(socket.getOutputStream());
             sInput = new ObjectInputStream(socket.getInputStream());
+
+            oos = new ObjectOutputStream(new FileOutputStream("answers.ser"));
+            ios = new ObjectInputStream(new FileInputStream("answers.ser"));
+
             // read the ID
             id = (UUID) sInput.readObject();
             System.out.println("Client    " + id + "    has connected");
         } catch (IOException | ClassNotFoundException e) {
             System.out.println("\nException creating new Input/output Streams: " + e);
-            return;
         }
-        date = new Date().toString() + "\n";
-        oos = new ObjectOutputStream(new FileOutputStream("answers.ser"));
-        ios = new ObjectInputStream(new FileInputStream("answers.ser"));
+        //        date = new Date().toString() + "\n";
     }
 
     public void run() {
@@ -97,7 +96,7 @@ public class ThreadPoolServer implements Runnable {
                     break;
                 case "Statistics":
                     try {
-                        AbstimmungPerClient();
+                        abstimmungPerClient();
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -112,6 +111,11 @@ public class ThreadPoolServer implements Runnable {
         }
     }
 
+    /**
+     * close everything
+     *
+     * @throws IOException
+     */
     private void close() throws IOException {
         sInput.close();
         sOutput.close();
@@ -123,21 +127,31 @@ public class ThreadPoolServer implements Runnable {
     /**
      * Write a String to the Client output stream
      */
-    public void writeMsg(String msg) throws IOException {
-        // if Client is still connected send the message to it
+    void writeMsg(String msg) throws IOException {
         if (!socket.isConnected()) {
+            // if Client is still connected send the message to it
             close();
         } else {
             try {
                 // write the message to the stream
                 sOutput.writeObject(msg);
-                //                oos.writeObject(msg);
+                oos.writeObject(msg);
             } catch (IOException e) {
                 // if an error occurs, do not abort just inform the user
                 System.out.println("Error sending message to " + id);
                 System.out.println(e.toString());
             }
         }
+    }
+
+    /**
+     * @throws IOException
+     */
+    public synchronized void abstimmungPerClient() throws IOException {
+        writeMsg("\nHow many people have provided opinion? ->"
+            + " \n" + "For 'ja' -> " + counterJA
+            + " \n" + "For 'nein'->" + counterNEIN
+            + " \n" + "For 'maybe' -> " + counterMAYBE);
     }
 
     /**
@@ -153,6 +167,8 @@ public class ThreadPoolServer implements Runnable {
     /**
      * to broadcast a message to all Clients
      * not used anymore
+     *
+     * @deprecated
      */
     private synchronized void broadcast(String message) {
         // add HH:mm:ss and \n to the message
@@ -160,17 +176,5 @@ public class ThreadPoolServer implements Runnable {
         String messageLf = time + " " + message + "\n";
         // System.out.println( message on console
         System.out.print(messageLf);
-    }
-
-    /**
-     * @return message to the client console
-     * @throws IOException
-     */
-    public synchronized String AbstimmungPerClient() throws IOException {
-        writeMsg("\nHow many people have provided opinion? ->"
-            + " \n" + "For 'ja' -> " + counterJA
-            + " \n" + "For 'nein'->" + counterNEIN
-            + " \n" + "For 'maybe' -> " + counterMAYBE);
-        return "";
     }
 }

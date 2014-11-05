@@ -1,27 +1,22 @@
 package Client;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.UUID;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-/**
- * Created by jm on 11/4/2014.
- */
 public class ServerStart {
-    // a unique ID for each connection
-    private static UUID uniqueId;
-    ExecutorService ex;
+    // the boolean that will be turned of to stop the server
+    private boolean keepGoing;
+    private ExecutorService ex;
     // to display time
     private SimpleDateFormat sdf;
     // the port number to listen for connection
     private int port = 8474;
-    // the boolean that will be turned of to stop the server
-    public boolean keepGoing;
 
     /**
      * server constructor that receive the port to listen to for connection as parameter
@@ -31,7 +26,15 @@ public class ServerStart {
         sdf = new SimpleDateFormat("HH:mm:ss");
     }
 
-    public static void main(String[] args) throws IOException, ClassNotFoundException {
+    public static void main(String[] args) throws IOException {
+
+        String tempFile = "C:\\Users\\jm\\Documents\\Homeworks5.git\\Assignment3\\answers.ser";
+        //Delete if tempFile exists
+        File fileTemp = new File(tempFile);
+        if (fileTemp.exists()) {
+            System.out.println("Previous ser files have been deleted: " + fileTemp.delete());
+        }
+
         ServerStart serverStart = new ServerStart();
         serverStart.start();
     }
@@ -64,11 +67,10 @@ public class ServerStart {
         }
     }
 
-
     /**
      * Display an event (not a message) to the console or the GUI
      */
-    public void display(String msg) {
+    private void display(String msg) {
         String time = sdf.format(new Date()) + " " + msg;
         System.out.println(time);
     }
