@@ -19,7 +19,7 @@ public class Question implements Serializable {
         if (DeineAbstimmung.equals("nein")) {
             counterNEIN++;
         }
-        if (DeineAbstimmung.equals("maybe")){
+        if (DeineAbstimmung.equals("maybe")) {
             counterMAYBE++;
         }
         //        fileOu = new FileOutputStream("answers.ser");
@@ -35,24 +35,6 @@ public class Question implements Serializable {
     //    FileOutputStream fileOu = null;
     //    FileInputStream fileIn = null;
     //    //    BufferedReader bf;
-
-    public String getDeineAbstimmung() {
-        return DeineAbstimmung;
-    }
-
-
-    /**
-     * This return # of people and how they voted
-     *
-     * @return server Abstimmung
-     */
-    public synchronized String getDeineAbstimmungPerClient() {
-        System.out.println("\nHow many people have provided opinion? ->");
-        System.out.println("For 'ja' -> " + counterJA);
-        System.out.println("For 'nein' -> " + counterNEIN);
-        System.out.println("For 'maybe' -> " + counterMAYBE);
-        return "";
-    }
 
     /**
      * Store Cleints meinung in Object Output Stream

@@ -27,11 +27,11 @@ public class ThreadPoolServer implements Runnable {
     String date; // the date/time
 
 
-    ThreadPoolServer(Socket socket) throws IOException {
+    public ThreadPoolServer(Socket socket) throws IOException {
         this.socket = socket;
         sdf = new SimpleDateFormat("HH:mm:ss");
 
-        System.out.println("Thread trying to create Object Input/Output Streams");
+        System.out.println("\nThread trying to create Object Input/Output Streams");
         try {
             // create output first
             sOutput = new ObjectOutputStream(socket.getOutputStream());
@@ -40,7 +40,7 @@ public class ThreadPoolServer implements Runnable {
             id = (UUID) sInput.readObject();
             System.out.println("Client    " + id + "    has connected");
         } catch (IOException | ClassNotFoundException e) {
-            System.out.println("Exception creating new Input/output Streams: " + e);
+            System.out.println("\nException creating new Input/output Streams: " + e);
             return;
         }
         date = new Date().toString() + "\n";
@@ -60,28 +60,44 @@ public class ThreadPoolServer implements Runnable {
                 System.out.println(" Exception reading Streams:  " + id + " " + e);
                 break;
             }
-            // Switch on the type of message receive
+
+            /**
+             *Switch on the type of message receive
+             * writemsg writes to client
+             * sout writes to server console
+             * it wont be counted as one together but as each cleint unique
+             */
             switch (cm) {
                 case "ja":
                     counterJA++;
-                    System.out.println(counterJA);
+                    try {
+                        writeMsg("\n" + id + " voted as " + cm + ": " + counterJA);
+                        System.out.println("\n" + id + " voted as " + cm + ": " + counterJA);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                     break;
                 case "nein":
                     counterNEIN++;
-                    System.out.println(counterNEIN);
+                    try {
+                        writeMsg("\n" + id + " voted as " + cm + ": " + counterNEIN);
+                        System.out.println("\n" + id + " voted as " + cm + ": " + counterNEIN);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                     break;
                 case "maybe":
                     counterMAYBE++;
                     try {
-                        writeMsg("\n" + id + " voted as " + cm);
+                        writeMsg("\n" + id + " voted as " + cm + ": " + counterMAYBE);
+                        System.out.println("\n" + id + " voted as " + cm + ": " + counterMAYBE);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
                     break;
                 case "Statistics":
-                    // writeMsg("" + id);
                     try {
-                        writeMsg(AbstimmungPerClient());
+                        AbstimmungPerClient();
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -111,10 +127,9 @@ public class ThreadPoolServer implements Runnable {
         // if Client is still connected send the message to it
         if (!socket.isConnected()) {
             close();
-            //            return false;
         } else {
-            // write the message to the stream
             try {
+                // write the message to the stream
                 sOutput.writeObject(msg);
                 //                oos.writeObject(msg);
             } catch (IOException e) {
@@ -122,12 +137,13 @@ public class ThreadPoolServer implements Runnable {
                 System.out.println("Error sending message to " + id);
                 System.out.println(e.toString());
             }
-            //            return true;
         }
     }
 
     /**
      * Display a message to the console
+     *
+     * @deprecated
      */
     public void display(String msg) {
         String time = sdf.format(new Date()) + " " + msg;
@@ -146,12 +162,15 @@ public class ThreadPoolServer implements Runnable {
         System.out.print(messageLf);
     }
 
-    public synchronized String AbstimmungPerClient() {
-
-        System.out.println("\nHow many people have provided opinion? ->");
-        System.out.println("For 'ja' -> " + counterJA);
-        System.out.println("For 'nein' -> " + counterNEIN);
-        System.out.println("For 'maybe' -> " + counterMAYBE);
+    /**
+     * @return message to the client console
+     * @throws IOException
+     */
+    public synchronized String AbstimmungPerClient() throws IOException {
+        writeMsg("\nHow many people have provided opinion? ->"
+            + " \n" + "For 'ja' -> " + counterJA
+            + " \n" + "For 'nein'->" + counterNEIN
+            + " \n" + "For 'maybe' -> " + counterMAYBE);
         return "";
     }
 }

@@ -75,7 +75,6 @@ public class Client2 {
      */
     public void display(String msg) {
         System.out.println(msg);      // println in console mode
-
     }
 
     /**

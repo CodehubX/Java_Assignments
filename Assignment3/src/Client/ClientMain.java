@@ -17,6 +17,7 @@ public class ClientMain {
         // loop forever for message from the user
         while (true) {
             try {
+                System.out.println("\nYou will be answering a question. ");
                 System.out.println("Choose from the menu - 1 is for input; 2 is for information");
                 int menuChoice = sc.nextInt();
                 if (menuChoice == 1) {
