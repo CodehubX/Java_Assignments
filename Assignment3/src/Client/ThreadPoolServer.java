@@ -6,7 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
 
-class ThreadPoolServer implements Runnable {
+public class ThreadPoolServer implements Runnable {
     //    Question qs;
     private ObjectOutputStream oos;
     //    public String ja = "ja";
@@ -127,7 +127,7 @@ class ThreadPoolServer implements Runnable {
     /**
      * Write a String to the Client output stream
      */
-    void writeMsg(String msg) throws IOException {
+    public synchronized void writeMsg(String msg) throws IOException {
         if (!socket.isConnected()) {
             // if Client is still connected send the message to it
             close();
