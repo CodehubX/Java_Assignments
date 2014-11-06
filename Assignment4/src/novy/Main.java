@@ -17,7 +17,7 @@ public class Main {
         Mensch ms = new Mensch(5, "Prvni");
         //Server connection
         Server server = new Server();
-        // registrierung von entfernen objekten.
+        // registrierung des Entfernen objekten in RMI Registry.
         Registry registry = LocateRegistry.createRegistry(Registry.REGISTRY_PORT);
         registry.rebind("PKP", server);
         // Naming.rebind("Counter", myCounter);
