@@ -14,6 +14,7 @@ public class Client_Cons implements Runnable {
 
     public Client_Cons(Server server) throws RemoteException, NotBoundException, MalformedURLException {
         this.sr = server;
+        // besorgt sich diesen Server Objekt
         // ubermittlung eines Stubs
         vzdalenyPC = (Prod_Con_Methods) Naming.lookup("rmi://localhost/PKP");
         System.out.println("Connection to the RMI was OK");
@@ -27,7 +28,5 @@ public class Client_Cons implements Runnable {
         } catch (InterruptedException | RemoteException e) {
             e.printStackTrace();
         }
-
-
     }
 }
