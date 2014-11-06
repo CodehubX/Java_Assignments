@@ -16,6 +16,12 @@ public class Client_Cons implements Runnable {
         this.sr = server;
         // besorgt sich diesen Server Objekt
         // ubermittlung eines Stubs
+        
+        
+/**
+ * this is the client which gets the reference (a proxy) to the remote object living on 
+ * the server and invokes its method to get a message
+ */
         vzdalenyPC = (Prod_Con_Methods) Naming.lookup("rmi://localhost/PKP");
         System.out.println("Connection to the RMI was OK");
     }
