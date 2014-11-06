@@ -20,7 +20,6 @@ public class Client_Cons implements Runnable {
         System.out.println("Connection to the RMI was OK");
     }
 
-
     @Override public void run() {
         try {
             Mensch consument = sr.consume();
