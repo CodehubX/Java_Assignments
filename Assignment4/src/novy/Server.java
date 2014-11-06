@@ -12,7 +12,7 @@ public class Server extends UnicastRemoteObject implements Prod_Con_Methods {
     LinkedBlockingQueue<Mensch> lbq;
 
     public Server() throws RemoteException {
-        super();
+        super();  // required to avoid the 'rmic' step
         lbq = new LinkedBlockingQueue<Mensch>(10);
     }
 
