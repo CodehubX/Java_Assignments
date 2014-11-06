@@ -9,7 +9,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**
- *
+ * Eigentlich ServerMain, der die Clients selber ausfuhrt
  */
 public class Main {
     public static void main(String[] args) throws InterruptedException, RemoteException, MalformedURLException, NotBoundException {
@@ -17,7 +17,7 @@ public class Main {
         Mensch ms = new Mensch(5, "Prvni");
         //Server connection
         Server server = new Server();
-
+        // registrierung von entfernen objekten.
         Registry registry = LocateRegistry.createRegistry(Registry.REGISTRY_PORT);
         registry.rebind("PKP", server);
         // Naming.rebind("Counter", myCounter);
