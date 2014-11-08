@@ -112,19 +112,6 @@ public class ThreadPoolServer implements Runnable {
     }
 
     /**
-     * close everything
-     *
-     * @throws IOException
-     */
-    private void close() throws IOException {
-        sInput.close();
-        sOutput.close();
-        ios.close();
-        oos.close();
-        socket.close();
-    }
-
-    /**
      * Write a String to the Client output stream
      */
     public synchronized void writeMsg(String msg) throws IOException {
@@ -152,6 +139,19 @@ public class ThreadPoolServer implements Runnable {
             + " \n" + "For 'ja' -> " + counterJA
             + " \n" + "For 'nein'->" + counterNEIN
             + " \n" + "For 'maybe' -> " + counterMAYBE);
+    }
+
+    /**
+     * close everything
+     *
+     * @throws IOException
+     */
+    private void close() throws IOException {
+        sInput.close();
+        sOutput.close();
+        ios.close();
+        oos.close();
+        socket.close();
     }
 
     /**

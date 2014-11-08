@@ -51,7 +51,7 @@ public class ServerCommunicator extends Thread {
                 ergebnis = server.standAnzeigen();
             } else {
                 server.meinungAufnehmen(uebergabe);
-                System.out.println("Danke f�r Ihre Abstimmung");
+                System.out.println("Danke fur Ihre Abstimmung");
             }
 
 

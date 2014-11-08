@@ -1,6 +1,5 @@
 package Client;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -30,10 +29,10 @@ public class ServerStart {
 
         String tempFile = "C:\\Users\\jm\\Documents\\Homeworks5.git\\Assignment3\\answers.ser";
         //Delete if tempFile exists
-        File fileTemp = new File(tempFile);
-        if (fileTemp.exists()) {
-            System.out.println("Previous ser files have been deleted: " + fileTemp.delete());
-        }
+//        File fileTemp = new File(tempFile);
+//        if (fileTemp.exists()) {
+//            System.out.println("Previous ser files have been deleted: " + fileTemp.delete());
+//        }
 
         ServerStart serverStart = new ServerStart();
         serverStart.start();

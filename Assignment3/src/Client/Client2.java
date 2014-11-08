@@ -16,8 +16,6 @@ public class Client2 {
     private Socket socket;
     private int port = 8474;
 
-
-
     /**
      * Constructor called by console
      *
