@@ -1,23 +1,26 @@
 package Client;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.UUID;
 
 public class Client2 {
+
     boolean status;
     private UUID uniqueKey;
     private String server = "localhost";    // for I/O
 
-//    private ObjectOutputStream oos;
-//    private ObjectInputStream ios;
+    //    private ObjectOutputStream oos;
+    //    private ObjectInputStream ios;
     private ObjectInputStream sInput;    // to read from the socket
     private ObjectOutputStream sOutput;    // to write on the socket
     private Socket socket;
     private int port = 8474;
 
     /**
-     * Constructor called by console
+     * Constructor called
      *
      * @param uniqueKey id
      */
@@ -25,6 +28,11 @@ public class Client2 {
         this.uniqueKey = uniqueKey;
     }
 
+    /**
+     * Will call once ClientMain started
+     *
+     * @throws IOException
+     */
     public void connect() throws IOException {
         try {
             // try to connect to the server
@@ -36,28 +44,31 @@ public class Client2 {
         }
 
         String msg = "Connection accepted " + socket.getInetAddress() + ":" + socket.getPort();
-        System.out.println("Client Connection to Server is OK! " + socket.getInetAddress() + " " + socket.getLocalPort());
         display(msg);
+        System.out.println("Client Connection to Server is OK! " + socket.getInetAddress() + " " + socket.getLocalPort());
 
         // Creating both Data Stream
         try {
             sInput = new ObjectInputStream(socket.getInputStream());
             sOutput = new ObjectOutputStream(socket.getOutputStream());
-//            oos = new ObjectOutputStream(new FileOutputStream("answers.ser"));
-//            ios = new ObjectInputStream(new FileInputStream("answers.ser"));
+            //            oos = new ObjectOutputStream(new FileOutputStream("answers.ser"));
+            //            ios = new ObjectInputStream(new FileInputStream("answers.ser"));
         } catch (IOException eIO) {
             display("Exception creating new Input/output Streams: " + eIO);
             status = false;
         }
 
-        // creates the Thread to listen from the server
+        /*
+         * creates the Thread to listen from the server
+         * e.g. clients
+         */
         ListenFromServer listenFromServer = new ListenFromServer();
         Thread th = new Thread(listenFromServer);
         th.start();
 
         try {
             sOutput.writeObject(uniqueKey);
-//            oos.writeObject(uniqueKey);
+            //            oos.writeObject(uniqueKey);
         } catch (IOException e) {
             display("Exception doing login : " + e);
             disconnect();
@@ -80,7 +91,7 @@ public class Client2 {
     public synchronized void sendMessage(String msg) {
         try {
             sOutput.writeObject(msg);
-//            oos.writeObject(msg);
+            //            oos.writeObject(msg);
         } catch (IOException e) {
             display("Exception writing to server: " + e);
         }
@@ -105,11 +116,11 @@ public class Client2 {
             while (true) {
                 try {
                     String msg = (String) sInput.readObject();
-//                    String filemsg = (String) ios.readObject();
+                    //                    String filemsg = (String) ios.readObject();
                     //                    String msgr = (String) ios.readObject();
                     // if console mode print the message and add back the prompt
                     System.out.println(msg);
-//                    System.out.println(filemsg);
+                    //                    System.out.println(filemsg);
                     System.out.print("-> ");
                 } catch (IOException | ClassNotFoundException e) {
                     display("Server has close the connection: " + e);

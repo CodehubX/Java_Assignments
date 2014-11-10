@@ -15,9 +15,7 @@ public class ThreadPoolServer extends CounterInter implements Runnable {
     private ObjectInputStream ios;
     private UUID id; // uniqie ID client
     private String cm; //answer
-    private SimpleDateFormat sdf;
-    //    String date; // the date/time
-
+    private SimpleDateFormat sdf; // deprecated methods
 
     public ThreadPoolServer(Socket socket) {
         this.socket = socket;
@@ -38,7 +36,6 @@ public class ThreadPoolServer extends CounterInter implements Runnable {
         } catch (IOException | ClassNotFoundException e) {
             System.out.println("\nException creating new Input/output Streams: " + e);
         }
-        //        date = new Date().toString() + "\n";
     }
 
     public void run() {
@@ -64,7 +61,7 @@ public class ThreadPoolServer extends CounterInter implements Runnable {
                 case "ja":
                     counterJA++;
                     try {
-//                        writeMsg("\n" + id + " voted as " + cm + ": " + counterJA);
+                        //                        writeMsg("\n" + id + " voted as " + cm + ": " + counterJA);
                         oos.writeUTF("\n" + id + " voted as " + cm + ": " + counterJA);
                         System.out.println("\n" + id + " voted as " + cm + ": " + counterJA);
                     } catch (IOException e) {
@@ -107,7 +104,18 @@ public class ThreadPoolServer extends CounterInter implements Runnable {
     }
 
     /**
+     * @throws IOException
+     */
+    public synchronized void abstimmungPerClient() throws IOException {
+        oos.writeUTF("\nHow many people have provided opinion? ->"
+            + " \n" + "For 'ja' -> " + counterJA
+            + " \n" + "For 'nein'->" + counterNEIN
+            + " \n" + "For 'maybe' -> " + counterMAYBE);
+    }
+
+    /**
      * Write a String to the Client output stream
+     *
      * @deprecated since 2
      */
     public synchronized void writeMsg(String msg) throws IOException {
@@ -117,7 +125,7 @@ public class ThreadPoolServer extends CounterInter implements Runnable {
         } else {
             try {
                 // write the message to the stream
-//                sOutput.writeObject(msg);
+                //                sOutput.writeObject(msg);
                 sOutput.writeUTF(msg);
                 oos.writeObject(msg);
                 oos.writeUTF(msg);
@@ -127,16 +135,6 @@ public class ThreadPoolServer extends CounterInter implements Runnable {
                 System.out.println(e.toString());
             }
         }
-    }
-
-    /**
-     * @throws IOException
-     */
-    public synchronized void abstimmungPerClient() throws IOException {
-        oos.writeUTF("\nHow many people have provided opinion? ->"
-            + " \n" + "For 'ja' -> " + counterJA
-            + " \n" + "For 'nein'->" + counterNEIN
-            + " \n" + "For 'maybe' -> " + counterMAYBE);
     }
 
     /**
