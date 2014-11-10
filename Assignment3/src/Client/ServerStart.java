@@ -9,7 +9,7 @@ import java.util.concurrent.Executors;
 public class ServerStart {
 
     public static void main(String[] args) throws IOException {
-        // the boolean that will be turned of to stop the server
+        // the boolean that will be turned off to stop the server
         boolean keepGoing;
         ExecutorService ex = null;
 

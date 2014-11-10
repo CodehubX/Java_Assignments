@@ -12,8 +12,6 @@ public class Client2 {
     private UUID uniqueKey;
     private String server = "localhost";    // for I/O
 
-    //    private ObjectOutputStream oos;
-    //    private ObjectInputStream ios;
     private ObjectInputStream sInput;    // to read from the socket
     private ObjectOutputStream sOutput;    // to write on the socket
     private Socket socket;
@@ -39,22 +37,19 @@ public class Client2 {
             socket = new Socket(server, port);
         } catch (Exception ec) {
             // if it failed not much I can so
-            display("Error connectiong to server:" + ec);
+            System.out.println("Error connectiong to server:" + ec);
             status = false;
         }
 
-        String msg = "Connection accepted " + socket.getInetAddress() + ":" + socket.getPort();
-        display(msg);
+        System.out.println("Connection accepted " + socket.getInetAddress() + ":" + socket.getPort());
         System.out.println("Client Connection to Server is OK! " + socket.getInetAddress() + " " + socket.getLocalPort());
 
         // Creating both Data Stream
         try {
             sInput = new ObjectInputStream(socket.getInputStream());
             sOutput = new ObjectOutputStream(socket.getOutputStream());
-            //            oos = new ObjectOutputStream(new FileOutputStream("answers.ser"));
-            //            ios = new ObjectInputStream(new FileInputStream("answers.ser"));
         } catch (IOException eIO) {
-            display("Exception creating new Input/output Streams: " + eIO);
+            System.out.println("Exception creating new Input/output Streams: " + eIO);
             status = false;
         }
 
@@ -68,33 +63,14 @@ public class Client2 {
 
         try {
             sOutput.writeObject(uniqueKey);
-            //            oos.writeObject(uniqueKey);
         } catch (IOException e) {
-            display("Exception doing login : " + e);
+            System.out.println("Exception doing login : " + e);
             disconnect();
             status = false;
         }
+
         // success we inform the caller that it worked
         status = true;
-    }
-
-    /**
-     * To send a message to the console
-     */
-    public void display(String msg) {
-        System.out.println(msg);      // println in console mode
-    }
-
-    /**
-     * To send a message to the server
-     */
-    public synchronized void sendMessage(String msg) {
-        try {
-            sOutput.writeObject(msg);
-            //            oos.writeObject(msg);
-        } catch (IOException e) {
-            display("Exception writing to server: " + e);
-        }
     }
 
     /**
@@ -108,6 +84,15 @@ public class Client2 {
     }
 
     /**
+     * To send a message to the server and file
+     */
+    public synchronized void sendMessage(String msg) throws IOException {
+        sOutput.writeObject(msg);
+
+    }
+
+
+    /**
      * a class that waits for the message from the server to append them in
      * System.out.println() it in console mode
      */
@@ -116,14 +101,12 @@ public class Client2 {
             while (true) {
                 try {
                     String msg = (String) sInput.readObject();
-                    //                    String filemsg = (String) ios.readObject();
-                    //                    String msgr = (String) ios.readObject();
+                    //                    String filemsg = sInput.readUTF();
                     // if console mode print the message and add back the prompt
-                    System.out.println(msg);
-                    //                    System.out.println(filemsg);
-                    System.out.print("-> ");
+                    System.out.println(" -> " + msg);
+
                 } catch (IOException | ClassNotFoundException e) {
-                    display("Server has close the connection: " + e);
+                    System.out.println("Server has close the connection: " + e);
                     break;
                 }
             }

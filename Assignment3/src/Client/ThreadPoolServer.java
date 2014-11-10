@@ -7,12 +7,10 @@ import java.util.Date;
 import java.util.UUID;
 
 public class ThreadPoolServer extends CounterInter implements Runnable {
-    private ObjectOutputStream oos;
     // the socket where to listen/talk
     private Socket socket;
-    private ObjectInputStream sInput;
-    private ObjectOutputStream sOutput;
-    private ObjectInputStream ios;
+    private ObjectInputStream sInput, ios;
+    private ObjectOutputStream sOutput, oos;
     private UUID id; // uniqie ID client
     private String cm; //answer
     private SimpleDateFormat sdf; // deprecated methods
@@ -107,10 +105,14 @@ public class ThreadPoolServer extends CounterInter implements Runnable {
      * @throws IOException
      */
     public synchronized void abstimmungPerClient() throws IOException {
-        oos.writeUTF("\nHow many people have provided opinion? ->"
+        String msg = "\nHow many people have provided opinion? ->"
             + " \n" + "For 'ja' -> " + counterJA
             + " \n" + "For 'nein'->" + counterNEIN
-            + " \n" + "For 'maybe' -> " + counterMAYBE);
+            + " \n" + "For 'maybe' -> " + counterMAYBE;
+
+        //        sOutput.writeUTF(msg);
+        sOutput.writeObject(msg);
+        //        close();
     }
 
     /**
@@ -128,7 +130,6 @@ public class ThreadPoolServer extends CounterInter implements Runnable {
                 //                sOutput.writeObject(msg);
                 sOutput.writeUTF(msg);
                 oos.writeObject(msg);
-                oos.writeUTF(msg);
             } catch (IOException e) {
                 // if an error occurs, do not abort just inform the user
                 System.out.println("Error sending message to " + id);
@@ -147,7 +148,7 @@ public class ThreadPoolServer extends CounterInter implements Runnable {
         sOutput.close();
         ios.close();
         oos.close();
-        socket.close();
+        //        socket.close();
     }
 
     /**
