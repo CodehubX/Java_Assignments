@@ -6,13 +6,12 @@ public class Client {
 
     public Client(String verbindungsdaten) {
         communicator = new ClientCommunicator(verbindungsdaten);
-        //communicator.abstimmen("Ja");
+//        communicator.communicate("Ja");
     }
 
 
     public static void main(String[] argumente) {
         Client client = new Client(argumente[0]);
-        //communicator.abstimmen("ja");
 
         Ergebnis ergebnis = communicator.communicate(argumente[1]);
 

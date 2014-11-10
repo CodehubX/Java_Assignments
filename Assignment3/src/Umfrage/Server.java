@@ -17,7 +17,7 @@ public class Server {
 
     public synchronized void meinungAufnehmen(String meinung) {
 
-        Ergebnis ergebnis = null;
+        Ergebnis ergebnis;
         FileInputStream fis = null;
         ObjectInputStream ois = null;
 

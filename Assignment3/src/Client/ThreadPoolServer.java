@@ -6,14 +6,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
 
-public class ThreadPoolServer implements Runnable {
-    //    Question qs;
+public class ThreadPoolServer extends CounterInter implements Runnable {
     private ObjectOutputStream oos;
-    //    public String ja = "ja";
-    //    public String nein = "nein";
-    private int counterJA = 0;
-    private int counterMAYBE = 0;
-    private int counterNEIN = 0;
     // the socket where to listen/talk
     private Socket socket;
     private ObjectInputStream sInput;
@@ -70,7 +64,8 @@ public class ThreadPoolServer implements Runnable {
                 case "ja":
                     counterJA++;
                     try {
-                        writeMsg("\n" + id + " voted as " + cm + ": " + counterJA);
+//                        writeMsg("\n" + id + " voted as " + cm + ": " + counterJA);
+                        oos.writeUTF("\n" + id + " voted as " + cm + ": " + counterJA);
                         System.out.println("\n" + id + " voted as " + cm + ": " + counterJA);
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -79,7 +74,7 @@ public class ThreadPoolServer implements Runnable {
                 case "nein":
                     counterNEIN++;
                     try {
-                        writeMsg("\n" + id + " voted as " + cm + ": " + counterNEIN);
+                        oos.writeUTF("\n" + id + " voted as " + cm + ": " + counterNEIN);
                         System.out.println("\n" + id + " voted as " + cm + ": " + counterNEIN);
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -88,7 +83,7 @@ public class ThreadPoolServer implements Runnable {
                 case "maybe":
                     counterMAYBE++;
                     try {
-                        writeMsg("\n" + id + " voted as " + cm + ": " + counterMAYBE);
+                        oos.writeUTF("\n" + id + " voted as " + cm + ": " + counterMAYBE);
                         System.out.println("\n" + id + " voted as " + cm + ": " + counterMAYBE);
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -113,6 +108,7 @@ public class ThreadPoolServer implements Runnable {
 
     /**
      * Write a String to the Client output stream
+     * @deprecated since 2
      */
     public synchronized void writeMsg(String msg) throws IOException {
         if (!socket.isConnected()) {
@@ -121,8 +117,10 @@ public class ThreadPoolServer implements Runnable {
         } else {
             try {
                 // write the message to the stream
-                sOutput.writeObject(msg);
+//                sOutput.writeObject(msg);
+                sOutput.writeUTF(msg);
                 oos.writeObject(msg);
+                oos.writeUTF(msg);
             } catch (IOException e) {
                 // if an error occurs, do not abort just inform the user
                 System.out.println("Error sending message to " + id);
@@ -135,7 +133,7 @@ public class ThreadPoolServer implements Runnable {
      * @throws IOException
      */
     public synchronized void abstimmungPerClient() throws IOException {
-        writeMsg("\nHow many people have provided opinion? ->"
+        oos.writeUTF("\nHow many people have provided opinion? ->"
             + " \n" + "For 'ja' -> " + counterJA
             + " \n" + "For 'nein'->" + counterNEIN
             + " \n" + "For 'maybe' -> " + counterMAYBE);

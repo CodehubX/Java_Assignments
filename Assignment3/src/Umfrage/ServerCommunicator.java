@@ -54,7 +54,6 @@ public class ServerCommunicator extends Thread {
                 System.out.println("Danke fur Ihre Abstimmung");
             }
 
-
             out.writeObject(ergebnis);
             out.flush();
             incoming.close();

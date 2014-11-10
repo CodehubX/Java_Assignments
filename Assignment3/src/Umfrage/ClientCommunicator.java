@@ -1,6 +1,5 @@
 package Umfrage;
 
-
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
@@ -21,9 +20,7 @@ public class ClientCommunicator {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
-
 
     public Ergebnis communicate(String meinung) {
         Ergebnis ergebnis = null;
@@ -37,5 +34,4 @@ public class ClientCommunicator {
         return ergebnis;
 
     }
-
 }
