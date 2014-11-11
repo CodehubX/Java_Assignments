@@ -19,6 +19,7 @@ public class Main {
         Server server = new Server();
         // registrierung des Entfernen objekten in RMI Registry.
         Registry registry = LocateRegistry.createRegistry(Registry.REGISTRY_PORT);
+        //        Registry registry = LocateRegistry.getRegistry("localhost", 1099);
         registry.rebind("PKP", server);
         // Naming.rebind("Counter", myCounter);
         System.out.println("Server started");
@@ -30,11 +31,11 @@ public class Main {
          */
         ExecutorService executorService = Executors.newFixedThreadPool(30);
         for (int i = 0; i < 20; i++) {
-            executorService.execute(new Cleint_Prod(ms, server));
+            executorService.execute(new Cleint_Prod(ms));
         }
 
         for (int i = 0; i < 10; i++) {
-            executorService.execute(new Client_Cons(server));
+            executorService.execute(new Client_Cons());
 
         }
 

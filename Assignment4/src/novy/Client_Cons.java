@@ -9,11 +9,9 @@ import java.rmi.RemoteException;
  * WHere client consumes Mensch
  */
 public class Client_Cons implements Runnable {
-    Server sr;
     Prod_Con_Methods vzdalenyPC;
 
-    public Client_Cons(Server server) throws RemoteException, NotBoundException, MalformedURLException {
-        this.sr = server;
+    public Client_Cons() throws RemoteException, NotBoundException, MalformedURLException {
         // besorgt sich diesen Server Objekt
         // ubermittlung eines Stubs
         /**
@@ -27,7 +25,7 @@ public class Client_Cons implements Runnable {
     @Override public void run() {
         try {
             Mensch consument = vzdalenyPC.consume();
-            System.out.println(consument.toString() + " current size of Server: " + sr.size());
+            System.out.println(consument.toString() + " current size of Server: " + vzdalenyPC.size());
         } catch (InterruptedException | RemoteException e) {
             e.printStackTrace();
         }
