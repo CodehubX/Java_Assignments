@@ -56,13 +56,14 @@ public class Client2 {
 
     }
 
-    public void ci(String answer) throws IOException, InterruptedException {
+    public synchronized void writeClient(String answer) throws IOException, InterruptedException {
         ci.setUUIDandAnswer(uniqueKey, answer);
         sOutput.writeObject(ci);
+        sOutput.flush();
         System.out.println("Clients  uniqueKey & answer finally send to the server. It's " + uniqueKey + " & your answer: (" + answer + ")");
     }
 
-    public String returnAnswers() throws IOException, ClassNotFoundException {
+    public String clientsInformation() throws IOException, ClassNotFoundException {
         ci = (CounterInter) sInput.readObject();
         return ci.clientsAnswer();
     }

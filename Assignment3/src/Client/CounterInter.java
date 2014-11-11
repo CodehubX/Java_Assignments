@@ -16,6 +16,10 @@ public class CounterInter implements Serializable {
         lbq = new LinkedBlockingQueue<UUID>();
     }
 
+    public String getAnswer() {
+        return answer;
+    }
+
     public UUID getId() {
         return id;
     }

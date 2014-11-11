@@ -13,7 +13,6 @@ public class ThreadPoolServer extends CounterInter implements Runnable {
 
     public ThreadPoolServer(Socket socket) {
         this.socket = socket;
-//        ci = new CounterInter();
         System.out.println("\nThread trying to create Object Input/Output Streams");
         try {
             // create output first
@@ -23,9 +22,6 @@ public class ThreadPoolServer extends CounterInter implements Runnable {
             oos = new ObjectOutputStream(new FileOutputStream("answers.ser"));
             ios = new ObjectInputStream(new FileInputStream("answers.ser"));
 
-            // read the the clients ID
-            //           ci = (CounterInter) sInput.readObject();
-            //            System.out.println("Client    " + id + "    has connected");
         } catch (IOException e) {
             System.out.println("\nException creating new Input/output Streams: " + e);
         }
@@ -34,27 +30,24 @@ public class ThreadPoolServer extends CounterInter implements Runnable {
     public void run() {
         while (true) {
             try {
-                // read the the clients ID
+                // read the the object of Client and his answers
                 ci = (CounterInter) sInput.readObject();
+                //write recieved object to file
+                oos.writeObject(ci);
                 System.out.println("Client's is (Server Side)  (Connection was ok)   " + ci.getId());
-
-                //username = (String) sInput.readObject();
-                //                cm = (String) sInput.readObject();
-                //                String fileread = (String) ios.readObject();
-                //                qs = new Question(cm);
-                //                System.out.println("input was " + fileread);
+                answer = ci.getAnswer();
             } catch (IOException | ClassNotFoundException e) {
                 System.out.println(" Exception reading Streams:  " + id + " " + e);
                 break;
             }
 
             /**
-             *Switch on the type of message receive
+             * Switch on the type of message receive
              * writemsg writes to client
              * sout writes to server console
              * it wont be counted as one together but as each cleint unique
              */
-            switch (cm) {
+            switch (answer) {
                 case "ja":
                     counterJA++;
                     try {
@@ -112,10 +105,9 @@ public class ThreadPoolServer extends CounterInter implements Runnable {
             + " \n" + "For 'nein'->" + counterNEIN
             + " \n" + "For 'maybe' -> " + counterMAYBE;
 
-        //        sOutput.writeUTF(msg);
         sOutput.writeObject(msg);
-        //        close();
     }
+
 
     /**
      * close everything
@@ -129,28 +121,4 @@ public class ThreadPoolServer extends CounterInter implements Runnable {
         oos.close();
         //        socket.close();
     }
-
-    /**
-     * Write a String to the Client output stream
-     *
-     * @deprecated since 2
-     */
-    private synchronized void writeMsg(String msg) throws IOException {
-        if (!socket.isConnected()) {
-            // if Client is still connected send the message to it
-            close();
-        } else {
-            try {
-                // write the message to the stream
-                //                sOutput.writeObject(msg);
-                sOutput.writeUTF(msg);
-                oos.writeObject(msg);
-            } catch (IOException e) {
-                // if an error occurs, do not abort just inform the user
-                System.out.println("Error sending message to " + id);
-                System.out.println(e.toString());
-            }
-        }
-    }
-
 }

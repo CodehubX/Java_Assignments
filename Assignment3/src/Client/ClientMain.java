@@ -24,14 +24,14 @@ public class ClientMain {
                     String msg = sc.next();
 
                     if (msg.equals("ja") || msg.equals("nein") || msg.equals("maybe")) {
-                        client.ci(msg); //send message to server & CI
+                        client.writeClient(msg); //send message to server & CI
                     } else {
                         System.out.println("Wrong answer; you will be disconnected");
                         client.disconnect();
                         break;
                     }
                 } else if (menuChoice == 2) {
-                    client.returnAnswers();
+                    client.clientsInformation();
                 }
             } catch (InputMismatchException e) {
                 System.out.println(e.getMessage() + " only number are allowed");
