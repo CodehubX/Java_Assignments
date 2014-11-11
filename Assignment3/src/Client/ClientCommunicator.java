@@ -45,14 +45,6 @@ public class ClientCommunicator {
             System.out.println("Exception creating new Input/output Streams: " + eIO);
         }
 
-        /*
-         * creates the Thread to listen from the server
-         * e.g. clients
-         */
-        //        ListenFromServer listenFromServer = new ListenFromServer();
-        //        Thread th = new Thread(listenFromServer);
-        //        th.start();
-
     }
 
     public synchronized void writeClient(String answer) throws IOException, InterruptedException {
@@ -63,7 +55,8 @@ public class ClientCommunicator {
     }
 
     public String clientsInformation() throws IOException, ClassNotFoundException {
-        ci = (CounterInter) ios.readObject();
+        String mdg = ios.readUTF();
+        System.out.println(mdg);
         return ci.clientsAnswer();
     }
 

@@ -45,7 +45,7 @@ public class ThreadPoolServer extends CounterInter implements Runnable {
             }
 
             try {
-                oos.writeUTF("\n" + ci.getId() + " voted as " + ci.getAnswer());
+                oos.writeUTF("\n Client on the server (Sent msg to Client in file) " + ci.getId() + " voted as " + ci.getAnswer());
                 if (ci.getAnswer().equals("ja")) {
                     counterJA++;
                 } else if (ci.getAnswer().equals("nein")) {
@@ -55,6 +55,11 @@ public class ThreadPoolServer extends CounterInter implements Runnable {
                 }
             } catch (IOException e1) {
                 e1.printStackTrace();
+                try {
+                    close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }

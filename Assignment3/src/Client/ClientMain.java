@@ -31,7 +31,7 @@ public class ClientMain {
                         break;
                     }
                 } else if (menuChoice == 2) {
-                    client.clientsInformation();
+                    System.out.println(client.clientsInformation());
                 }
             } catch (InputMismatchException e) {
                 System.out.println(e.getMessage() + " only number are allowed");
