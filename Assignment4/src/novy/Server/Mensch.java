@@ -1,4 +1,4 @@
-package novy;
+package novy.Server;
 
 import java.io.Serializable;
 

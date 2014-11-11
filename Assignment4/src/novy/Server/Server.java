@@ -1,4 +1,4 @@
-package novy;
+package novy.Server;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;

@@ -1,4 +1,7 @@
-package novy;
+package novy.proServer.Client;
+
+import novy.Server.Mensch;
+import novy.Server.Prod_Con_Methods;
 
 import java.net.MalformedURLException;
 import java.rmi.Naming;
