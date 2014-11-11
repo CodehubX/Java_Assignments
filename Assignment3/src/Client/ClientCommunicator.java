@@ -54,10 +54,11 @@ public class ClientCommunicator {
         System.out.println("Clients  uniqueKey & answer finally send to the server. It's " + uniqueKey + " & your answer: (" + answer + ")");
     }
 
-    public String clientsInformation() throws IOException, ClassNotFoundException {
-        String mdg = ios.readUTF();
-        System.out.println(mdg);
-        return ci.clientsAnswer();
+    public void clientsInformation() throws IOException, ClassNotFoundException {
+//        String mdg = ios.readUTF();
+        String rep = (String) ios.readUTF();
+        System.out.println(rep);
+        System.out.println(ci.clientsAnswer());
     }
 
     /**

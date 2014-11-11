@@ -30,14 +30,14 @@ public class ThreadPoolServer extends CounterInter implements Runnable {
     public void run() {
         while (true) {
             try {
-                System.out.println("Waiting for clients input to write into file and console");
+                System.out.println("\nWaiting for clients input to write into file and console");
                 // read the the object of Client and his answers
                 ci = (CounterInter) sInput.readObject();
 
                 //write recieved object to file
-                oos.writeObject(ci);
+                //                oos.writeObject(ci);
 
-                System.out.println("Client's is (Server Side)  (Connection was ok)   " + ci.getId());
+                System.out.println("Client's ID is (Server Side)   " + ci.getId());
                 answerLocal = ci.getAnswer();
             } catch (IOException | ClassNotFoundException e) {
                 System.out.println(" Exception reading Streams:  " + id + " " + e);
@@ -45,10 +45,10 @@ public class ThreadPoolServer extends CounterInter implements Runnable {
             }
 
             try {
-                oos.writeUTF("\n Client on the server (Sent msg to Client in file) " + ci.getId() + " voted as " + ci.getAnswer());
-                if (ci.getAnswer().equals("ja")) {
+                oos.writeObject("\n Client on the server (Sent msg to Client in file) " + ci.getId() + " voted as " + ci.getAnswer());
+                if (answerLocal.equals("ja")) {
                     counterJA++;
-                } else if (ci.getAnswer().equals("nein")) {
+                } else if (answerLocal.equals("nein")) {
                     counterNEIN++;
                 } else {
                     counterMAYBE++;
