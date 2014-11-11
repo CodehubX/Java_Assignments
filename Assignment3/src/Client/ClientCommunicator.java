@@ -37,7 +37,6 @@ public class ClientCommunicator {
 
         System.out.println("Connection accepted by server " + socket.getInetAddress() + ":" + socket.getPort());
 
-        // Creating both Data Stream
         try {
             sInput = new ObjectInputStream(socket.getInputStream());
             sOutput = new ObjectOutputStream(socket.getOutputStream());
@@ -64,7 +63,7 @@ public class ClientCommunicator {
     }
 
     public String clientsInformation() throws IOException, ClassNotFoundException {
-        ci = (CounterInter) sInput.readObject();
+        ci = (CounterInter) ios.readObject();
         return ci.clientsAnswer();
     }
 

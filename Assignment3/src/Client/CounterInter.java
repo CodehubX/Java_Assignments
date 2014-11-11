@@ -31,6 +31,6 @@ public class CounterInter implements Serializable {
     }
 
     public String clientsAnswer() {
-        return lbq.size() + "client" + " voted all in all as follows: Ja: " + counterJA + "\n Nein: " + counterNEIN + "\n maybe:" + counterMAYBE;
+        return lbq.size() + "clients" + " voted all in all as follows: Ja: " + counterJA + "\n Nein: " + counterNEIN + "\n maybe:" + counterMAYBE;
     }
 }
