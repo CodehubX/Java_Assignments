@@ -36,7 +36,7 @@ public class ThreadPoolServer extends CounterInter implements Runnable {
                 System.out.println("\nWaiting for clients input to write into file and console");
                 // read the the object of Client and his answers
                 ci = (CounterInter) sInput.readObject();
-
+                sInput.close();
                 //write recieved object to file
                 //                oos.writeObject(ci);
 
@@ -49,8 +49,6 @@ public class ThreadPoolServer extends CounterInter implements Runnable {
 
             try {
                 oos.writeUTF("\n Client on the server (Sent msg to Client in file) " + ci.getId() + " voted as " + ci.getAnswer());
-                oos.flush();
-                oos.close();
                 if (answerLocal.equals("ja")) {
                     counterJA++;
                 } else if (answerLocal.equals("nein")) {
@@ -58,6 +56,8 @@ public class ThreadPoolServer extends CounterInter implements Runnable {
                 } else {
                     counterMAYBE++;
                 }
+                oos.flush();
+                oos.close();
             } catch (IOException e1) {
                 e1.printStackTrace();
                 try {
