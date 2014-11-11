@@ -5,6 +5,8 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.concurrent.LinkedBlockingQueue;
 
 /**
+ * java -cp /var/www/html/b40.cz/java:/var/www/html/b40.cz/java/compute.jar 
+ * -Djava.rmi.server.codebase=http://b40.cz/java/compute.jar -Djava.rmi.server.hostname=b40.cz -Djava.security.policy=server.policy Server.Main  
  * Class which we use to implement the interface and store Mensch in Queue
  */
 public class Server extends UnicastRemoteObject implements Prod_Con_Methods {
