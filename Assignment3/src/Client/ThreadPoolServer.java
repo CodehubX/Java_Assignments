@@ -11,7 +11,7 @@ public class ThreadPoolServer extends CounterInter implements Runnable {
     public Socket socket;
     CounterInter ci = null;
     private ObjectInputStream sInput, ios;
-    private ObjectOutputStream oos;
+    private ObjectOutputStream sOutput, oos;
     private String answerLocal; //answer
 
     public ThreadPoolServer(Socket socket) {
@@ -19,7 +19,7 @@ public class ThreadPoolServer extends CounterInter implements Runnable {
         System.out.println("\nThreadpool created and assigned taks to do e.g. Object Input/Output Streams");
         try {
             // create output first
-            //            sOutput = new ObjectOutputStream(socket.getOutputStream());
+            sOutput = new ObjectOutputStream(socket.getOutputStream());
             sInput = new ObjectInputStream(socket.getInputStream());
 
             oos = new ObjectOutputStream(new FileOutputStream("answers.ser"));
@@ -36,7 +36,7 @@ public class ThreadPoolServer extends CounterInter implements Runnable {
                 System.out.println("\nWaiting for clients input to write into file and console");
                 // read the the object of Client and his answers
                 ci = (CounterInter) sInput.readObject();
-                sInput.close();
+                //                sInput.close();
                 //write recieved object to file
                 //                oos.writeObject(ci);
 
@@ -47,17 +47,11 @@ public class ThreadPoolServer extends CounterInter implements Runnable {
                 break;
             }
 
-            try {
+            try { //works
                 oos.writeUTF("\n Client on the server (Sent msg to Client in file) " + ci.getId() + " voted as " + ci.getAnswer());
-                if (answerLocal.equals("ja")) {
-                    counterJA++;
-                } else if (answerLocal.equals("nein")) {
-                    counterNEIN++;
-                } else {
-                    counterMAYBE++;
-                }
-                oos.flush();
-                oos.close();
+                ci.setCounter();
+                //                oos.flush();
+                oos.close(); // beinflust ob ich mehrmals antwort geben kann
             } catch (IOException e1) {
                 e1.printStackTrace();
                 try {

@@ -5,9 +5,9 @@ import java.util.UUID;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public class CounterInter implements Serializable {
-    public int counterJA = 0;
-    public int counterMAYBE = 0;
-    public int counterNEIN = 0;
+    int counterJA;
+    int counterMAYBE;
+    int counterNEIN;
     String answer;
     UUID id;
     LinkedBlockingQueue<UUID> lbq;
@@ -31,6 +31,16 @@ public class CounterInter implements Serializable {
     }
 
     public String clientsAnswer() {
-        return "\n "+lbq.size() + " clients voted all in all as follows: \n Ja: " + counterJA + "\n Nein: " + counterNEIN + "\n maybe:" + counterMAYBE;
+        return "\n " + lbq.size() + " clients voted all in all as follows: \n Ja: " + this.counterJA + "\n Nein: " + counterNEIN + "\n maybe:" + counterMAYBE;
+    }
+
+    public void setCounter() {
+        if (answer.equals("ja")) {
+            System.out.println(counterJA+1);
+        } else if (answer.equals("nein")) {
+            System.out.println(counterNEIN+1);
+        } else {
+            System.out.println(counterMAYBE+1);
+        }
     }
 }
