@@ -13,7 +13,7 @@ public class ThreadPoolServer extends CounterInter implements Runnable {
     private ObjectOutputStream sOutput, oos;
     private UUID id; // uniqie ID client
     private String cm; //answer
-    private SimpleDateFormat sdf; // deprecated methods
+    private SimpleDateFormat sdf; // deprecated method
 
     public ThreadPoolServer(Socket socket) {
         this.socket = socket;
@@ -102,6 +102,7 @@ public class ThreadPoolServer extends CounterInter implements Runnable {
     }
 
     /**
+     * Return abstimmung per client to SSoutput
      * @throws IOException
      */
     public synchronized void abstimmungPerClient() throws IOException {
@@ -116,11 +117,24 @@ public class ThreadPoolServer extends CounterInter implements Runnable {
     }
 
     /**
+     * close everything
+     *
+     * @throws IOException
+     */
+    private void close() throws IOException {
+        sInput.close();
+        sOutput.close();
+        ios.close();
+        oos.close();
+        //        socket.close();
+    }
+
+    /**
      * Write a String to the Client output stream
      *
      * @deprecated since 2
      */
-    public synchronized void writeMsg(String msg) throws IOException {
+    private synchronized void writeMsg(String msg) throws IOException {
         if (!socket.isConnected()) {
             // if Client is still connected send the message to it
             close();
@@ -139,24 +153,11 @@ public class ThreadPoolServer extends CounterInter implements Runnable {
     }
 
     /**
-     * close everything
-     *
-     * @throws IOException
-     */
-    private void close() throws IOException {
-        sInput.close();
-        sOutput.close();
-        ios.close();
-        oos.close();
-        //        socket.close();
-    }
-
-    /**
      * Display a message to the console
      *
      * @deprecated
      */
-    public void display(String msg) {
+    private void display(String msg) {
         String time = sdf.format(new Date()) + " " + msg;
         System.out.println(time);
     }

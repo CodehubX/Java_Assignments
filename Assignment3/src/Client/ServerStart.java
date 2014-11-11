@@ -11,27 +11,30 @@ public class ServerStart {
     public static void main(String[] args) throws IOException {
         // the boolean that will be turned off to stop the server
         boolean keepGoing;
+
         ExecutorService ex = null;
 
         // the port number to listen for connection
         int port = 8474;
 
-        String tempFile = "C:\\Users\\jm\\Documents\\Homeworks5.git\\Assignment3\\answers.ser";
-        //Delete if tempFile exists
-        //        File fileTemp = new File(tempFile);
-        //        if (fileTemp.exists()) {
-        //            System.out.println("Previous ser files have been deleted: " + fileTemp.delete());
-        //        }
+        //        String tempFile = "C:\\Users\\jm\\Documents\\Homeworks5.git\\Assignment3\\answers.ser";
+        //        //Delete if tempFile exists
+        //                File fileTemp = new File(tempFile);
+        //                if (fileTemp.exists()) {
+        //                    System.out.println("Previous ser files have been deleted: " + fileTemp.delete());
+        //                }
 
         keepGoing = true;
 
         ServerSocket ser = new ServerSocket(port);
+
         // infinite loop to wait for connections
         while (keepGoing) {
             // format message saying we are waiting
             System.out.println("Server waiting for Clients on port " + port + ".");
 
             Socket socket = ser.accept();    // accept connection
+            System.out.println("Client connected to the Server - OK!");
 
             ThreadPoolServer t = new ThreadPoolServer(socket);  // make a thread of it
             ex = Executors.newFixedThreadPool(10);

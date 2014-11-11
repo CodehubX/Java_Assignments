@@ -21,7 +21,7 @@ public class ClientMain {
                 System.out.println("Choose from the menu - 1 is for input; 2 is for information");
                 int menuChoice = sc.nextInt();
                 if (menuChoice == 1) {
-                    System.out.println("please answer this question: Is he black ? Only ja, maybe, nein");
+                    System.out.println("please answer this question: Is Obama right-wing ? Only 'ja', 'maybe', 'nein'");
                     System.out.print("-> ");
 
                     // read message from user

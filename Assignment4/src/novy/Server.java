@@ -8,7 +8,6 @@ import java.util.concurrent.LinkedBlockingQueue;
  * Class which we use to implement the interface and store Mensch in Queue
  */
 public class Server extends UnicastRemoteObject implements Prod_Con_Methods {
-    Mensch ms;
     LinkedBlockingQueue<Mensch> lbq;
 
     public Server() throws RemoteException {
@@ -17,7 +16,6 @@ public class Server extends UnicastRemoteObject implements Prod_Con_Methods {
     }
 
     public void produce(Mensch e) throws RemoteException, InterruptedException {
-        this.ms = e;
         lbq.put(e);
     }
 
@@ -28,5 +26,4 @@ public class Server extends UnicastRemoteObject implements Prod_Con_Methods {
     public int size() {
         return lbq.size();
     }
-
 }

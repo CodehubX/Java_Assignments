@@ -8,7 +8,6 @@ import java.util.UUID;
 
 public class Client2 {
 
-    boolean status;
     private UUID uniqueKey;
     private String server = "localhost";    // for I/O
 
@@ -19,7 +18,6 @@ public class Client2 {
 
     /**
      * Constructor called
-     *
      * @param uniqueKey id
      */
     public Client2(UUID uniqueKey) {
@@ -28,7 +26,6 @@ public class Client2 {
 
     /**
      * Will call once ClientMain started
-     *
      * @throws IOException
      */
     public void connect() throws IOException {
@@ -38,7 +35,6 @@ public class Client2 {
         } catch (Exception ec) {
             // if it failed not much I can so
             System.out.println("Error connectiong to server:" + ec);
-            status = false;
         }
 
         System.out.println("Connection accepted " + socket.getInetAddress() + ":" + socket.getPort());
@@ -48,9 +44,9 @@ public class Client2 {
         try {
             sInput = new ObjectInputStream(socket.getInputStream());
             sOutput = new ObjectOutputStream(socket.getOutputStream());
+            System.out.println("sinput/output ist ok beim Client");
         } catch (IOException eIO) {
             System.out.println("Exception creating new Input/output Streams: " + eIO);
-            status = false;
         }
 
         /*
@@ -63,19 +59,17 @@ public class Client2 {
 
         try {
             sOutput.writeObject(uniqueKey);
+            System.out.println("soutput uniqueKey written");
         } catch (IOException e) {
             System.out.println("Exception doing login : " + e);
             disconnect();
-            status = false;
         }
 
-        // success we inform the caller that it worked
-        status = true;
     }
 
     /**
      * When something goes wrong
-     * Close the Input/Output streams and disconnect not much to do in the catch clause
+     * Close the Input/Output streams and disconnect
      */
     public void disconnect() throws IOException {
         sInput.close();
@@ -85,10 +79,10 @@ public class Client2 {
 
     /**
      * To send a message to the server and file
+     * For the ClientMain
      */
     public synchronized void sendMessage(String msg) throws IOException {
         sOutput.writeObject(msg);
-
     }
 
 
@@ -101,10 +95,8 @@ public class Client2 {
             while (true) {
                 try {
                     String msg = (String) sInput.readObject();
-                    //                    String filemsg = sInput.readUTF();
                     // if console mode print the message and add back the prompt
                     System.out.println(" -> " + msg);
-
                 } catch (IOException | ClassNotFoundException e) {
                     System.out.println("Server has close the connection: " + e);
                     break;

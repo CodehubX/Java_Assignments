@@ -26,12 +26,22 @@ public class Main {
 
         /*
          * 2 Prod + 1 Consumer
+         * Wird gewartet im theard pool
          */
-        ExecutorService executorService = Executors.newFixedThreadPool(4);
-        executorService.execute(new Cleint_Prod(ms, server));
-        executorService.execute(new Cleint_Prod(ms, server));
-        executorService.execute(new Client_Cons(server));
-        executorService.execute(new Client_Cons(server));
+        ExecutorService executorService = Executors.newFixedThreadPool(30);
+        for (int i = 0; i < 20; i++) {
+            executorService.execute(new Cleint_Prod(ms, server));
+        }
+
+        for (int i = 0; i < 10; i++) {
+            executorService.execute(new Client_Cons(server));
+
+        }
+
+        //        executorService.execute(new Cleint_Prod(ms, server));
+        //        executorService.execute(new Cleint_Prod(ms, server));
+        //        executorService.execute(new Client_Cons(server));
+        //        executorService.execute(new Client_Cons(server));
 
         executorService.shutdown();
 
