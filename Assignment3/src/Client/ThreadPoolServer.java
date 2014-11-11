@@ -4,16 +4,16 @@ import java.io.*;
 import java.net.Socket;
 
 public class ThreadPoolServer extends CounterInter implements Runnable {
-    CounterInter ci = null;
     // the socket where to listen/talk
-    private Socket socket;
+    public Socket socket;
+    CounterInter ci = null;
     private ObjectInputStream sInput, ios;
     private ObjectOutputStream sOutput, oos;
-    private String cm; //answer
+    private String answerLocal; //answer
 
     public ThreadPoolServer(Socket socket) {
         this.socket = socket;
-        System.out.println("\nThread trying to create Object Input/Output Streams");
+        System.out.println("\nThreadpool created and assigned taks to do e.g. Object Input/Output Streams");
         try {
             // create output first
             sOutput = new ObjectOutputStream(socket.getOutputStream());
@@ -30,12 +30,15 @@ public class ThreadPoolServer extends CounterInter implements Runnable {
     public void run() {
         while (true) {
             try {
+
                 // read the the object of Client and his answers
                 ci = (CounterInter) sInput.readObject();
+
                 //write recieved object to file
                 oos.writeObject(ci);
+
                 System.out.println("Client's is (Server Side)  (Connection was ok)   " + ci.getId());
-                answer = ci.getAnswer();
+                answerLocal = ci.getAnswer();
             } catch (IOException | ClassNotFoundException e) {
                 System.out.println(" Exception reading Streams:  " + id + " " + e);
                 break;
@@ -47,78 +50,33 @@ public class ThreadPoolServer extends CounterInter implements Runnable {
              * sout writes to server console
              * it wont be counted as one together but as each cleint unique
              */
-            switch (answer) {
-                case "ja":
+            try {
+                oos.writeUTF("\n" + ci.getId() + " voted as " + ci.getAnswer());
+                if (ci.getAnswer().equals("ja")) {
                     counterJA++;
-                    try {
-                        //                        writeMsg("\n" + id + " voted as " + cm + ": " + counterJA);
-                        oos.writeUTF("\n" + id + " voted as " + cm + ": " + counterJA);
-                        System.out.println("\n" + id + " voted as " + cm + ": " + counterJA);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    break;
-                case "nein":
+                } else if (ci.getAnswer().equals("nein")) {
                     counterNEIN++;
-                    try {
-                        oos.writeUTF("\n" + id + " voted as " + cm + ": " + counterNEIN);
-                        System.out.println("\n" + id + " voted as " + cm + ": " + counterNEIN);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    break;
-                case "maybe":
+                } else {
                     counterMAYBE++;
-                    try {
-                        oos.writeUTF("\n" + id + " voted as " + cm + ": " + counterMAYBE);
-                        System.out.println("\n" + id + " voted as " + cm + ": " + counterMAYBE);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    break;
-                case "Statistics":
-                    try {
-                        oos.writeUTF(ci.clientsAnswer());
-                        abstimmungPerClient();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    break;
+                }
+            } catch (IOException e1) {
+                e1.printStackTrace();
             }
-        }
 
-        try {
-            close();
-        } catch (IOException e) {
-            e.printStackTrace();
+
+
+//            try {
+//                close();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
         }
     }
 
-    /**
-     * Return abstimmung per client to SSoutput
-     *
-     * @throws IOException
-     */
-    public synchronized void abstimmungPerClient() throws IOException {
-        String msg = "\nHow many people have provided opinion? ->"
-            + " \n" + "For 'ja' -> " + counterJA
-            + " \n" + "For 'nein'->" + counterNEIN
-            + " \n" + "For 'maybe' -> " + counterMAYBE;
-
-        sOutput.writeObject(msg);
-    }
-
-
-    /**
-     * close everything
-     *
-     * @throws IOException
-     */
     private void close() throws IOException {
         sInput.close();
         sOutput.close();
         ios.close();
         oos.close();
-        //        socket.close();
     }
 }

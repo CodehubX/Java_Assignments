@@ -9,7 +9,7 @@ public class ClientMain {
     public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
         Scanner sc = new Scanner(System.in);
 
-        Client2 client = new Client2();
+        ClientCommunicator client = new ClientCommunicator();
         client.connect();
 
         while (true) {

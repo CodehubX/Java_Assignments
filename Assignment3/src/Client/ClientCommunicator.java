@@ -6,17 +6,17 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.UUID;
 
-public class Client2 {
+public class ClientCommunicator {
 
     public CounterInter ci;
     private UUID uniqueKey;
     private String server = "localhost";    // for I/O
-    private ObjectInputStream sInput;    // to read from the socket
-    private ObjectOutputStream sOutput;    // to write on the socket
+    private ObjectInputStream sInput, ios;    // to read from the socket
+    private ObjectOutputStream sOutput, oos;    // to write on the socket
     private Socket socket;
     private int port = 8474;
 
-    public Client2() {
+    public ClientCommunicator() {
         uniqueKey = UUID.randomUUID();
         ci = new CounterInter();
     }
@@ -50,9 +50,9 @@ public class Client2 {
          * creates the Thread to listen from the server
          * e.g. clients
          */
-        ListenFromServer listenFromServer = new ListenFromServer();
-        Thread th = new Thread(listenFromServer);
-        th.start();
+        //        ListenFromServer listenFromServer = new ListenFromServer();
+        //        Thread th = new Thread(listenFromServer);
+        //        th.start();
 
     }
 
@@ -79,21 +79,14 @@ public class Client2 {
     }
 
 
-    /**
-     * a class that waits for the message from the server to append them in
-     * System.out.println() it in console mode
-     */
-    private class ListenFromServer implements Runnable {
-        public void run() {
-            while (true) {
-                try {
-                    String msg = (String) sInput.readObject();
-                    System.out.println(" -> " + msg);
-                } catch (IOException | ClassNotFoundException e) {
-                    System.out.println("Server has close the connection: " + e);
-                    break;
-                }
-            }
-        }
-    }
+    //            while (true) {
+    //                try {
+    //                    String msg = (String) sInput.readObject();
+    //                    System.out.println(" -> " + msg);
+    //                } catch (IOException | ClassNotFoundException e) {
+    //                    System.out.println("Server has close the connection: " + e);
+    //                    break;
+    //                }
+    //            }
+
 }
