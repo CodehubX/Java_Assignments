@@ -1,5 +1,6 @@
 package Client;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -11,8 +12,8 @@ public class ClientCommunicator {
     public CounterInter ci;
     private UUID uniqueKey;
     private String server = "localhost";    // for I/O
-    private ObjectInputStream sInput, ios;    // to read from the socket
-    private ObjectOutputStream sOutput, oos;    // to write on the socket
+    private ObjectInputStream ios;    // to read from the socket
+    private ObjectOutputStream sOutput;    // to write on the socket
     private Socket socket;
     private int port = 8474;
 
@@ -38,8 +39,8 @@ public class ClientCommunicator {
         System.out.println("Connection accepted by server " + socket.getInetAddress() + ":" + socket.getPort());
 
         try {
-            sInput = new ObjectInputStream(socket.getInputStream());
             sOutput = new ObjectOutputStream(socket.getOutputStream());
+            ios = new ObjectInputStream(new FileInputStream("answers.ser"));
             System.out.println("input/output ist ok beim Client");
         } catch (IOException eIO) {
             System.out.println("Exception creating new Input/output Streams: " + eIO);
@@ -55,8 +56,7 @@ public class ClientCommunicator {
     }
 
     public void clientsInformation() throws IOException, ClassNotFoundException {
-//        String mdg = ios.readUTF();
-        String rep = (String) ios.readUTF();
+        String rep = ios.readUTF();
         System.out.println(rep);
         System.out.println(ci.clientsAnswer());
     }
@@ -66,7 +66,6 @@ public class ClientCommunicator {
      * Close the Input/Output streams and disconnect
      */
     public void disconnect() throws IOException {
-        sInput.close();
         sOutput.close();
         socket.close();
     }
