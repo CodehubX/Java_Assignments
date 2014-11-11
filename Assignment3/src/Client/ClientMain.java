@@ -3,15 +3,15 @@ package Client;
 import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
-import java.util.UUID;
 
 public class ClientMain {
 
     public static void main(String[] args) throws IOException, ClassNotFoundException {
         Scanner sc = new Scanner(System.in);
 
-        UUID uniqueKey = UUID.randomUUID();
-        Client2 client = new Client2(uniqueKey);
+        //        UUID uniqueKey = UUID.randomUUID();
+        //        Client2 client = new Client2(uniqueKey);
+        Client2 client = new Client2();
         client.connect();
 
         // loop forever for message from the user
@@ -21,18 +21,20 @@ public class ClientMain {
                 System.out.println("Choose from the menu - 1 is for input; 2 is for information");
                 int menuChoice = sc.nextInt();
                 if (menuChoice == 1) {
-                    System.out.println("please answer this question: Is Obama right-wing ? Only 'ja', 'maybe', 'nein'");
+                    System.out.println("Please answer this question: Are you fan of Akta-X ? Only 'ja', 'maybe', 'nein'");
                     System.out.print("-> ");
 
                     // read message from user
                     String msg = sc.next();
+                    if (msg.equals("ja") || msg.equals("nein") || msg.equals("maybe")) {
+                        client.ci(msg);
 
-                    if (msg.equalsIgnoreCase("ja")) {
-                        client.sendMessage("ja");
-                    } else if (msg.equalsIgnoreCase("nein")) {
-                        client.sendMessage("nein");
-                    } else if (msg.equalsIgnoreCase("maybe")) {
-                        client.sendMessage("maybe");
+                        //                    if (msg.equalsIgnoreCase("ja")) {
+                        //                        client.sendMessage("ja");
+                        //                    } else if (msg.equalsIgnoreCase("nein")) {
+                        //                        client.sendMessage("nein");
+                        //                    } else if (msg.equalsIgnoreCase("maybe")) {
+                        //                        client.sendMessage("maybe");
                     } else {
                         System.out.println("Wrong answer, you will be disconnected");
                         client.disconnect();

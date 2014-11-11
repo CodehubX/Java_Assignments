@@ -8,9 +8,9 @@ import java.util.UUID;
 
 public class Client2 {
 
+    public CounterInter ci;
     private UUID uniqueKey;
     private String server = "localhost";    // for I/O
-
     private ObjectInputStream sInput;    // to read from the socket
     private ObjectOutputStream sOutput;    // to write on the socket
     private Socket socket;
@@ -18,17 +18,25 @@ public class Client2 {
 
     /**
      * Constructor called
+     *
      * @param uniqueKey id
      */
     public Client2(UUID uniqueKey) {
         this.uniqueKey = uniqueKey;
     }
 
+    public Client2() {
+        uniqueKey = UUID.randomUUID();
+        ci = new CounterInter();
+    }
+
     /**
      * Will call once ClientMain started
+     *
      * @throws IOException
      */
     public void connect() throws IOException {
+
         try {
             // try to connect to the server
             socket = new Socket(server, port);
@@ -44,7 +52,7 @@ public class Client2 {
         try {
             sInput = new ObjectInputStream(socket.getInputStream());
             sOutput = new ObjectOutputStream(socket.getOutputStream());
-            System.out.println("sinput/output ist ok beim Client");
+            System.out.println("input/output ist ok beim Client");
         } catch (IOException eIO) {
             System.out.println("Exception creating new Input/output Streams: " + eIO);
         }
@@ -57,14 +65,12 @@ public class Client2 {
         Thread th = new Thread(listenFromServer);
         th.start();
 
-        try {
-            sOutput.writeObject(uniqueKey);
-            System.out.println("soutput uniqueKey written");
-        } catch (IOException e) {
-            System.out.println("Exception doing login : " + e);
-            disconnect();
-        }
+    }
 
+    public void ci(String answer) throws IOException {
+        ci.setUUIDandAnswer(uniqueKey, answer);
+        sOutput.writeObject(ci);
+        System.out.println("Clients  uniqueKey & answer finally send to the server. " + uniqueKey + " your answer" + answer);
     }
 
     /**

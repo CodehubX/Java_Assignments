@@ -2,23 +2,19 @@ package Client;
 
 import java.io.*;
 import java.net.Socket;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.UUID;
 
 public class ThreadPoolServer extends CounterInter implements Runnable {
+    CounterInter ci = null;
     // the socket where to listen/talk
     private Socket socket;
     private ObjectInputStream sInput, ios;
     private ObjectOutputStream sOutput, oos;
-    private UUID id; // uniqie ID client
+    private CounterInter id; // uniqie ID client
     private String cm; //answer
-    private SimpleDateFormat sdf; // deprecated method
 
     public ThreadPoolServer(Socket socket) {
         this.socket = socket;
-        sdf = new SimpleDateFormat("HH:mm:ss");
-
+        ci = new CounterInter();
         System.out.println("\nThread trying to create Object Input/Output Streams");
         try {
             // create output first
@@ -28,10 +24,10 @@ public class ThreadPoolServer extends CounterInter implements Runnable {
             oos = new ObjectOutputStream(new FileOutputStream("answers.ser"));
             ios = new ObjectInputStream(new FileInputStream("answers.ser"));
 
-            // read the ID
-            id = (UUID) sInput.readObject();
-            System.out.println("Client    " + id + "    has connected");
-        } catch (IOException | ClassNotFoundException e) {
+            // read the the clients ID
+//            id = (UUID) sInput.readObject();
+//            System.out.println("Client    " + id + "    has connected");
+        } catch (IOException e) {
             System.out.println("\nException creating new Input/output Streams: " + e);
         }
     }
@@ -39,6 +35,10 @@ public class ThreadPoolServer extends CounterInter implements Runnable {
     public void run() {
         while (true) {
             try {
+                // read the the clients ID
+                id = (CounterInter) sInput.readObject();
+                System.out.println("Client    " + id + "    has connected");
+
                 //username = (String) sInput.readObject();
                 cm = (String) sInput.readObject();
                 //                String fileread = (String) ios.readObject();
@@ -86,6 +86,7 @@ public class ThreadPoolServer extends CounterInter implements Runnable {
                     break;
                 case "Statistics":
                     try {
+                        oos.writeUTF(id + ":: " + ci.clientsAnswer());
                         abstimmungPerClient();
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -103,6 +104,7 @@ public class ThreadPoolServer extends CounterInter implements Runnable {
 
     /**
      * Return abstimmung per client to SSoutput
+     *
      * @throws IOException
      */
     public synchronized void abstimmungPerClient() throws IOException {
@@ -152,27 +154,4 @@ public class ThreadPoolServer extends CounterInter implements Runnable {
         }
     }
 
-    /**
-     * Display a message to the console
-     *
-     * @deprecated
-     */
-    private void display(String msg) {
-        String time = sdf.format(new Date()) + " " + msg;
-        System.out.println(time);
-    }
-
-    /**
-     * to broadcast a message to all Clients
-     * not used anymore
-     *
-     * @deprecated
-     */
-    private synchronized void broadcast(String message) {
-        // add HH:mm:ss and \n to the message
-        String time = sdf.format(new Date());
-        String messageLf = time + " " + message + "\n";
-        // System.out.println( message on console
-        System.out.print(messageLf);
-    }
 }

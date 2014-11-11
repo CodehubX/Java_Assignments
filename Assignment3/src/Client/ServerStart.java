@@ -28,13 +28,13 @@ public class ServerStart {
 
         ServerSocket ser = new ServerSocket(port);
 
-        // infinite loop to wait for connections
+        // we are waiting
+        System.out.println("Server waiting for Clients on port " + port + ".");
+
         while (keepGoing) {
-            // format message saying we are waiting
-            System.out.println("Server waiting for Clients on port " + port + ".");
 
             Socket socket = ser.accept();    // accept connection
-            System.out.println("Client connected to the Server - OK!");
+            System.out.println("Client connected to the Server - OK! But without clients ID, which will be passed with the answer");
 
             ThreadPoolServer t = new ThreadPoolServer(socket);  // make a thread of it
             ex = Executors.newFixedThreadPool(10);
@@ -45,6 +45,7 @@ public class ServerStart {
                 break;
             }
         }
+        // infinite loop to wait for connections
 
         // I was asked to stop
         try {
