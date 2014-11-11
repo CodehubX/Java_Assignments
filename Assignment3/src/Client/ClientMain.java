@@ -6,15 +6,12 @@ import java.util.Scanner;
 
 public class ClientMain {
 
-    public static void main(String[] args) throws IOException, ClassNotFoundException {
+    public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
         Scanner sc = new Scanner(System.in);
 
-        //        UUID uniqueKey = UUID.randomUUID();
-        //        Client2 client = new Client2(uniqueKey);
         Client2 client = new Client2();
         client.connect();
 
-        // loop forever for message from the user
         while (true) {
             try {
                 System.out.println("\nYou will be answering a question. ");
@@ -24,24 +21,17 @@ public class ClientMain {
                     System.out.println("Please answer this question: Are you fan of Akta-X ? Only 'ja', 'maybe', 'nein'");
                     System.out.print("-> ");
 
-                    // read message from user
                     String msg = sc.next();
-                    if (msg.equals("ja") || msg.equals("nein") || msg.equals("maybe")) {
-                        client.ci(msg);
 
-                        //                    if (msg.equalsIgnoreCase("ja")) {
-                        //                        client.sendMessage("ja");
-                        //                    } else if (msg.equalsIgnoreCase("nein")) {
-                        //                        client.sendMessage("nein");
-                        //                    } else if (msg.equalsIgnoreCase("maybe")) {
-                        //                        client.sendMessage("maybe");
+                    if (msg.equals("ja") || msg.equals("nein") || msg.equals("maybe")) {
+                        client.ci(msg); //send message to server & CI
                     } else {
-                        System.out.println("Wrong answer, you will be disconnected");
+                        System.out.println("Wrong answer; you will be disconnected");
                         client.disconnect();
                         break;
                     }
                 } else if (menuChoice == 2) {
-                    client.sendMessage("Statistics");
+                    client.returnAnswers();
                 }
             } catch (InputMismatchException e) {
                 System.out.println(e.getMessage() + " only number are allowed");

@@ -9,12 +9,11 @@ public class ThreadPoolServer extends CounterInter implements Runnable {
     private Socket socket;
     private ObjectInputStream sInput, ios;
     private ObjectOutputStream sOutput, oos;
-    private CounterInter id; // uniqie ID client
     private String cm; //answer
 
     public ThreadPoolServer(Socket socket) {
         this.socket = socket;
-        ci = new CounterInter();
+//        ci = new CounterInter();
         System.out.println("\nThread trying to create Object Input/Output Streams");
         try {
             // create output first
@@ -25,8 +24,8 @@ public class ThreadPoolServer extends CounterInter implements Runnable {
             ios = new ObjectInputStream(new FileInputStream("answers.ser"));
 
             // read the the clients ID
-//            id = (UUID) sInput.readObject();
-//            System.out.println("Client    " + id + "    has connected");
+            //           ci = (CounterInter) sInput.readObject();
+            //            System.out.println("Client    " + id + "    has connected");
         } catch (IOException e) {
             System.out.println("\nException creating new Input/output Streams: " + e);
         }
@@ -36,11 +35,11 @@ public class ThreadPoolServer extends CounterInter implements Runnable {
         while (true) {
             try {
                 // read the the clients ID
-                id = (CounterInter) sInput.readObject();
-                System.out.println("Client    " + id + "    has connected");
+                ci = (CounterInter) sInput.readObject();
+                System.out.println("Client's is (Server Side)  (Connection was ok)   " + ci.getId());
 
                 //username = (String) sInput.readObject();
-                cm = (String) sInput.readObject();
+                //                cm = (String) sInput.readObject();
                 //                String fileread = (String) ios.readObject();
                 //                qs = new Question(cm);
                 //                System.out.println("input was " + fileread);
@@ -86,7 +85,7 @@ public class ThreadPoolServer extends CounterInter implements Runnable {
                     break;
                 case "Statistics":
                     try {
-                        oos.writeUTF(id + ":: " + ci.clientsAnswer());
+                        oos.writeUTF(ci.clientsAnswer());
                         abstimmungPerClient();
                     } catch (IOException e) {
                         e.printStackTrace();

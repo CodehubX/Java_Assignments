@@ -16,15 +16,6 @@ public class Client2 {
     private Socket socket;
     private int port = 8474;
 
-    /**
-     * Constructor called
-     *
-     * @param uniqueKey id
-     */
-    public Client2(UUID uniqueKey) {
-        this.uniqueKey = uniqueKey;
-    }
-
     public Client2() {
         uniqueKey = UUID.randomUUID();
         ci = new CounterInter();
@@ -36,7 +27,6 @@ public class Client2 {
      * @throws IOException
      */
     public void connect() throws IOException {
-
         try {
             // try to connect to the server
             socket = new Socket(server, port);
@@ -45,8 +35,7 @@ public class Client2 {
             System.out.println("Error connectiong to server:" + ec);
         }
 
-        System.out.println("Connection accepted " + socket.getInetAddress() + ":" + socket.getPort());
-        System.out.println("Client Connection to Server is OK! " + socket.getInetAddress() + " " + socket.getLocalPort());
+        System.out.println("Connection accepted by server " + socket.getInetAddress() + ":" + socket.getPort());
 
         // Creating both Data Stream
         try {
@@ -67,10 +56,15 @@ public class Client2 {
 
     }
 
-    public void ci(String answer) throws IOException {
+    public void ci(String answer) throws IOException, InterruptedException {
         ci.setUUIDandAnswer(uniqueKey, answer);
         sOutput.writeObject(ci);
-        System.out.println("Clients  uniqueKey & answer finally send to the server. " + uniqueKey + " your answer" + answer);
+        System.out.println("Clients  uniqueKey & answer finally send to the server. It's " + uniqueKey + " & your answer: (" + answer + ")");
+    }
+
+    public String returnAnswers() throws IOException, ClassNotFoundException {
+        ci = (CounterInter) sInput.readObject();
+        return ci.clientsAnswer();
     }
 
     /**
@@ -83,14 +77,6 @@ public class Client2 {
         socket.close();
     }
 
-    /**
-     * To send a message to the server and file
-     * For the ClientMain
-     */
-    public synchronized void sendMessage(String msg) throws IOException {
-        sOutput.writeObject(msg);
-    }
-
 
     /**
      * a class that waits for the message from the server to append them in
@@ -101,7 +87,6 @@ public class Client2 {
             while (true) {
                 try {
                     String msg = (String) sInput.readObject();
-                    // if console mode print the message and add back the prompt
                     System.out.println(" -> " + msg);
                 } catch (IOException | ClassNotFoundException e) {
                     System.out.println("Server has close the connection: " + e);
