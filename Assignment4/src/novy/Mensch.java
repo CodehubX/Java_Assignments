@@ -25,10 +25,7 @@ public class Mensch {
      * @return Mensch was consumed
      */
     @Override public String toString() {
-        return "Mensch{" +
-            "name='" + name + '\'' +
-            ", age=" + age +
-            "} was consumed";
+        return "Mensch{" + "name='" + name + '\'' + ", age=" + age + "} was consumed";
     }
 
     /**

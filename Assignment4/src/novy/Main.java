@@ -25,14 +25,15 @@ public class Main {
 
 
         /*
-        2 Prod + 1 Consumer
+         * 2 Prod + 1 Consumer
          */
-        ExecutorService executorService = Executors.newFixedThreadPool(3);
+        ExecutorService executorService = Executors.newFixedThreadPool(4);
         executorService.execute(new Cleint_Prod(ms, server));
         executorService.execute(new Cleint_Prod(ms, server));
         executorService.execute(new Client_Cons(server));
-        executorService.shutdown();
+        executorService.execute(new Client_Cons(server));
 
+        executorService.shutdown();
 
 
     }
