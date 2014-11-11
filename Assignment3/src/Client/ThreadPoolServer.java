@@ -1,6 +1,9 @@
 package Client;
 
-import java.io.*;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 public class ThreadPoolServer extends CounterInter implements Runnable {
@@ -8,7 +11,7 @@ public class ThreadPoolServer extends CounterInter implements Runnable {
     public Socket socket;
     CounterInter ci = null;
     private ObjectInputStream sInput, ios;
-    private ObjectOutputStream sOutput, oos;
+    private ObjectOutputStream oos;
     private String answerLocal; //answer
 
     public ThreadPoolServer(Socket socket) {
@@ -16,11 +19,11 @@ public class ThreadPoolServer extends CounterInter implements Runnable {
         System.out.println("\nThreadpool created and assigned taks to do e.g. Object Input/Output Streams");
         try {
             // create output first
-            sOutput = new ObjectOutputStream(socket.getOutputStream());
+            //            sOutput = new ObjectOutputStream(socket.getOutputStream());
             sInput = new ObjectInputStream(socket.getInputStream());
 
             oos = new ObjectOutputStream(new FileOutputStream("answers.ser"));
-            ios = new ObjectInputStream(new FileInputStream("answers.ser"));
+            //            ios = new ObjectInputStream(new FileInputStream("answers.ser"));
 
         } catch (IOException e) {
             System.out.println("\nException creating new Input/output Streams: " + e);
@@ -45,7 +48,9 @@ public class ThreadPoolServer extends CounterInter implements Runnable {
             }
 
             try {
-                oos.writeObject("\n Client on the server (Sent msg to Client in file) " + ci.getId() + " voted as " + ci.getAnswer());
+                oos.writeUTF("\n Client on the server (Sent msg to Client in file) " + ci.getId() + " voted as " + ci.getAnswer());
+                oos.flush();
+                oos.close();
                 if (answerLocal.equals("ja")) {
                     counterJA++;
                 } else if (answerLocal.equals("nein")) {
@@ -66,7 +71,6 @@ public class ThreadPoolServer extends CounterInter implements Runnable {
 
     private void close() throws IOException {
         sInput.close();
-        sOutput.close();
         ios.close();
         oos.close();
     }
