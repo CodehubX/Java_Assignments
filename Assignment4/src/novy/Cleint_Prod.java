@@ -18,13 +18,12 @@ public class Cleint_Prod implements Runnable {
         this.sr = server;
         vzdalenyPC = (Prod_Con_Methods) Naming.lookup("rmi://localhost/PKP");
         System.out.println("Connection to the RMI was OK");
-
     }
 
 
     @Override public void run() {
         try {
-            sr.produce(ms);
+            vzdalenyPC.produce(ms);
             System.out.println("Mensch produced " + " current size of Server: " + sr.size());
         } catch (InterruptedException | RemoteException e) {
             e.printStackTrace();

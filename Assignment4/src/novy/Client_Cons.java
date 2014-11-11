@@ -26,7 +26,7 @@ public class Client_Cons implements Runnable {
 
     @Override public void run() {
         try {
-            Mensch consument = sr.consume();
+            Mensch consument = vzdalenyPC.consume();
             System.out.println(consument.toString() + " current size of Server: " + sr.size());
         } catch (InterruptedException | RemoteException e) {
             e.printStackTrace();

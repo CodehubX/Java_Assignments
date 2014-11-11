@@ -1,16 +1,14 @@
 package novy;
 
+import java.io.Serializable;
+
 /**
  * Mensch class is our produkt which produce and store
  */
-public class Mensch {
+public class Mensch implements Serializable {
 
     private String name;
     private int age;
-
-    public Mensch() {
-
-    }
 
     /**
      * @param age
@@ -27,6 +25,8 @@ public class Mensch {
     @Override public String toString() {
         return "Mensch{" + "name='" + name + '\'' + ", age=" + age + "} was consumed";
     }
+
+    public Mensch() {}
 
     /**
      * @return name
