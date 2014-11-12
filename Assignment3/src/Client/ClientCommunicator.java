@@ -13,7 +13,6 @@ public class ClientCommunicator {
     public ObjectOutputStream sOutput;    // to write on the socket
     public Socket socket;
     public int port = 8474;
-    StoreReturnValues srv = null;
 
     public ClientCommunicator() {
         uniqueKey = UUID.randomUUID();
@@ -22,7 +21,6 @@ public class ClientCommunicator {
 
     /**
      * Will call once ClientMain started
-     *
      * @throws IOException
      */
     public void connect() throws IOException {
@@ -37,11 +35,10 @@ public class ClientCommunicator {
 
         try {
             sOutput = new ObjectOutputStream(socket.getOutputStream());
-            System.out.println("input/output ist ok beim Client");
+            System.out.println("Input/Output ist ok beim Client");
         } catch (IOException eIO) {
             System.out.println("Exception creating new Input/output Streams: " + eIO);
         }
-
     }
 
     public void writeClient(String answer) throws IOException, InterruptedException {
@@ -52,18 +49,6 @@ public class ClientCommunicator {
     }
 
     public void clientsInformation() throws IOException, ClassNotFoundException {
-        System.out.println(ci.clientsAnswer());
+        System.out.println("nic");
     }
-
-
-    //            while (true) {
-    //                try {
-    //                    String msg = (String) sInput.readObject();
-    //                    System.out.println(" -> " + msg);
-    //                } catch (IOException | ClassNotFoundException e) {
-    //                    System.out.println("Server has close the connection: " + e);
-    //                    break;
-    //                }
-    //            }
-
 }

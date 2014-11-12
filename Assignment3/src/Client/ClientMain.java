@@ -11,14 +11,14 @@ public class ClientMain {
 
         ClientCommunicator client = new ClientCommunicator();
         client.connect();
+        System.out.println("\nYou will be answering a question. ");
 
         while (true) {
             try {
-                System.out.println("\nYou will be answering a question. ");
-                System.out.println("Choose from the menu - 1 is for input; 2 is for information");
+                System.out.println("Choose from the menu - 1 is for input; 2 is for statistics");
                 int menuChoice = sc.nextInt();
                 if (menuChoice == 1) {
-                    System.out.println("Please answer this question: Are you fan of Akta-X ? Only 'ja', 'maybe', 'nein'");
+                    System.out.println("Are you fan of Akta-X ? Only 'ja', 'maybe', 'nein'");
                     System.out.print("-> ");
 
                     String msg = sc.next();
@@ -26,7 +26,7 @@ public class ClientMain {
                     if (msg.equals("ja") || msg.equals("nein") || msg.equals("maybe")) {
                         client.writeClient(msg); //send message to server & CI
                     } else {
-                        System.out.println("Wrong answer; you will be disconnected");
+                        System.out.println("Wrong answer");
                         break;
                     }
                 } else if (menuChoice == 2) {

@@ -11,10 +11,7 @@ public class ServerStart {
     public static void main(String[] args) throws IOException {
         // the boolean that will be turned off to stop the server
         boolean keepGoing;
-
         ExecutorService ex = null;
-
-        // the port number to listen for connection
         int port = 8474;
 
         //        String tempFile = "C:\\Users\\jm\\Documents\\Homeworks5.git\\Assignment3\\answers.ser";
@@ -28,11 +25,9 @@ public class ServerStart {
 
         ServerSocket ser = new ServerSocket(port);
 
-        // we are waiting
         System.out.println("Server waiting for Clients on port " + port + ".");
 
         while (keepGoing) {
-
             Socket socket = ser.accept();    // accept connection
             System.out.println("Client connected to the Server - OK! But without clients ID, which will be passed with the answer");
 
@@ -45,7 +40,6 @@ public class ServerStart {
                 break;
             }
         }
-        // infinite loop to wait for connections
 
         // I was asked to stop
         try {
