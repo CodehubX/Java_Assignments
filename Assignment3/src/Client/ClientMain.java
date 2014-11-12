@@ -11,7 +11,7 @@ public class ClientMain {
 
         ClientCommunicator client = new ClientCommunicator();
         client.connect();
-        System.out.println("\nYou will be answering a question. ");
+        System.out.println("\nYou will be answering a question about a serial from 90's ");
 
         while (true) {
             try {

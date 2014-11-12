@@ -10,12 +10,13 @@ public class StoreReturnValues implements Serializable {
             oos.writeObject(ci);
             this.ci = returnci();
             if (ci.getAnswer().equals("ja")) {
-                System.out.println(ci.getAnswer());
+//                System.out.println(ci.getAnswer());
                 ci.setCounterJA(1);
             }
-            if (ci.answer.equals("nein")) {
+            if (ci.getAnswer().equals("nein")) {
                 ci.setCounterNEIN(1);
-            } else {
+            }
+            if (ci.getAnswer().equals("maybe")){
                 ci.setCounterMAYBE(1);
             }
             System.out.println("i have stored CI object in file");
