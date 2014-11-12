@@ -39,14 +39,4 @@ public class CounterInter implements Serializable {
         return "\n " + lbq.size() + " clients voted all in all as follows: \n Ja: " + counterJA + "\n Nein: " + counterNEIN + "\n maybe:" + counterMAYBE;
     }
 
-    public void setCounter() {
-
-        if (getAnswer().equals("ja")) {
-            this.counterJA++;
-        } else if (getAnswer().equals("nein")) {
-            this.counterNEIN++;
-        } else {
-            this.counterMAYBE++;
-        }
-    }
 }

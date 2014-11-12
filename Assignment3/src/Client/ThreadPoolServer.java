@@ -2,7 +2,6 @@ package Client;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 public class ThreadPoolServer implements Runnable {
@@ -12,7 +11,7 @@ public class ThreadPoolServer implements Runnable {
     CounterInter ci;
     StoreReturnValues srv;
     private ObjectInputStream sInput;
-    private ObjectOutputStream sOutput;
+    //    private ObjectOutputStream sOutput;
     //    private String answerLocal; //answer
 
     public ThreadPoolServer(Socket socket) {
@@ -20,7 +19,7 @@ public class ThreadPoolServer implements Runnable {
         System.out.println("\nThreadpool created and assigned taks to do e.g. Object Input/Output Streams");
         try {
             // create output first
-            sOutput = new ObjectOutputStream(socket.getOutputStream());
+            //            sOutput = new ObjectOutputStream(socket.getOutputStream());
             sInput = new ObjectInputStream(socket.getInputStream());
         } catch (IOException e) {
             System.out.println("\nException creating new Input/output Streams: " + e);
@@ -45,7 +44,4 @@ public class ThreadPoolServer implements Runnable {
         }
     }
 
-    private void close() throws IOException {
-        sInput.close();
-    }
 }

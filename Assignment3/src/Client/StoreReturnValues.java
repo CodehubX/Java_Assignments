@@ -1,8 +1,6 @@
 package Client;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
+import java.io.*;
 
 /**
  * Created by jm on 11/12/2014.
@@ -16,8 +14,23 @@ public class StoreReturnValues {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("answers.ser"))) {
             oos.writeObject(ci);
 
+            if (ci.getAnswer().equals("ja")) {
+                this.ci.counterJA++;
+            } else if (ci.getAnswer().equals("nein")) {
+                this.ci.counterNEIN++;
+            } else {
+                this.ci.counterMAYBE++;
+            }
         }
 
+    }
 
+    public CounterInter returnci() throws IOException {
+        try (ObjectInputStream ios = new ObjectInputStream(new FileInputStream("answers.ser"))) {
+            
+
+
+        }
+            return ci;
     }
 }
