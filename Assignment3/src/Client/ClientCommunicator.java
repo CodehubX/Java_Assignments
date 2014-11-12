@@ -51,10 +51,10 @@ public class ClientCommunicator {
         System.out.println("Clients  uniqueKey & answer finally send to the server. It's " + uniqueKey + " & your answer: (" + answer + ")");
     }
 
-   /* public void clientsInformation() throws IOException, ClassNotFoundException {
-        srv.returnci();
+    public void clientsInformation() throws IOException, ClassNotFoundException {
+        System.out.println(ci.clientsAnswer());
     }
-*/
+
 
     //            while (true) {
     //                try {

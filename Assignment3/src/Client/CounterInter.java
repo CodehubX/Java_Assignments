@@ -5,18 +5,13 @@ import java.util.UUID;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public class CounterInter implements Serializable {
-    int counterJA;
-    int counterMAYBE;
-    int counterNEIN;
+    int counterJA, counterMAYBE, counterNEIN;
     String answer;
     UUID id;
     LinkedBlockingQueue<UUID> lbq;
 
     public CounterInter() {
         lbq = new LinkedBlockingQueue<UUID>();
-        counterJA = 0;
-        counterMAYBE = 0;
-        counterNEIN = 0;
     }
 
     public String getAnswer() {
@@ -33,10 +28,6 @@ public class CounterInter implements Serializable {
         }
         this.id = id;
         this.answer = answer;
-    }
-
-    public String clientsAnswer() {
-        return "\n " + lbq.size() + " clients voted all in all as follows: \n Ja: " + counterJA + "\n Nein: " + counterNEIN + "\n maybe:" + counterMAYBE;
     }
 
 }

@@ -17,8 +17,7 @@ public class ThreadPoolServer implements Runnable {
         this.socket = socket;
         System.out.println("\nThreadpool created and assigned taks to do e.g. Object Input/Output Streams");
         try {
-            // create output first
-            //            sOutput = new ObjectOutputStream(socket.getOutputStream());
+
             sInput = new ObjectInputStream(socket.getInputStream());
             srv = new StoreReturnValues();
         } catch (IOException e) {

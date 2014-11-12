@@ -16,7 +16,8 @@ public class StoreReturnValues {
             oos.flush();
             if (ci.getAnswer().equals("ja")) {
                 this.ci.counterJA++;
-            } else if (ci.getAnswer().equals("nein")) {
+            }
+            if (ci.getAnswer().equals("nein")) {
                 this.ci.counterNEIN++;
             } else {
                 this.ci.counterMAYBE++;
@@ -29,7 +30,10 @@ public class StoreReturnValues {
         try (ObjectInputStream ios = new ObjectInputStream(new FileInputStream("answers.ser"))) {
 
             ci = (CounterInter) ios.readObject();
-            System.out.println(ci.clientsAnswer());
+            String msg = "\n " + ci.lbq.size() + " clients voted all in all as follows: \n Ja: " +
+                ci.counterJA + "\n Nein: " + ci.counterNEIN + "\n maybe:" + ci.counterMAYBE;
+
+            System.out.println(msg);
         }
         return ci;
     }
