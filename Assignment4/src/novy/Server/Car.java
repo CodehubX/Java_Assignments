@@ -3,9 +3,9 @@ package novy.Server;
 import java.io.Serializable;
 
 /**
- * Mensch class is our produkt which produce and store
+ * Car class is our produkt which produce and store
  */
-public class Mensch implements Serializable {
+public class Car implements Serializable {
 
     private String name;
     private int age;
@@ -14,19 +14,19 @@ public class Mensch implements Serializable {
      * @param age
      * @param name
      */
-    public Mensch(int age, String name) {
+    public Car(int age, String name) {
         this.age = age;
         this.name = name;
     }
 
     /**
-     * @return Mensch was consumed
+     * @return Car was consumed
      */
     @Override public String toString() {
-        return "Mensch{" + "name='" + name + '\'' + ", age=" + age + "} was consumed";
+        return "Car{" + "name='" + name + '\'' + ", age=" + age + "} was consumed";
     }
 
-    public Mensch() {}
+    public Car() {}
 
     /**
      * @return name

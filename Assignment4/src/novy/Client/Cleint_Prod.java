@@ -1,6 +1,6 @@
 package novy.Client;
 
-import novy.Server.Mensch;
+import novy.Server.Car;
 import novy.Server.Prod_Con_Methods;
 
 import java.net.MalformedURLException;
@@ -9,13 +9,13 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 
 /**
- * Client where Mensch is produced
+ * Client where Car is produced
  */
 public class Cleint_Prod implements Runnable {
-    Mensch ms;
+    Car ms;
     Prod_Con_Methods vzdalenyPC;
 
-    public Cleint_Prod(Mensch ms) throws RemoteException, NotBoundException, MalformedURLException {
+    public Cleint_Prod(Car ms) throws RemoteException, NotBoundException, MalformedURLException {
         this.ms = ms;
         vzdalenyPC = (Prod_Con_Methods) Naming.lookup("rmi://localhost/PKP");
         System.out.println("Connection to the RMI was OK");
@@ -25,7 +25,7 @@ public class Cleint_Prod implements Runnable {
     @Override public void run() {
         try {
             vzdalenyPC.produce(ms);
-            System.out.println("Mensch produced " + " current size of Server: " + vzdalenyPC.size());
+            System.out.println("Car produced " + " current size of Server: " + vzdalenyPC.size());
         } catch (InterruptedException | RemoteException e) {
             e.printStackTrace();
         }

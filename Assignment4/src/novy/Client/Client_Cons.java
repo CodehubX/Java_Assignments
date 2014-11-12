@@ -1,6 +1,6 @@
 package novy.Client;
 
-import novy.Server.Mensch;
+import novy.Server.Car;
 import novy.Server.Prod_Con_Methods;
 
 import java.net.MalformedURLException;
@@ -9,7 +9,7 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 
 /**
- * WHere client consumes Mensch
+ * WHere client consumes Car
  */
 public class Client_Cons implements Runnable {
     Prod_Con_Methods vzdalenyPC;
@@ -27,7 +27,7 @@ public class Client_Cons implements Runnable {
 
     @Override public void run() {
         try {
-            Mensch consument = vzdalenyPC.consume();
+            Car consument = vzdalenyPC.consume();
             System.out.println(consument.toString() + " current size of Server: " + vzdalenyPC.size());
         } catch (InterruptedException | RemoteException e) {
             e.printStackTrace();

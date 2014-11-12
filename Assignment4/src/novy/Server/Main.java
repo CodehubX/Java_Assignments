@@ -12,16 +12,18 @@ import java.rmi.registry.Registry;
 public class Main {
     public static void main(String[] args) throws InterruptedException, RemoteException, MalformedURLException, NotBoundException {
         // create Produkt where are going to consume, produce
-        Mensch ms = new Mensch(5, "Prvni");
+        Car ms = new Car(5, "ferrari");
         //Server connection
         Server server = new Server();
         // registrierung des Entfernen objekten in RMI Registry.
         Registry registry = LocateRegistry.createRegistry(Registry.REGISTRY_PORT);
         //                Registry registry = LocateRegistry.getRegistry("localhost", 1099);
-        registry.rebind("PKP", server);
+        registry.rebind("A4", server);
         // Naming.rebind("Counter", myCounter);
         System.out.println("Server started");
 
+        Thread.sleep(10);
+        registry.unbind("A4");
 
         /*
          * 2 Prod + 1 Consumer
