@@ -28,7 +28,7 @@ public class ThreadPoolServer implements Runnable {
                 ci = (CounterInter) sInput.readObject();
                 srv.store(ci);
             } catch (IOException | ClassNotFoundException e) {
-                System.out.println(" Exception reading Streams:  " + ci.getId() + " " + e.getMessage() + e.toString());
+                System.out.println(" Exception reading Streams:  " + ci.getId() + " " + e.getMessage() +" " + e.toString());
                 break;
             }
             //works
