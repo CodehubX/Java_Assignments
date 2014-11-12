@@ -8,12 +8,16 @@ public class CounterInter implements Serializable {
     int counterJA;
     int counterMAYBE;
     int counterNEIN;
+    boolean voted = false;
     String answer;
     UUID id;
     LinkedBlockingQueue<UUID> lbq;
 
     public CounterInter() {
         lbq = new LinkedBlockingQueue<UUID>();
+        counterJA = 0;
+        counterMAYBE = 0;
+        counterNEIN = 0;
     }
 
     public String getAnswer() {
@@ -24,23 +28,27 @@ public class CounterInter implements Serializable {
         return id;
     }
 
-    public void setUUIDandAnswer(UUID id, String answer) throws InterruptedException {
-        lbq.put(id);
+    public synchronized void setUUIDandAnswer(UUID id, String answer) throws InterruptedException {
+        if (lbq.peek() == id) {
+            lbq.put(id); // if the client votes again, then it can only be put in lbq once.
+        }
         this.id = id;
         this.answer = answer;
     }
 
     public String clientsAnswer() {
-        return "\n " + lbq.size() + " clients voted all in all as follows: \n Ja: " + this.counterJA + "\n Nein: " + counterNEIN + "\n maybe:" + counterMAYBE;
+        return "\n " + lbq.size() + " clients voted all in all as follows: \n Ja: " + counterJA + "\n Nein: " + counterNEIN + "\n maybe:" + counterMAYBE;
     }
 
     public void setCounter() {
-        if (answer.equals("ja")) {
-            System.out.println(counterJA+1);
-        } else if (answer.equals("nein")) {
-            System.out.println(counterNEIN+1);
+        voted = true;
+
+        if (getAnswer().equals("ja")) {
+            counterJA++;
+        } else if (getAnswer().equals("nein")) {
+            counterNEIN++;
         } else {
-            System.out.println(counterMAYBE+1);
+            counterMAYBE++;
         }
     }
 }

@@ -6,13 +6,14 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-public class ThreadPoolServer extends CounterInter implements Runnable {
+public class ThreadPoolServer implements Runnable {
     // the socket where to listen/talk
     public Socket socket;
-    CounterInter ci = null;
+    boolean voted = false;
+    CounterInter ci;
     private ObjectInputStream sInput, ios;
     private ObjectOutputStream sOutput, oos;
-    private String answerLocal; //answer
+    //    private String answerLocal; //answer
 
     public ThreadPoolServer(Socket socket) {
         this.socket = socket;
@@ -21,7 +22,6 @@ public class ThreadPoolServer extends CounterInter implements Runnable {
             // create output first
             sOutput = new ObjectOutputStream(socket.getOutputStream());
             sInput = new ObjectInputStream(socket.getInputStream());
-
             oos = new ObjectOutputStream(new FileOutputStream("answers.ser"));
             //            ios = new ObjectInputStream(new FileInputStream("answers.ser"));
 
@@ -40,26 +40,17 @@ public class ThreadPoolServer extends CounterInter implements Runnable {
                 //write recieved object to file
                 //                oos.writeObject(ci);
 
-                System.out.println("Client's ID is (Server Side)   " + ci.getId());
-                answerLocal = ci.getAnswer();
+                //                answerLocal = ci.getAnswer();
             } catch (IOException | ClassNotFoundException e) {
-                System.out.println(" Exception reading Streams:  " + id + " " + e);
+                System.out.println(" Exception reading Streams:  " + ci.getId() + " " + e);
                 break;
             }
 
-            try { //works
-                oos.writeUTF("\n Client on the server (Sent msg to Client in file) " + ci.getId() + " voted as " + ci.getAnswer());
-                ci.setCounter();
-                //                oos.flush();
-                oos.close(); // beinflust ob ich mehrmals antwort geben kann
-            } catch (IOException e1) {
-                e1.printStackTrace();
-                try {
-                    close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
+            //works
+            System.out.println("\n Client is on the server says " + ci.getId() + " voted as " + ci.getAnswer());
+            ci.setCounter();
+            //                oos.flush();
+            //                oos.close(); // beinflust ob ich mehrmals antwort geben kann
         }
     }
 

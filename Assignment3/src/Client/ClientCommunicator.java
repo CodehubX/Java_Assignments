@@ -32,7 +32,6 @@ public class ClientCommunicator {
             // try to connect to the server
             socket = new Socket(server, port);
         } catch (Exception ec) {
-            // if it failed not much I can so
             System.out.println("Error connectiong to server:" + ec);
         }
 
@@ -48,16 +47,16 @@ public class ClientCommunicator {
 
     }
 
-    public synchronized void writeClient(String answer) throws IOException, InterruptedException {
+    public void writeClient(String answer) throws IOException, InterruptedException {
         ci.setUUIDandAnswer(uniqueKey, answer);
         sOutput.writeObject(ci);
-        sOutput.flush();
+        //        sOutput.flush();
         System.out.println("Clients  uniqueKey & answer finally send to the server. It's " + uniqueKey + " & your answer: (" + answer + ")");
     }
 
     public void clientsInformation() throws IOException, ClassNotFoundException {
-        String rep = ios.readUTF();
-        System.out.println(rep);
+        //        String rep = ios.readUTF();
+        //        System.out.println(rep);
         System.out.println(ci.clientsAnswer());
     }
 
