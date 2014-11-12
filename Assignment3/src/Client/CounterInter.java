@@ -8,7 +8,6 @@ public class CounterInter implements Serializable {
     int counterJA;
     int counterMAYBE;
     int counterNEIN;
-    boolean voted = false;
     String answer;
     UUID id;
     LinkedBlockingQueue<UUID> lbq;
@@ -29,7 +28,7 @@ public class CounterInter implements Serializable {
     }
 
     public synchronized void setUUIDandAnswer(UUID id, String answer) throws InterruptedException {
-        if (lbq.peek() == id) {
+        if (lbq.peek() != id) {
             lbq.put(id); // if the client votes again, then it can only be put in lbq once.
         }
         this.id = id;
@@ -41,14 +40,13 @@ public class CounterInter implements Serializable {
     }
 
     public void setCounter() {
-        voted = true;
 
         if (getAnswer().equals("ja")) {
-            counterJA++;
+            this.counterJA++;
         } else if (getAnswer().equals("nein")) {
-            counterNEIN++;
+            this.counterNEIN++;
         } else {
-            counterMAYBE++;
+            this.counterMAYBE++;
         }
     }
 }
