@@ -24,11 +24,17 @@ public class ThreadPoolServer implements Runnable {
     public void run() {
         while (true) {
             try {
-                System.out.println("\nWaiting for clients input to write into file and console");
+                System.out.println("Waiting for clients input to write into file and console");
                 ci = (CounterInter) sInput.readObject();
+            } catch (IOException | ClassNotFoundException e) {
+                System.out.println("Exception reading Streams:  " + ci.getId() + " " + e.getMessage() + " " + e.toString());
+                break;
+            }
+
+            try {
                 srv.store(ci);
             } catch (IOException | ClassNotFoundException e) {
-                System.out.println(" Exception reading Streams:  " + ci.getId() + " " + e.getMessage() +" " + e.toString());
+                System.out.println("Exception write Streams to file:  " + ci.getId() + " " + e.getMessage() + " " + e.toString());
                 break;
             }
             //works
