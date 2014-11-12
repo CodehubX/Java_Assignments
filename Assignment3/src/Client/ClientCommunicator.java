@@ -52,8 +52,7 @@ public class ClientCommunicator {
     }
 
     public void clientsInformation() throws IOException, ClassNotFoundException {
-        //        String rep = ios.readUTF();
-        //        System.out.println(rep);
+
         System.out.println(ci.clientsAnswer());
     }
 

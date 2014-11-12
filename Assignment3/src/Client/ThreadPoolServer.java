@@ -20,8 +20,9 @@ public class ThreadPoolServer implements Runnable {
             // create output first
             //            sOutput = new ObjectOutputStream(socket.getOutputStream());
             sInput = new ObjectInputStream(socket.getInputStream());
+            srv= new StoreReturnValues();
         } catch (IOException e) {
-            System.out.println("\nException creating new Input/output Streams: " + e);
+            System.out.println("\nException creating new Input/Output Streams: " + e);
         }
     }
 
@@ -29,13 +30,16 @@ public class ThreadPoolServer implements Runnable {
         while (true) {
             try {
                 System.out.println("\nWaiting for clients input to write into file and console");
-                // read the the object of Client and his answers
-                String msg = sInput.readUTF();
-                System.out.println("test" + msg);
-                ci = (CounterInter) sInput.readObject();
+                try {
+                    ci = (CounterInter) sInput.readObject();
+                    System.out.println(ci.getAnswer() + " + " + ci.getId());
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+
                 srv.store(ci);
 
-            } catch (IOException | ClassNotFoundException e) {
+            } catch (IOException e) {
                 System.out.println(" Exception reading Streams:  " + ci.getId() + " " + e);
                 break;
             }
