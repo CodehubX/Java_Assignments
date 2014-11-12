@@ -9,10 +9,11 @@ public class ClientCommunicator {
 
     public CounterInter ci;
     public UUID uniqueKey;
-    private String server = "localhost";    // for I/O
-    private ObjectOutputStream sOutput;    // to write on the socket
-    private Socket socket;
-    private int port = 8474;
+    public String server = "localhost";    // for I/O
+    public ObjectOutputStream sOutput;    // to write on the socket
+    public Socket socket;
+    public int port = 8474;
+    StoreReturnValues srv = null;
 
     public ClientCommunicator() {
         uniqueKey = UUID.randomUUID();
@@ -36,7 +37,6 @@ public class ClientCommunicator {
 
         try {
             sOutput = new ObjectOutputStream(socket.getOutputStream());
-            //            ios = new ObjectInputStream(new FileInputStream("answers.ser"));
             System.out.println("input/output ist ok beim Client");
         } catch (IOException eIO) {
             System.out.println("Exception creating new Input/output Streams: " + eIO);
@@ -51,20 +51,10 @@ public class ClientCommunicator {
         System.out.println("Clients  uniqueKey & answer finally send to the server. It's " + uniqueKey + " & your answer: (" + answer + ")");
     }
 
-    public void clientsInformation() throws IOException, ClassNotFoundException {
-
-        System.out.println(ci.clientsAnswer());
+   /* public void clientsInformation() throws IOException, ClassNotFoundException {
+        srv.returnci();
     }
-
-    /**
-     * When something goes wrong
-     * Close the Input/Output streams and disconnect
-     */
-    public void disconnect() throws IOException {
-        sOutput.close();
-        socket.close();
-    }
-
+*/
 
     //            while (true) {
     //                try {

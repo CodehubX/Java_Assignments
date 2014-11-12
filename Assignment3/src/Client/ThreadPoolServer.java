@@ -20,7 +20,7 @@ public class ThreadPoolServer implements Runnable {
             // create output first
             //            sOutput = new ObjectOutputStream(socket.getOutputStream());
             sInput = new ObjectInputStream(socket.getInputStream());
-            srv= new StoreReturnValues();
+            srv = new StoreReturnValues();
         } catch (IOException e) {
             System.out.println("\nException creating new Input/Output Streams: " + e);
         }
@@ -38,8 +38,9 @@ public class ThreadPoolServer implements Runnable {
                 }
 
                 srv.store(ci);
+                srv.returnci();
 
-            } catch (IOException e) {
+            } catch (IOException | ClassNotFoundException e) {
                 System.out.println(" Exception reading Streams:  " + ci.getId() + " " + e);
                 break;
             }

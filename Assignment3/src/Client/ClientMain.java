@@ -27,15 +27,13 @@ public class ClientMain {
                         client.writeClient(msg); //send message to server & CI
                     } else {
                         System.out.println("Wrong answer; you will be disconnected");
-                        client.disconnect();
                         break;
                     }
                 } else if (menuChoice == 2) {
-                    client.clientsInformation();
+                    //                    client.clientsInformation();
                 }
             } catch (InputMismatchException e) {
                 System.out.println(e.getMessage() + " only number are allowed");
-                client.disconnect();
                 break;
             }
         }

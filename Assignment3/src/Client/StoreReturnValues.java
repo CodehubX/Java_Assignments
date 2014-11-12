@@ -8,7 +8,6 @@ import java.io.*;
 public class StoreReturnValues {
     CounterInter ci;
 
-
     public synchronized void store(CounterInter ci) throws IOException {
         this.ci = ci;
 
@@ -22,7 +21,7 @@ public class StoreReturnValues {
             } else {
                 this.ci.counterMAYBE++;
             }
-            System.out.println("i was there");
+            System.out.println("i have stored CI object in file");
         }
     }
 
@@ -30,7 +29,7 @@ public class StoreReturnValues {
         try (ObjectInputStream ios = new ObjectInputStream(new FileInputStream("answers.ser"))) {
 
             ci = (CounterInter) ios.readObject();
-
+            System.out.println(ci.clientsAnswer());
         }
         return ci;
     }

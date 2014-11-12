@@ -34,9 +34,6 @@ public class CounterInter implements Serializable {
         this.id = id;
         this.answer = answer;
     }
-    public String getUUIDandAnswer() {
-        return "" + id + " " + answer;
-    }
 
     public String clientsAnswer() {
         return "\n " + lbq.size() + " clients voted all in all as follows: \n Ja: " + counterJA + "\n Nein: " + counterNEIN + "\n maybe:" + counterMAYBE;
