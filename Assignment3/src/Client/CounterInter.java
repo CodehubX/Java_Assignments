@@ -48,11 +48,12 @@ public class CounterInter implements Serializable {
     }
 
     public void setUUIDandAnswer(UUID id, String answer) throws InterruptedException {
-        if (lbq.peek() != id) {
-            lbq.put(id); // if the client votes again, then it can only be put in lbq once.
-        }
+        lbq.put(id); // if the client votes again, then it can only be put in lbq once.
         this.id = id;
         this.answer = answer;
     }
 
+    public int sizeOfQueue() {
+        return lbq.size();
+    }
 }

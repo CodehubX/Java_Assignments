@@ -37,6 +37,8 @@ public class ThreadPoolServer implements Runnable {
                 System.out.println("Exception write Streams to file:  " + ci.getId() + " " + e.getMessage() + " " + e.toString());
                 break;
             }
+
+
             //works
             System.out.println("\n Client is on the server says " + ci.getId() + " voted as " + ci.getAnswer());
         }

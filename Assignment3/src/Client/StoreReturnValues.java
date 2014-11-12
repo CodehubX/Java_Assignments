@@ -5,22 +5,28 @@ import java.io.*;
 public class StoreReturnValues implements Serializable {
     CounterInter ci = new CounterInter();
 
+    /**
+     * Stores CI Object to write and later read from file
+     *
+     * @param ci
+     * @throws IOException
+     * @throws ClassNotFoundException
+     */
     public synchronized void store(CounterInter ci) throws IOException, ClassNotFoundException {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("answers.ser"))) {
             oos.writeObject(ci);
+            System.out.println("I have stored CI object in file");
             this.ci = returnci();
             if (ci.getAnswer().equals("ja")) {
-//                System.out.println(ci.getAnswer());
                 ci.setCounterJA(1);
             }
             if (ci.getAnswer().equals("nein")) {
                 ci.setCounterNEIN(1);
             }
-            if (ci.getAnswer().equals("maybe")){
+            if (ci.getAnswer().equals("maybe")) {
                 ci.setCounterMAYBE(1);
             }
-            System.out.println("i have stored CI object in file");
-            String msg = "\n " + ci.lbq.size() + " clients voted all in all as follows: \n Ja: " +
+            String msg = "\n " + ci.sizeOfQueue() + " clients voted all in all as follows: \n Ja: " +
                 ci.getCounterJA() + "\n Nein: " + ci.getCounterNEIN() + "\n Maybe: " + ci.getCounterMAYBE();
             System.out.println(msg);
             oos.flush();
@@ -37,10 +43,15 @@ public class StoreReturnValues implements Serializable {
         }
         try {
             ci = (CounterInter) ios.readObject();
-            System.out.println("I have read object from file");
+            System.out.print(" and I have read object from file");
         } catch (IOException | ClassNotFoundException e) {
             System.out.println("Exception to read Object from file:  " + ci.getId() + " " + e.getMessage() + " " + e.toString());
         }
         return ci;
     }
+
+//    public void statistics() {
+//        String msg = "\n " + ci.sizeOfQueue() + " clients voted all in all as follows: \n Ja: " +
+//            ci.getCounterJA() + "\n Nein: " + ci.getCounterNEIN() + "\n Maybe: " + ci.getCounterMAYBE();
+//    }
 }

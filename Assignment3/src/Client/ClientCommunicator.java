@@ -49,6 +49,6 @@ public class ClientCommunicator {
     }
 
     public void clientsInformation() throws IOException, ClassNotFoundException {
-        System.out.println("nic");
+        sOutput.writeInt(2);
     }
 }
