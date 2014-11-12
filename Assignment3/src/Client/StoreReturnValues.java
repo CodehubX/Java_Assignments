@@ -6,29 +6,28 @@ public class StoreReturnValues implements Serializable {
     CounterInter ci = new CounterInter();
 
     public synchronized void store(CounterInter ci) throws IOException, ClassNotFoundException {
-
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("answers.ser"))) {
             oos.writeObject(ci);
-//            this.ci = returnci();
+            this.ci = returnci();
             if (ci.getAnswer().equals("ja")) {
-                this.ci.counterJA++;
+                System.out.println(ci.getAnswer());
+                ci.setCounterJA(1);
             }
             if (ci.answer.equals("nein")) {
-                this.ci.counterNEIN++;
+                ci.setCounterNEIN(1);
             } else {
-                this.ci.counterMAYBE++;
+                ci.setCounterMAYBE(1);
             }
             System.out.println("i have stored CI object in file");
-            System.out.println("I have read object from file");
             String msg = "\n " + ci.lbq.size() + " clients voted all in all as follows: \n Ja: " +
-                ci.counterJA + "\n Nein: " + ci.counterNEIN + "\n Maybe:" + ci.counterMAYBE;
+                ci.getCounterJA() + "\n Nein: " + ci.getCounterNEIN() + "\n Maybe: " + ci.getCounterMAYBE();
             System.out.println(msg);
             oos.flush();
             oos.close();
         }
     }
 
-    public CounterInter returnci() {
+    private CounterInter returnci() {
         ObjectInputStream ios = null;
         try {
             ios = new ObjectInputStream(new FileInputStream("answers.ser"));
@@ -37,6 +36,7 @@ public class StoreReturnValues implements Serializable {
         }
         try {
             ci = (CounterInter) ios.readObject();
+            System.out.println("I have read object from file");
         } catch (IOException | ClassNotFoundException e) {
             System.out.println("Exception to read Object from file:  " + ci.getId() + " " + e.getMessage() + " " + e.toString());
         }
