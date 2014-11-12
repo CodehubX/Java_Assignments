@@ -7,10 +7,9 @@ import java.net.Socket;
 public class ThreadPoolServer implements Runnable {
     // the socket where to listen/talk
     public Socket socket;
-    boolean voted = false;
+    public ObjectInputStream sInput;
     CounterInter ci;
     StoreReturnValues srv;
-    private ObjectInputStream sInput;
     //    private ObjectOutputStream sOutput;
     //    private String answerLocal; //answer
 
@@ -31,6 +30,8 @@ public class ThreadPoolServer implements Runnable {
             try {
                 System.out.println("\nWaiting for clients input to write into file and console");
                 // read the the object of Client and his answers
+                String msg = sInput.readUTF();
+                System.out.println("test" + msg);
                 ci = (CounterInter) sInput.readObject();
                 srv.store(ci);
 

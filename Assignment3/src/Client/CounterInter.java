@@ -27,12 +27,15 @@ public class CounterInter implements Serializable {
         return id;
     }
 
-    public synchronized void setUUIDandAnswer(UUID id, String answer) throws InterruptedException {
+    public void setUUIDandAnswer(UUID id, String answer) throws InterruptedException {
         if (lbq.peek() != id) {
             lbq.put(id); // if the client votes again, then it can only be put in lbq once.
         }
         this.id = id;
         this.answer = answer;
+    }
+    public String getUUIDandAnswer() {
+        return "" + id + " " + answer;
     }
 
     public String clientsAnswer() {

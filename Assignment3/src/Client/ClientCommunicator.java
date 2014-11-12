@@ -1,8 +1,6 @@
 package Client;
 
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.UUID;
@@ -10,9 +8,8 @@ import java.util.UUID;
 public class ClientCommunicator {
 
     public CounterInter ci;
-    private UUID uniqueKey;
+    public UUID uniqueKey;
     private String server = "localhost";    // for I/O
-    private ObjectInputStream ios;    // to read from the socket
     private ObjectOutputStream sOutput;    // to write on the socket
     private Socket socket;
     private int port = 8474;
@@ -39,7 +36,7 @@ public class ClientCommunicator {
 
         try {
             sOutput = new ObjectOutputStream(socket.getOutputStream());
-            ios = new ObjectInputStream(new FileInputStream("answers.ser"));
+            //            ios = new ObjectInputStream(new FileInputStream("answers.ser"));
             System.out.println("input/output ist ok beim Client");
         } catch (IOException eIO) {
             System.out.println("Exception creating new Input/output Streams: " + eIO);
