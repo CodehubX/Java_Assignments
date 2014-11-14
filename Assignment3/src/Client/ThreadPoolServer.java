@@ -19,6 +19,7 @@ public class ThreadPoolServer implements Runnable {
         try {
             sInput = new ObjectInputStream(socket.getInputStream());
             srv = new StoreReturnValues();
+            ci = new CounterInter();
         } catch (IOException e) {
             System.out.println("\nException creating new Input/Output Streams: " + e);
         }
@@ -29,18 +30,15 @@ public class ThreadPoolServer implements Runnable {
             try {
                 System.out.println("Waiting for clients input to write into file and console");
                 answer = sInput.readUTF();
+//                System.out.println(answer);
                 id = (UUID) sInput.readObject();
-                System.out.println(id + answer);
-                //                ci = (CounterInter) sInput.readObject();
+//                System.out.println(id + answer);
+                ci.setUUIDandAnswer(id, answer);
+                System.out.println("answer and id has been saved in CI object");
             } catch (IOException e) {
                 System.out.println("Exception reading Streams (IOE or ClassNF):  " + ci.getId() + " " + e.getMessage() + " " + e.toString());
-                break;
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
-            }
-
-            try {
-                ci.setUUIDandAnswer(id, answer);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

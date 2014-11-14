@@ -7,7 +7,6 @@ import java.util.UUID;
 
 public class ClientCommunicator {
 
-    //    public CounterInter ci;
     public UUID uniqueKey;
     public String server = "localhost";    // for I/O
     public ObjectOutputStream sOutput;    // to write on the socket
@@ -16,7 +15,6 @@ public class ClientCommunicator {
 
     public ClientCommunicator() {
         uniqueKey = UUID.randomUUID();
-        //        ci = new CounterInter();
     }
 
     public void connect() throws IOException {
@@ -38,11 +36,9 @@ public class ClientCommunicator {
     }
 
     public void writeClient(String answer) throws IOException, InterruptedException {
-        //        ci.setUUIDandAnswer(uniqueKey, answer);
         sOutput.writeUTF(answer);
         sOutput.writeObject(uniqueKey);
-        //        sOutput.writeObject(ci);
-        //        sOutput.flush();
+        sOutput.flush();
         //        sOutput.close();
         System.out.println("Clients  uniqueKey & answer finally send to the server. It's " + uniqueKey + " & your answer: (" + answer + ")");
     }
