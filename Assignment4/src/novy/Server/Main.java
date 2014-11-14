@@ -9,15 +9,13 @@ import java.rmi.registry.Registry;
  */
 public class Main {
     public static void main(String[] args) throws RemoteException {
-        // create Produkt where are going to consume, produce
         Car ms = new Car(5, "ferrari");
         //Server connection
         Server server = new Server();
         // registrierung des Entfernen objekten in RMI Registry.
         Registry registry = LocateRegistry.createRegistry(Registry.REGISTRY_PORT);
-        //                Registry registry = LocateRegistry.getRegistry("localhost", 1099);
         registry.rebind("A4", server);
-        // Naming.rebind("Counter", myCounter);
+
         System.out.println("Server started");
 
 

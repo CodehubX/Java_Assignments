@@ -23,7 +23,7 @@ public class Car implements Serializable {
      * @return Car was consumed
      */
     @Override public String toString() {
-        return "Car{" + "name='" + name + '\'' + ", age=" + age + "} was consumed";
+        return "Car{" + "name='" + name + '\'' + ", age=" + age + "} was ";
     }
 
     public Car() {}
