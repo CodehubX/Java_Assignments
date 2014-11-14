@@ -1,8 +1,6 @@
-package Client;
+package Sockets;
 
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.UUID;
@@ -11,6 +9,7 @@ public class ClientCommunicator {
 
     public UUID uniqueKey;
     public String server = "localhost";    // for I/O
+//    public String server = "134.103.212.238";    // for I/O. localhost
     public ObjectOutputStream sOutput;
     //    public ObjectInputStream sInput;    // to write on the socket
     public Socket socket;
@@ -32,7 +31,7 @@ public class ClientCommunicator {
         try {
             sOutput = new ObjectOutputStream(socket.getOutputStream());
             //            sInput = new ObjectInputStream(socket.getInputStream());
-            System.out.println("Input/Output ist ok beim Client");
+            System.out.println("Input/Output ist ok beim Sockets");
         } catch (IOException eIO) {
             System.out.println("Exception creating new Input/output Streams: " + eIO);
         }
@@ -47,9 +46,9 @@ public class ClientCommunicator {
         System.out.println("Clients  uniqueKey & answer finally send to the server. It's " + uniqueKey + " & your answer: (" + answer + ")");
     }
 
-    public void clientsInformation() throws IOException, ClassNotFoundException {
-        ObjectInputStream ios = new ObjectInputStream(new FileInputStream("answers.ser"));
-        CounterInter msg = (CounterInter) ios.readObject();
-        System.out.println(msg.sizeOfQueue() + msg.getCounterJA() + msg.getAnswer());
-    }
+//    public void clientsInformation() throws IOException, ClassNotFoundException {
+//        ObjectInputStream ios = new ObjectInputStream(new FileInputStream("answers.ser"));
+//        CounterInter msg = (CounterInter) ios.readObject();
+//        System.out.println(msg.sizeOfQueue() + msg.getCounterJA() + msg.getAnswer());
+//    }
 }

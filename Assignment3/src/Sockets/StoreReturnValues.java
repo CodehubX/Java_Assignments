@@ -1,4 +1,4 @@
-package Client;
+package Sockets;
 
 import java.io.*;
 

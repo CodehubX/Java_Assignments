@@ -1,4 +1,4 @@
-package Client;
+package Sockets;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -48,14 +48,7 @@ public class ThreadPoolServer implements Runnable {
             } catch (IOException | ClassNotFoundException e) {
                 System.out.println("Exception write Streams to file:  " + ci.getId() + " " + e.getMessage() + " " + e.toString());
             }
-            System.out.println("\n Client is on the server says " + ci.getId() + " voted as " + ci.getAnswer());
-
-            //            try {
-            //                int zahl = sInput.readInt();
-            //                System.out.println(zahl);
-            //            } catch (IOException e) {
-            //                e.printStackTrace();
-            //            }
+            System.out.println("\n Sockets is on the server says " + ci.getId() + " voted as " + ci.getAnswer());
 
         }
     }

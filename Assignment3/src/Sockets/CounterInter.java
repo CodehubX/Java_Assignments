@@ -1,4 +1,4 @@
-package Client;
+package Sockets;
 
 import java.io.Serializable;
 import java.util.UUID;
@@ -48,7 +48,9 @@ public class CounterInter implements Serializable {
     }
 
     public void setUUIDandAnswer(UUID id, String answer) throws InterruptedException {
-        lbq.put(id); // if the client votes again, then it can only be put in lbq once.
+        if(!lbq.contains(id)) {
+            lbq.put(id); // if the client votes again, then it can only be put in lbq once.
+        }
         this.id = id;
         this.answer = answer;
     }

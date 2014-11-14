@@ -1,4 +1,4 @@
-package Client;
+package Sockets;
 
 import java.io.File;
 import java.io.IOException;
@@ -30,7 +30,7 @@ public class ServerStart {
 
         while (keepGoing) {
             Socket socket = ser.accept();    // accept connection
-            System.out.println("Client connected to the Server - OK! But without clients ID, which will be passed with the answer");
+            System.out.println("Sockets connected to the Server - OK! But without clients ID, which will be passed with the answer");
 
             ThreadPoolServer t = new ThreadPoolServer(socket);  // make a thread of it
             ex = Executors.newFixedThreadPool(10);
