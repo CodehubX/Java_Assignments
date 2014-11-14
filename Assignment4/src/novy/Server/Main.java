@@ -1,7 +1,5 @@
 package novy.Server;
 
-import java.net.MalformedURLException;
-import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -10,7 +8,7 @@ import java.rmi.registry.Registry;
  * Eigentlich ServerMain, der die Clients selber ausfuhrt
  */
 public class Main {
-    public static void main(String[] args) throws InterruptedException, RemoteException, MalformedURLException, NotBoundException {
+    public static void main(String[] args) throws RemoteException {
         // create Produkt where are going to consume, produce
         Car ms = new Car(5, "ferrari");
         //Server connection
@@ -22,8 +20,6 @@ public class Main {
         // Naming.rebind("Counter", myCounter);
         System.out.println("Server started");
 
-        Thread.sleep(10);
-        registry.unbind("A4");
 
         /*
          * 2 Prod + 1 Consumer
