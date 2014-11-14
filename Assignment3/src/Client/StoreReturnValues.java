@@ -34,6 +34,9 @@ public class StoreReturnValues implements Serializable {
         }
     }
 
+    /**
+     * @return
+     */
     private CounterInter returnci() {
         ObjectInputStream ios = null;
         try {
@@ -50,8 +53,9 @@ public class StoreReturnValues implements Serializable {
         return ci;
     }
 
-//    public void statistics() {
-//        String msg = "\n " + ci.sizeOfQueue() + " clients voted all in all as follows: \n Ja: " +
-//            ci.getCounterJA() + "\n Nein: " + ci.getCounterNEIN() + "\n Maybe: " + ci.getCounterMAYBE();
-//    }
+    public void statistics() {
+        String msg = "\n " + ci.sizeOfQueue() + " clients voted all in all as follows: \n Ja: " +
+            ci.getCounterJA() + "\n Nein: " + ci.getCounterNEIN() + "\n Maybe: " + ci.getCounterMAYBE();
+
+    }
 }
