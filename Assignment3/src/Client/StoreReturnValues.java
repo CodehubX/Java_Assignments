@@ -29,6 +29,7 @@ public class StoreReturnValues implements Serializable {
             String msg = "\n " + ci.sizeOfQueue() + " clients voted all in all as follows: \n Ja: " +
                 ci.getCounterJA() + "\n Nein: " + ci.getCounterNEIN() + "\n Maybe: " + ci.getCounterMAYBE();
             System.out.println(msg);
+            oos.writeUTF(msg);
             oos.flush();
             oos.close();
         }
@@ -53,9 +54,4 @@ public class StoreReturnValues implements Serializable {
         return ci;
     }
 
-    public void statistics() {
-        String msg = "\n " + ci.sizeOfQueue() + " clients voted all in all as follows: \n Ja: " +
-            ci.getCounterJA() + "\n Nein: " + ci.getCounterNEIN() + "\n Maybe: " + ci.getCounterMAYBE();
-
-    }
 }
