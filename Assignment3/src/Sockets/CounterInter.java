@@ -2,13 +2,14 @@ package Sockets;
 
 import java.io.Serializable;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public class CounterInter implements Serializable {
     String answer;
     UUID id;
     int counterJA, counterMAYBE, counterNEIN;
-
+    ConcurrentHashMap<UUID, String> chm;
     LinkedBlockingQueue<UUID> lbq;
 
     public CounterInter() {
@@ -53,6 +54,7 @@ public class CounterInter implements Serializable {
         }
         this.id = id;
         this.answer = answer;
+        chm.put(id, answer);
     }
 
     public int sizeOfQueue() {

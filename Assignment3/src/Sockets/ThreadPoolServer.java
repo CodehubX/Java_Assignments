@@ -49,6 +49,11 @@ public class ThreadPoolServer implements Runnable {
                 System.out.println("Exception write Streams to file:  " + ci.getId() + " " + e.getMessage() + " " + e.toString());
             }
             System.out.println("\n Sockets is on the server says " + ci.getId() + " voted as " + ci.getAnswer());
+            try {
+                sOutput.writeObject(ci);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
         }
     }
