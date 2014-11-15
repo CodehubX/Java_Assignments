@@ -15,7 +15,7 @@ public class ClientMain {
         System.out.println("\nYou are allowed to vote only once");
         while (true) {
             try {
-                System.out.println("Choose from the menu - 1 is for input; 2 is for statistics");
+                System.out.println("Choose from the menu - 1 is for input");
                 int menuChoice = sc.nextInt();
                 if (menuChoice == 1) {
                     System.out.println("Are you fan of Akta-X ? Only 'ja', 'maybe', 'nein'");
@@ -28,8 +28,8 @@ public class ClientMain {
                     } else {
                         System.out.println("Wrong answer");
                     }
-                } else if (menuChoice == 2) {
-                    client.clientsInformation();
+                    //                } else if (menuChoice == 2) {
+                    //                    client.clientsInformation();
                 }
             } catch (InputMismatchException e) {
                 System.out.println(e.getMessage() + " only number are allowed");

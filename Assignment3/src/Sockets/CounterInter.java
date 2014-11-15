@@ -3,25 +3,14 @@ package Sockets;
 import java.io.Serializable;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.LinkedBlockingQueue;
 
 public class CounterInter implements Serializable {
     String answer;
-    UUID id;
     int counterJA, counterMAYBE, counterNEIN;
     ConcurrentHashMap<UUID, String> chm;
-    LinkedBlockingQueue<UUID> lbq;
 
     public CounterInter() {
-        lbq = new LinkedBlockingQueue<UUID>();
-    }
-
-    public int getCounterJA() {
-        return counterJA;
-    }
-
-    public void setCounterJA(int counterJA) {
-        this.counterJA = +counterJA;
+        chm = new ConcurrentHashMap<UUID, String>();
     }
 
     public int getCounterMAYBE() {
@@ -30,6 +19,14 @@ public class CounterInter implements Serializable {
 
     public void setCounterMAYBE(int counterMAYBE) {
         this.counterMAYBE = +counterMAYBE;
+    }
+
+    public int getCounterJA() {
+        return counterJA;
+    }
+
+    public void setCounterJA(int counterJA) {
+        this.counterJA = +counterJA;
     }
 
     public int getCounterNEIN() {
@@ -44,21 +41,21 @@ public class CounterInter implements Serializable {
         return answer;
     }
 
-    public UUID getId() {
-        return id;
+    public String getAnswersMap() {
+        for (ConcurrentHashMap.Entry<UUID, String> entry : chm.entrySet()) {
+            System.out.printf("Key : %s and Value: %s %n", entry.getKey(), entry.getValue());
+        }
+        return "";
     }
 
-    public void setUUIDandAnswer(UUID id, String answer) throws InterruptedException {
-        if(!lbq.contains(id)) {
-            lbq.put(id); // if the client votes again, then it can only be put in lbq once.
-        }
-        this.id = id;
+    public void setUUIDandAnswer(String answer) throws InterruptedException {
+        chm.put(UUID.randomUUID(), answer);
         this.answer = answer;
-        chm.put(id, answer);
     }
 
     public int sizeOfQueue() {
-        return lbq.size();
+        return chm.size();
     }
+
 
 }

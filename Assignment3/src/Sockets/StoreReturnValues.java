@@ -29,13 +29,15 @@ public class StoreReturnValues implements Serializable {
             String msg = "\n " + ci.sizeOfQueue() + " clients voted all in all as follows: \n Ja: " +
                 ci.getCounterJA() + "\n Nein: " + ci.getCounterNEIN() + "\n Maybe: " + ci.getCounterMAYBE();
             System.out.println(msg);
-            oos.writeUTF(msg);
+            oos.writeUTF(msg);// store in plaintext
             oos.flush();
             oos.close();
         }
     }
 
     /**
+     * Hell
+     *
      * @return
      */
     private CounterInter returnci() {
@@ -49,7 +51,7 @@ public class StoreReturnValues implements Serializable {
             ci = (CounterInter) ios.readObject();
             System.out.print(" and I have read object from file");
         } catch (IOException | ClassNotFoundException e) {
-            System.out.println("Exception to read Object from file:  " + ci.getId() + " " + e.getMessage() + " " + e.toString());
+            System.out.println("Exception to read Object from file:  " + e.getMessage() + " " + e.toString());
         }
         return ci;
     }

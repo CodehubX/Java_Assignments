@@ -4,15 +4,13 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.util.UUID;
 
 public class ThreadPoolServer implements Runnable {
     public Socket socket;
     public ObjectInputStream sInput;
     public ObjectOutputStream sOutput;
     String answer;
-    CounterInter ci;
-    UUID id;
+    CounterInter ci = new CounterInter();
     StoreReturnValues srv;
 
     public ThreadPoolServer(Socket socket) {
@@ -23,7 +21,6 @@ public class ThreadPoolServer implements Runnable {
             sOutput = new ObjectOutputStream(socket.getOutputStream());
 
             srv = new StoreReturnValues();
-            ci = new CounterInter();
         } catch (IOException e) {
             System.out.println("\nException creating new Input/Output Streams: " + e);
         }
@@ -35,22 +32,20 @@ public class ThreadPoolServer implements Runnable {
                 System.out.println("Waiting for clients input to write into file and console");
                 answer = sInput.readUTF();
                 //                System.out.println(answer);
-                id = (UUID) sInput.readObject();
-                //                System.out.println(id + answer);
-                ci.setUUIDandAnswer(id, answer);
+                ci.setUUIDandAnswer(answer);
                 System.out.println("answer and id has been saved in CI object");
-            } catch (IOException | ClassNotFoundException | InterruptedException e) {
-                System.out.println("Exception reading Streams (IOE or ClassNF):  " + ci.getId() + " " + e.getMessage() + " " + e.toString());
+            } catch (IOException | InterruptedException e) {
+                System.out.println("Exception reading Streams (IOE or ClassNF):  " + " " + e.getMessage() + " " + e.toString());
             }
 
             try {
                 srv.store(ci);
             } catch (IOException | ClassNotFoundException e) {
-                System.out.println("Exception write Streams to file:  " + ci.getId() + " " + e.getMessage() + " " + e.toString());
+                System.out.println("Exception write Streams to file:  " + " " + e.getMessage() + " " + e.toString());
             }
-            System.out.println("\n Sockets is on the server says " + ci.getId() + " voted as " + ci.getAnswer());
+            System.out.println("\n Sockets is on the server voted as " + ci.getAnswer());
             try {
-                sOutput.writeObject(ci);
+                sOutput.writeUTF(ci.getAnswersMap());
             } catch (IOException e) {
                 e.printStackTrace();
             }

@@ -4,11 +4,9 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.util.UUID;
 
 public class ClientCommunicator {
 
-    public UUID uniqueKey;
     public String server = "localhost";    // for I/O
     //    public String server = "134.103.212.238";    // for I/O. localhost
     public ObjectOutputStream sOutput;
@@ -17,7 +15,6 @@ public class ClientCommunicator {
     public int port = 8474;
 
     public ClientCommunicator() {
-        uniqueKey = UUID.randomUUID();
     }
 
     public void connect() throws IOException {
@@ -40,15 +37,15 @@ public class ClientCommunicator {
 
     public void writeClient(String answer) throws IOException, InterruptedException {
         sOutput.writeUTF(answer);
-        sOutput.writeObject(uniqueKey);
+        //        sOutput.writeObject(uniqueKey);
         sOutput.flush();
         //        sOutput.close();
-        System.out.println("Clients  uniqueKey & answer finally send to the server. It's " + uniqueKey + " & your answer: (" + answer + ")");
+        System.out.println("Clients  uniqueKey & answer finally send to the server. It's " + " & your answer: (" + answer + ")");
     }
 
-    public void clientsInformation() throws IOException, ClassNotFoundException {
-        sInput = new ObjectInputStream(socket.getInputStream());
-        CounterInter msg = (CounterInter) sInput.readObject();
-        System.out.println("queue suze: " + msg.sizeOfQueue() + "answer: " + msg.getAnswer());
-    }
+//    public void clientsInformation() throws IOException, ClassNotFoundException {
+//        sInput = new ObjectInputStream(socket.getInputStream());
+//        String msg = sInput.readUTF();
+//        System.out.println("infor: " + msg);
+//    }
 }
