@@ -41,11 +41,10 @@ public class CounterInter implements Serializable {
         return answer;
     }
 
-    public String getAnswersMap() {
+    public void getAnswersMap() {
         for (ConcurrentHashMap.Entry<UUID, String> entry : chm.entrySet()) {
             System.out.printf("Key : %s and Value: %s %n", entry.getKey(), entry.getValue());
         }
-        return "";
     }
 
     public void setUUIDandAnswer(String answer) throws InterruptedException {

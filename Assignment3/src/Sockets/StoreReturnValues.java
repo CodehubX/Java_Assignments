@@ -15,7 +15,7 @@ public class StoreReturnValues implements Serializable {
     public synchronized void store(CounterInter ci) throws IOException, ClassNotFoundException {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("answers.ser"))) {
             oos.writeObject(ci);
-            System.out.println("I have stored CI object in file");
+            System.out.print("I have stored CI object in file");
             this.ci = returnci();
             if (ci.getAnswer().equals("ja")) {
                 ci.setCounterJA(1);
@@ -26,7 +26,7 @@ public class StoreReturnValues implements Serializable {
             if (ci.getAnswer().equals("maybe")) {
                 ci.setCounterMAYBE(1);
             }
-            String msg = "\n " + ci.sizeOfQueue() + " clients voted all in all as follows: \n Ja: " +
+            String msg = "\n\n " + ci.sizeOfQueue() + " clients voted all in all as follows: \n Ja: " +
                 ci.getCounterJA() + "\n Nein: " + ci.getCounterNEIN() + "\n Maybe: " + ci.getCounterMAYBE();
             System.out.println(msg);
             oos.writeUTF(msg);// store in plaintext

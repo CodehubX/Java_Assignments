@@ -11,7 +11,6 @@ public class ServerStart {
 
     public static void main(String[] args) throws IOException {
 
-
         int port = 8474;
 
         String tempFile = "C:\\Users\\jm\\Documents\\Homeworks5.git\\Assignment3\\answers.ser";
@@ -28,7 +27,7 @@ public class ServerStart {
 
         while (true) {
             Socket socket = ser.accept();    // accept connection
-            System.out.println("Sockets connected to the Server - OK! But without clients ID, which will be passed with the answer");
+            System.out.println("\nSockets connected to the Server - OK! But without clients ID, which will be passed with the answer");
 
             ThreadPoolServer t = new ThreadPoolServer(socket);  // make a thread of it
             ex.submit(t);

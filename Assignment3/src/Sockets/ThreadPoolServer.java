@@ -15,7 +15,9 @@ public class ThreadPoolServer implements Runnable {
 
     public ThreadPoolServer(Socket socket) {
         this.socket = socket;
-        System.out.println("\nThreadpool created and assigned taks to do e.g. Object Input/Output Streams");
+        System.out.println("Threadpool created and assigned taks to do e.g. Object Input/Output Streams");
+        System.out.println("Waiting for clients input to write into file and console \n");
+
         try {
             sInput = new ObjectInputStream(socket.getInputStream());
             sOutput = new ObjectOutputStream(socket.getOutputStream());
@@ -27,35 +29,41 @@ public class ThreadPoolServer implements Runnable {
     }
 
     public void run() {
-        while (true) {
-            try {
-                System.out.println("Waiting for clients input to write into file and console");
+        try {
+            while (true) {
                 answer = sInput.readUTF();
                 //                System.out.println(answer);
                 ci.setUUIDandAnswer(answer);
                 System.out.println("answer and id has been saved in CI object");
-            } catch (IOException | InterruptedException e) {
-                System.out.println("Exception reading Streams (EOF or ClassNF):  " + " " + e.getMessage() + " " + e.toString());
-                try {
-                    sInput.close();
-                } catch (IOException e1) {
-                    e1.printStackTrace();
-                }
+                break;
             }
-
-            try {
-                srv.store(ci);
-            } catch (IOException | ClassNotFoundException e) {
-                System.out.println("Exception write Streams to file:  " + " " + e.getMessage() + " " + e.toString());
-            }
-            //            System.out.println("\n Sockets is on the server voted as " + ci.getAnswer());
-            try {
-                sOutput.writeUTF(ci.getAnswersMap());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
+        } catch (IOException | InterruptedException e) {
+            System.out.println("Exception reading Streams (EOF or ClassNF):  " + e.toString());
         }
-    }
 
+        try {
+            srv.store(ci);
+        } catch (IOException | ClassNotFoundException e) {
+            System.out.println("Exception write Streams to file:  " + e.toString());
+        }
+        //            System.out.println("\n Sockets is on the server voted as " + ci.getAnswer());
+        ci.getAnswersMap();
+
+        try {
+            sOutput.writeObject("Your answer which server had to work with were : " + ci.getAnswer() + ci.sizeOfQueue());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        //        try {
+        //            socket.shutdownInput();
+        //            socket.shutdownOutput();
+        //            socket.close();
+        //        } catch (IOException e) {
+        //            e.toString();
+        //            e.printStackTrace();
+        //        }
+    }
 }
+
+

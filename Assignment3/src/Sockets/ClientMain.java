@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 public class ClientMain {
 
-    public static void main(String[] args) throws IOException, InterruptedException {
+    public static void main(String[] args) throws IOException, InterruptedException, ClassNotFoundException {
         boolean voted = true;
         Scanner sc = new Scanner(System.in);
 
@@ -29,6 +29,7 @@ public class ClientMain {
                     } else {
                         System.out.println("Wrong answer");
                     }
+                    client.readRemoteAnswerFromClientsStat();
                 }
                 voted=false;
             } catch (InputMismatchException e) {
