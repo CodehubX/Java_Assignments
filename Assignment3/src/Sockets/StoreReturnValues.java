@@ -38,7 +38,7 @@ public class StoreReturnValues implements Serializable {
     /**
      * Hell
      *
-     * @return
+     * @return read
      */
     private CounterInter returnci() {
         ObjectInputStream ios = null;

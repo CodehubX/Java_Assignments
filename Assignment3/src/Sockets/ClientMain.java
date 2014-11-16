@@ -6,14 +6,15 @@ import java.util.Scanner;
 
 public class ClientMain {
 
-    public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
+    public static void main(String[] args) throws IOException, InterruptedException {
+        boolean voted = true;
         Scanner sc = new Scanner(System.in);
 
         ClientCommunicator client = new ClientCommunicator();
         client.connect();
         System.out.println("\nYou will be answering a question about a serial from 90's ");
         System.out.println("\nYou are allowed to vote only once");
-        while (true) {
+        while (voted) {
             try {
                 System.out.println("Choose from the menu - 1 is for input");
                 int menuChoice = sc.nextInt();
@@ -28,12 +29,14 @@ public class ClientMain {
                     } else {
                         System.out.println("Wrong answer");
                     }
-                    //                } else if (menuChoice == 2) {
-                    //                    client.clientsInformation();
                 }
+                voted=false;
             } catch (InputMismatchException e) {
                 System.out.println(e.getMessage() + " only number are allowed");
             }
+        }
+        if(voted==false) {
+            System.out.println("You cannot vote twice");
         }
     }
 }

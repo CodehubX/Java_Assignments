@@ -1,7 +1,6 @@
 package Sockets;
 
 import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
@@ -10,7 +9,7 @@ public class ClientCommunicator {
     public String server = "localhost";    // for I/O
     //    public String server = "134.103.212.238";    // for I/O. localhost
     public ObjectOutputStream sOutput;
-    public ObjectInputStream sInput;    // to write on the socket
+    //    public ObjectInputStream sInput;    // to write on the socket
     public Socket socket;
     public int port = 8474;
 
@@ -40,12 +39,7 @@ public class ClientCommunicator {
         //        sOutput.writeObject(uniqueKey);
         sOutput.flush();
         //        sOutput.close();
-        System.out.println("Clients  uniqueKey & answer finally send to the server. It's " + " & your answer: (" + answer + ")");
+        System.out.println("Clients  uniqueKey & answer finally send to the server. Your answer: (" + answer + ")");
     }
 
-//    public void clientsInformation() throws IOException, ClassNotFoundException {
-//        sInput = new ObjectInputStream(socket.getInputStream());
-//        String msg = sInput.readUTF();
-//        System.out.println("infor: " + msg);
-//    }
 }

@@ -8,9 +8,9 @@ import java.net.Socket;
 public class ThreadPoolServer implements Runnable {
     public Socket socket;
     public ObjectInputStream sInput;
-    public ObjectOutputStream sOutput;
+    public ObjectOutputStream sOutput; // to write stat. to file
     String answer;
-    CounterInter ci = new CounterInter();
+    CounterInter ci;
     StoreReturnValues srv;
 
     public ThreadPoolServer(Socket socket) {
@@ -19,7 +19,7 @@ public class ThreadPoolServer implements Runnable {
         try {
             sInput = new ObjectInputStream(socket.getInputStream());
             sOutput = new ObjectOutputStream(socket.getOutputStream());
-
+            ci = new CounterInter();
             srv = new StoreReturnValues();
         } catch (IOException e) {
             System.out.println("\nException creating new Input/Output Streams: " + e);
@@ -35,7 +35,12 @@ public class ThreadPoolServer implements Runnable {
                 ci.setUUIDandAnswer(answer);
                 System.out.println("answer and id has been saved in CI object");
             } catch (IOException | InterruptedException e) {
-                System.out.println("Exception reading Streams (IOE or ClassNF):  " + " " + e.getMessage() + " " + e.toString());
+                System.out.println("Exception reading Streams (EOF or ClassNF):  " + " " + e.getMessage() + " " + e.toString());
+                try {
+                    sInput.close();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
             }
 
             try {
@@ -43,7 +48,7 @@ public class ThreadPoolServer implements Runnable {
             } catch (IOException | ClassNotFoundException e) {
                 System.out.println("Exception write Streams to file:  " + " " + e.getMessage() + " " + e.toString());
             }
-            System.out.println("\n Sockets is on the server voted as " + ci.getAnswer());
+            //            System.out.println("\n Sockets is on the server voted as " + ci.getAnswer());
             try {
                 sOutput.writeUTF(ci.getAnswersMap());
             } catch (IOException e) {

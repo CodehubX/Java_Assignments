@@ -57,5 +57,4 @@ public class CounterInter implements Serializable {
         return chm.size();
     }
 
-
 }
