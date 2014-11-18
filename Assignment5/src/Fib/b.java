@@ -58,7 +58,6 @@ public class b {
         String response = null;
         try {
             fibonacciRpc = new b();
-
             System.out.println(" [x] Requesting fib(30)");
             response = fibonacciRpc.call("30");
             System.out.println(" [.] Got '" + response + "'");
