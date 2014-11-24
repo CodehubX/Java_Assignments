@@ -16,21 +16,35 @@ public class User {
     public int userID;
     public Timestamp tm;
 
-    public User() throws KeyManagementException, NoSuchAlgorithmException, URISyntaxException, IOException {
+    public User() throws URISyntaxException, IOException, NoSuchAlgorithmException, KeyManagementException {
         connector = new Connector();
         this.ch = connector.getChannel();
+
+        //Returns a hash code value for the object.
         userID = this.hashCode();
+
+        //Returns the number of milliseconds represented by this Date object.
         tm = new Timestamp(Calendar.getInstance().getTime().getTime());
 
     }
 
+    /**
+     * @throws IOException
+     * @throws InterruptedException
+     * @link https://www.rabbitmq.com/tutorials/tutorial-three-java.html
+     */
     public void consume() throws IOException, InterruptedException {
+        // when we supply no parameters to queueDeclare() we create a non-durable, exclusive, autodelete queue with a generated name:
         String queueName = ch.queueDeclare().getQueue();
 
         ch.exchangeDeclare("chat", "fanout");
-        //        ch.queueDeclare("chatroom", false, false, false, null);
+        //From now on the chat exchange will append messages to our generated queue.
         ch.queueBind(queueName, "chat", "");
 
+        /**
+         * is deprecated but easier to do.
+         * "Convenience class: an implementation of Consumer with straightforward <b>blocking</b> semantics."
+         */
         QueueingConsumer consumer = new QueueingConsumer(ch);
         ch.basicConsume(queueName, true, consumer);
 
