@@ -22,6 +22,11 @@ public class Connector {
         connection = factory.newConnection();
         //creating a channel
         channel = connection.createChannel();
+
+        //        channel.queueDeclare("chatroom", false, false, false, null);
+        channel.exchangeDeclare("chat", "fanout");
+        //        channel.queueBind("chatroom", "chat", "");
+
     }
 
     public Connection getConnection() {

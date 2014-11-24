@@ -18,14 +18,14 @@ public class ReceiverThread implements Runnable {
     }
 
     public void run() {
-        QueueingConsumer.Delivery delivery;
+        //        QueueingConsumer.Delivery delivery;
         try {
             while (true) {
-                delivery = consumer.nextDelivery();
+                QueueingConsumer.Delivery delivery = consumer.nextDelivery();
                 String message = new String(delivery.getBody());
-                String userID = message.split(":")[0];
+                //                String userID = message.split(":")[0];
                 //                userID.equalsIgnoreCase(String.valueOf(this.userID));
-                System.out.println(tm.toString() + "::::" + consumer.getConsumerTag() + ":'" + message + "'");
+                System.out.println(tm.toString() + "::::" + consumer.getConsumerTag() + "::::'" + message + "'");
             }
         } catch (InterruptedException e) {
             e.printStackTrace();

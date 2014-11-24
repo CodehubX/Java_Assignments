@@ -6,20 +6,23 @@ import java.io.InputStreamReader;
 import java.net.URISyntaxException;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
+import java.util.Scanner;
 
 /**
  * Inspired by https://github.com/zi-yang-zhang/Simple-Java-RabbitMQ-Chat
  * Thank you
  */
 public class Main {
-    public static void main(String[] args) throws IOException, NoSuchAlgorithmException, KeyManagementException, URISyntaxException {
-        User user = new User();
+    public static void main(String[] args) throws IOException, NoSuchAlgorithmException, KeyManagementException, URISyntaxException, InterruptedException {
+        User user1 = new User();
+        User user2 = new User();
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        Scanner sc = new Scanner(System.in);
         while (true) {
-            BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
             System.out.println("Enter Message: ");
-            String msg = reader.readLine();
-            user.publish(msg);
-            user.consume();
+            user2.consume();
+            String msg = sc.next();
+            user1.publish(msg);
         }
     }
 }
