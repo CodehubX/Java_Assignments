@@ -25,15 +25,15 @@ public class ChatClient {
         factory.setUri("amqp://test:test@b40.cz:5672");
         Connection connection = factory.newConnection();
         Channel channel = connection.createChannel();
-        channel.exchangeDeclare("chat", "fanout");
-        channel.queueDeclare(ExchangevarNameQue, false, false, false, null);
-        Consumer consumer;
+        channel.exchangeDeclare("my-queueEx", "topic");
+        channel.queueDeclare("my-queueEx", false, false, false, null);
+//        Consumer consumer;
 
         while (true) {
             String yourmsg = sc.next();
-            channel.basicPublish("chat", "", null, yourmsg.getBytes());
-            consumer = new Consumer();
-            consumer.returnMessage();
+            channel.basicPublish("my-queueEx", "", null, yourmsg.getBytes());
+//            consumer = new Consumer();
+//            consumer.returnMessage();
         }
 
 
