@@ -42,8 +42,7 @@ public class Publisher {
 
     public void process() throws JMSException {
         TopicConnection connection = factory.createTopicConnection(USER, PASSWORD);
-        TopicSession session = connection.createTopicSession(
-            false, Session.AUTO_ACKNOWLEDGE);
+        TopicSession session = connection.createTopicSession(false, Session.AUTO_ACKNOWLEDGE);
         TopicPublisher publisher = session.createPublisher(topic);
 
         SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
