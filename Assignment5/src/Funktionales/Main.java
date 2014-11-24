@@ -12,11 +12,14 @@ import java.util.Scanner;
  * Each Run has both subscriber and publisher
  */
 public class Main {
+
     public static void main(String[] args) throws URISyntaxException, IOException, NoSuchAlgorithmException, KeyManagementException, InterruptedException {
+        Scanner sc = new Scanner(System.in);
         User user1 = new User();
+        System.out.println("Your Name of the chat user");
+        user1.setName(sc.next());
         User user2 = new User();
 
-        Scanner sc = new Scanner(System.in);
         while (true) {
             System.out.println("Enter Message: ");
             user2.consume();
@@ -24,4 +27,5 @@ public class Main {
             user1.publish(msg);
         }
     }
+
 }

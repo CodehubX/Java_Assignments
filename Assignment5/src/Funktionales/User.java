@@ -7,25 +7,24 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
-import java.sql.Timestamp;
-import java.util.Calendar;
 
 public class User {
     public Connector connector;
     public Channel ch;
-    public int userID;
-    public Timestamp tm;
+    //    public Timestamp tm;
+    public String name;
 
     public User() throws URISyntaxException, IOException, NoSuchAlgorithmException, KeyManagementException {
         connector = new Connector();
         this.ch = connector.getChannel();
 
-        //Returns a hash code value for the object.
-        userID = this.hashCode();
-
         //Returns the number of milliseconds represented by this Date object.
-        tm = new Timestamp(Calendar.getInstance().getTime().getTime());
+        //        tm = new Timestamp(Calendar.getInstance().getTime().getTime());
 
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     /**
@@ -48,14 +47,23 @@ public class User {
         QueueingConsumer consumer = new QueueingConsumer(ch);
         ch.basicConsume(queueName, true, consumer);
 
-        ReceiverThread receiverThread = new ReceiverThread(consumer, userID);
+        ReceiverThread receiverThread = new ReceiverThread(consumer);
         Thread th = new Thread(receiverThread);
         th.start();
     }
 
-
+    /**
+     * @param msg
+     * @throws IOException
+     */
     public void publish(String msg) throws IOException {
-        msg = String.valueOf(userID) + ":" + msg;
+        msg = name + " says " + " --> " + msg;
         ch.basicPublish("chat", "", null, msg.getBytes());
     }
+
+
+
 }
+
+
+
