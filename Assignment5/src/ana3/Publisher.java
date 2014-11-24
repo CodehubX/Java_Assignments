@@ -35,6 +35,11 @@ public class Publisher {
         topic = (Topic) ctx.lookup(DESTINATION);
     }
 
+    public static void main(String[] args) throws Exception {
+        Publisher pub = new Publisher();
+        pub.process();
+    }
+
     public void process() throws JMSException {
         TopicConnection connection = factory.createTopicConnection(USER, PASSWORD);
         TopicSession session = connection.createTopicSession(
@@ -54,10 +59,5 @@ public class Publisher {
             } catch (InterruptedException e) {
             }
         }
-    }
-
-    public static void main(String[] args) throws Exception {
-        Publisher pub = new Publisher();
-        pub.process();
     }
 }

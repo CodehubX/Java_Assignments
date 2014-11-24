@@ -30,6 +30,14 @@ public class Subscriber implements MessageListener {
         topic = (Topic) ctx.lookup(DESTINATION);
     }
 
+    public static void main(String[] args) throws Exception {
+        long time = Long.parseLong("20000");
+        Subscriber sub = new Subscriber();
+        sub.subscribe();
+        Thread.sleep(time);
+        sub.close();
+    }
+
     public void subscribe() throws JMSException {
         connection = factory.createTopicConnection(USER, PASSWORD);
         session = connection.createTopicSession(false, Session.AUTO_ACKNOWLEDGE);
@@ -55,13 +63,5 @@ public class Subscriber implements MessageListener {
         } catch (JMSException e) {
             System.err.println(e);
         }
-    }
-
-    public static void main(String[] args) throws Exception {
-        long time = Long.parseLong("20000");
-        Subscriber sub = new Subscriber();
-        sub.subscribe();
-        Thread.sleep(time);
-        sub.close();
     }
 }

@@ -75,11 +75,8 @@ public class SimpleTopicPublisher {
          * Finally, close connection.
          */
         try {
-            topicConnection =
-                topicConnectionFactory.createTopicConnection();
-            topicSession =
-                topicConnection.createTopicSession(false,
-                    Session.AUTO_ACKNOWLEDGE);
+            topicConnection = topicConnectionFactory.createTopicConnection();
+            topicSession = topicConnection.createTopicSession(false, Session.AUTO_ACKNOWLEDGE);
             topicPublisher = topicSession.createPublisher(topic);
             message = topicSession.createTextMessage();
             for (int i = 0; i < NUM_MSGS; i++) {

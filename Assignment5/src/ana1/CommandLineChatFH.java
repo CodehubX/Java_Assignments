@@ -1,4 +1,4 @@
-package ver1;
+package ana1;
 
 import javax.jms.*;
 import javax.naming.Context;
@@ -26,6 +26,16 @@ public class CommandLineChatFH implements javax.jms.MessageListener {
             commandLineChat.subscribe(topicConnection, topic, commandLineChat);
             commandLineChat.publisch(topicConnection, topic, username);
         }
+    }
+
+    public static Context getInitialContext() throws NamingException {
+        Properties props = new Properties();
+        props.put("java.naming.factory.initial", "org.jnp.interfaces.NamingContextFactory");
+        props.put("java.naming.provider.url", "jnp://infpro52.reutlingen-university.de:1099");
+        props.put("java.naming.factory.url.pkgs", "org.jboss.naming:org.jnp.interfaces");
+        props.put("jnp.socket.Factory", "org.jnp.interfaces.TimedSocketFactory");
+        Context context = new InitialContext(props);
+        return context;
     }
 
     public void onMessage(Message message) {
@@ -62,16 +72,6 @@ public class CommandLineChatFH implements javax.jms.MessageListener {
                 topicPublisher.publish(message);
             }
         }
-    }
-
-    public static Context getInitialContext() throws NamingException {
-        Properties props = new Properties();
-        props.put("java.naming.factory.initial", "org.jnp.interfaces.NamingContextFactory");
-        props.put("java.naming.provider.url", "jnp://infpro52.reutlingen-university.de:1099");
-        props.put("java.naming.factory.url.pkgs", "org.jboss.naming:org.jnp.interfaces");
-        props.put("jnp.socket.Factory", "org.jnp.interfaces.TimedSocketFactory");
-        Context context = new InitialContext(props);
-        return context;
     }
 
 

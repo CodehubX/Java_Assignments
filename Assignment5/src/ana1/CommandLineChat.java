@@ -28,6 +28,16 @@ public class CommandLineChat implements javax.jms.MessageListener {
         }
     }
 
+    public static Context getInitialContext() throws NamingException {
+        Properties props = new Properties();
+        props.put("java.naming.factory.initial", "org.jnp.interfaces.NamingContextFactory");
+        props.put("java.naming.provider.url", "jnp://localhost:1099");
+        props.put("java.naming.factory.url.pkgs", "org.jboss.naming:org.jnp.interfaces");
+        props.put("jnp.socket.Factory", "org.jnp.interfaces.TimedSocketFactory");
+        Context context = new InitialContext(props);
+        return context;
+    }
+
     public void onMessage(Message message) {
         try {
             System.out.println(((TextMessage) message).getText());
@@ -62,16 +72,6 @@ public class CommandLineChat implements javax.jms.MessageListener {
                 topicPublisher.publish(message);
             }
         }
-    }
-
-    public static Context getInitialContext() throws NamingException {
-        Properties props = new Properties();
-        props.put("java.naming.factory.initial", "org.jnp.interfaces.NamingContextFactory");
-        props.put("java.naming.provider.url", "jnp://localhost:1099");
-        props.put("java.naming.factory.url.pkgs", "org.jboss.naming:org.jnp.interfaces");
-        props.put("jnp.socket.Factory", "org.jnp.interfaces.TimedSocketFactory");
-        Context context = new InitialContext(props);
-        return context;
     }
 
 
