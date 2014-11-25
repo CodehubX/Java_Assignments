@@ -10,3 +10,11 @@
 > Für diese Aufgabe 4 ist für den verteilten Programmieransatz RMI zu nehmen.
 > 
 > Die Abnahme des Programms erfolgt nach Absprache mit mir, zur Vorführung des lauffähigen Programms sollen mehrere Rechner eingesetzt werden. 
+
+
+
+- - -
+
+This is pretty easy chat application with RabbitMQ. 
+PS: You can only access the domain behind VPN, so you will need to change that anyway. 
+

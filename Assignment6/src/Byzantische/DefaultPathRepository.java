@@ -76,7 +76,7 @@ public class DefaultPathRepository implements PathRepository {
         path += toCharString(source);
         getRankList(rank, source).add(path);
 
-        //
+
         if (rank < configuration.getRoundsOfMessages()) {
             for (int i = 0; i < ids.length; i++) {
                 if (!ids[i]) {
@@ -88,7 +88,7 @@ public class DefaultPathRepository implements PathRepository {
             }
         }
 
-        //
+
         if (debug) {
             System.out.print("generateChildren(" + source + "," + rank + "," + path + "), children = ");
             List<String> list = getPathChildren(path);
@@ -100,7 +100,7 @@ public class DefaultPathRepository implements PathRepository {
     }
 
 
-    //
+
     private char toChar(int n) {
         return (char) (n + '0');
     }

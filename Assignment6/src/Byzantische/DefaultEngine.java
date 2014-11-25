@@ -36,9 +36,7 @@ public class DefaultEngine implements Engine, Broadcaster {
     public void broadcast(int round, int id, Node source, String path) {
         for (int j = 0; j < configuration.getNumberOfProcesses(); j++) {
             if (j != configuration.getSource()) {
-                Value value = strategy.getValue(source.input, id,
-                    j,
-                    path);
+                Value value = strategy.getValue(source.input, id, j, path);
                 if (debug) {
                     String sourcePath = path.substring(0, path.length() - 1);
                     System.out.println("Sending for round " + round + " from process " + id + " to " + j + ": {" + value +
