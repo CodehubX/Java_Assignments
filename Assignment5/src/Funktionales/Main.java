@@ -18,11 +18,10 @@ public class Main {
         User user1 = new User();
         System.out.println("Your Name of the chat user");
         user1.setName(sc.next());
-        User user2 = new User();
+        user1.consume(); // wird neuer thread sowieso
 
         while (true) {
             System.out.println("Enter Message: ");
-            user2.consume();
             String msg = sc.next();
             user1.publish(msg);
         }

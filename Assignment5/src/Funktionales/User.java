@@ -18,9 +18,6 @@ public class User {
         connector = new Connector();
         this.ch = connector.getChannel();
 
-        //Returns the number of milliseconds represented by this Date object.
-        //        tm = new Timestamp(Calendar.getInstance().getTime().getTime());
-
     }
 
     public void setName(String name) {
@@ -36,7 +33,6 @@ public class User {
         // when we supply no parameters to queueDeclare() we create a non-durable, exclusive, autodelete queue with a generated name:
         String queueName = ch.queueDeclare().getQueue();
 
-        ch.exchangeDeclare("chat", "fanout");
         //From now on the chat exchange will append messages to our generated queue.
         ch.queueBind(queueName, "chat", "");
 
@@ -57,6 +53,7 @@ public class User {
      * @throws IOException
      */
     public void publish(String msg) throws IOException {
+
         msg = name + " says " + " --> " + msg;
         ch.basicPublish("chat", "", null, msg.getBytes());
     }
