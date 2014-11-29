@@ -2,15 +2,12 @@ package JavaByzantine;
 
 import java.util.Vector;
 
-/**
- * Created by jm on 11/25/2014.
- */
 public class Message {
 
     public boolean value;
     public Vector<Integer> path;
 
-    public Message() {
+    public Message(boolean value) {
         path = new Vector<>();
     }
 

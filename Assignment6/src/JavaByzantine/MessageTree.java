@@ -2,7 +2,6 @@ package JavaByzantine;
 
 import java.util.Vector;
 
-
 /**
  * A tree of messages. Could be nested inside General. I'm sure this could be
  * simplified, but it is late.
@@ -19,7 +18,6 @@ public class MessageTree {
      * Given a received message, where should it live in the tree?
      */
     private MessageNode findParent(Message m, int round) {
-        assert m.path.size() == round + 1;
         int i = 1;
         MessageNode node = root;
 
@@ -42,7 +40,6 @@ public class MessageTree {
      */
     public void insert(Vector<Message> messages, int round) {
         if (round == 0) {
-            assert messages.size() == 1;    // Usually avoid assert in public
             root = new MessageNode();
             root.parent = null;
             root.message = messages.firstElement();
@@ -57,22 +54,6 @@ public class MessageTree {
                 parent.children.add(node);
                 System.out.println("\t[" + owner_id + "]insert(" + m + "," + round + " ) -> parent " + parent.message);
             }
-        }
-    }
-
-
-    /**
-     * Interview question: Static nested classes can't access stuff inside their
-     * parent, because they can be used without a instance of the parent.
-     */
-    public static class MessageNode {
-        MessageNode parent;
-        Message message;
-        boolean decision;
-        Vector<MessageNode> children;
-
-        public MessageNode() {
-            children = new Vector<>();
         }
     }
 }

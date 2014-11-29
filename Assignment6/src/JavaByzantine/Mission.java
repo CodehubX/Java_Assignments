@@ -1,12 +1,12 @@
 package JavaByzantine;
 
 import java.util.Vector;
+import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
 
 /**
  * Coordination between generals. Generals report for duty (register), and
  * coordinate their attack here.
- *
  * @author fabbri
  */
 public class Mission {
@@ -27,8 +27,8 @@ public class Mission {
         if (n <= 3 * m) {
             throw new IllegalArgumentException("Requires n > 3*m.");
         }
-        generals = new Vector<General>();
-        messages = new Vector<Message>();
+        generals = new Vector<>();
+        messages = new Vector<>();
         receive_barrier = new CyclicBarrier(n - 1, new ReceiveCleanup());
         send_barrier = new CyclicBarrier(n);
     }
@@ -44,7 +44,7 @@ public class Mission {
      * wait() and notify().
      * Could also use CyclicBarrier here.. not as much fun.
      */
-    public synchronized void reportForDuty(General g) {
+    public synchronized void reportForDuty(General g) throws InterruptedException {
         g.assignId(id++);
         generals.add(g);
         if (generals.size() == n) {
@@ -54,11 +54,7 @@ public class Mission {
         } else {
             /* Loop to handle spurious wakeups; e.g. from signals. */
             while (started == 0) {
-                try {
-                    wait();
-                } catch (InterruptedException e) {
-
-                }
+                wait();
             }
         }
     }
@@ -66,21 +62,17 @@ public class Mission {
     /**
      * Send your messages, if any for round.
      */
-    public void sendRound(Vector<Message> m, int id, int round) {
-        int arrive_index = 0;
+    public void sendRound(Vector<Message> msg, int id, int round) throws BrokenBarrierException, InterruptedException {
+        int arrive_index;
         /* For now, completion of round is hearing from all generals.  We could
          * add message loss and a timeout as well. */
-        System.out.println("[" + id + "] sendRound(" + round + " ) of " + m);
-        if (m != null) {
-            messages.addAll(m);
+        System.out.println("[" + id + "] send Round(" + round + " ) of messages" + msg);
+        if (msg != null) {
+            messages.addAll(msg);
         }
+        System.out.println("\t[" + id + "] await wartet");
+        arrive_index = send_barrier.await(); //exception
 
-        System.out.println("\t[" + id + "] await sends");
-        try {
-            arrive_index = send_barrier.await();
-        } catch (Exception e) {
-            System.out.println(e);
-        }
         if (arrive_index == 0) {
             if (round == 0) {
                 // Round 0 was special case, now commander drops out
@@ -98,25 +90,21 @@ public class Mission {
     /**
      * Block until all generals are heard from, then return received messages.
      */
-    public Vector<Message> receiveRound(int id, int round) {
-        int arrive_index = 0;
-        System.out.println("[" + id + "] receiveRound(" + round + ")");
+    public Vector<Message> receiveRound(int id, int round) throws BrokenBarrierException, InterruptedException {
+        int arrive_index;
+        System.out.println("Process [" + id + "] receiveRound(" + round + ")");
 
         // grab a reference to this round's messages
         Vector<Message> round_msgs = messages;
-        System.out.println("\t[" + id + "] await receives");
-        try {
-            arrive_index = receive_barrier.await();
-        } catch (Exception e) {
-            System.out.println(e);
-        }
+        System.out.println("\t Process [" + id + "] await receives");
+        arrive_index = receive_barrier.await();
+
         // This is not racy because threads will all reach send barrier
         // before reentering here.
         if (arrive_index == 0) {
             receive_barrier.reset();
         }
-
-        System.out.println("[" + id + "]  receiveRound(" + round + ") -> " + round_msgs);
+        System.out.println("Process [" + id + "]  receiveRound(" + round + ") -> " + round_msgs);
         return round_msgs;
     }
 
@@ -126,8 +114,8 @@ public class Mission {
      */
     private class ReceiveCleanup implements Runnable {
         public void run() {
-            System.out.println("\t---Clearing messages.---");
-            messages = new Vector<Message>();
+            System.out.println("\n\t---Clearing messages.--- \n");
+            messages = new Vector<>();
         }
     }
 }

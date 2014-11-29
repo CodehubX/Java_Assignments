@@ -6,6 +6,7 @@ package JavaByzantine;
  * https://github.com/ajfabbri/JavaByzantine
  */
 import java.util.Vector;
+import java.util.concurrent.BrokenBarrierException;
 
 /**
  * A general in the Byzantine General problem, represented as a thread.
@@ -16,8 +17,8 @@ class General implements Runnable {
 
     final boolean commander_should_attack = true;
     Mission mission;
-    int id;
     MessageTree m_tree;
+    int id;
 
     public General(Mission m) {
         mission = m;
@@ -43,13 +44,12 @@ class General implements Runnable {
     /**
      * Communication phase: Iterative approach.
      */
-    public void communicationPhase() {
+    public void communicationPhase() throws InterruptedException, BrokenBarrierException {
         boolean decision_this_round = false;
         Vector<Message> messages = null;
 
-        System.out.println("Reporting for duty...");
         mission.reportForDuty(this);
-        System.out.println("  ... assigned id " + id);
+        System.out.println("Reporting for duty... ... assigned id " + id);
 
         for (int round = 0; round < mission.numRounds(); round++) {
 
@@ -57,7 +57,7 @@ class General implements Runnable {
             if (amCommander() && round == 0) {
                 Message m = new Message(commander_should_attack);
                 m.path.add(id);
-                Vector<Message> v = new Vector<Message>();
+                Vector<Message> v = new Vector<>();
                 v.add(m);
                 mission.sendRound(v, id, round);
                 break;
@@ -66,7 +66,7 @@ class General implements Runnable {
 
             // Send out copies of received messages, adding self to path,
             // and including our decision.
-            Vector<Message> newMessages = new Vector();
+            Vector<Message> newMessages = new Vector<>();
             if (round != 0) {
                 for (Message m : messages) {
                     if (m.senderId() != id) {
@@ -89,6 +89,10 @@ class General implements Runnable {
     }
 
     public void run() {
-        communicationPhase();
+        try {
+            communicationPhase();
+        } catch (InterruptedException | BrokenBarrierException e) {
+            e.printStackTrace();
+        }
     }
 }
