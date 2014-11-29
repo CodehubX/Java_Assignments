@@ -33,7 +33,7 @@ public class MessageTree {
             }
             i++;
         }
-        Byzantine.debugPrint("[" + owner_id + "] findParent(" + m + ", " + round + ") -> n" + node);
+        System.out.println("[" + owner_id + "] findParent(" + m + ", " + round + ") -> n" + node);
         return node;
     }
 
@@ -46,8 +46,7 @@ public class MessageTree {
             root = new MessageNode();
             root.parent = null;
             root.message = messages.firstElement();
-            Byzantine.debugPrint("\t[" + owner_id +
-                "] insert(..round 0..) -> root " + root);
+            System.out.println("\t[" + owner_id + "] insert(..round 0..) -> root " + root);
         } else {
 
             for (Message m : messages) {
@@ -56,7 +55,7 @@ public class MessageTree {
                 MessageNode node = new MessageNode();
                 node.message = m;
                 parent.children.add(node);
-                Byzantine.debugPrint("\t[" + owner_id + "]insert(" + m + "," + round + " ) -> parent " + parent.message);
+                System.out.println("\t[" + owner_id + "]insert(" + m + "," + round + " ) -> parent " + parent.message);
             }
         }
     }
@@ -73,7 +72,7 @@ public class MessageTree {
         Vector<MessageNode> children;
 
         public MessageNode() {
-            children = new Vector<MessageNode>();
+            children = new Vector<>();
         }
     }
 }

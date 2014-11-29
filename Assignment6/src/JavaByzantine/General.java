@@ -12,7 +12,7 @@ import java.util.Vector;
  *
  * @author fabbri
  */
-class General extends Thread {
+class General implements Runnable {
 
     final boolean commander_should_attack = true;
     Mission mission;
@@ -28,7 +28,6 @@ class General extends Thread {
     }
 
     boolean majority(Vector<Message> messages) {
-
         int truth_sum = 0;
         for (Message m : messages) {
             truth_sum += (m.value ? 1 : -1);

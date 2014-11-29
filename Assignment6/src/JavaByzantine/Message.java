@@ -10,8 +10,8 @@ public class Message {
     public boolean value;
     public Vector<Integer> path;
 
-    public Message(boolean value) {
-        path = new Vector<Integer>();
+    public Message() {
+        path = new Vector<>();
     }
 
     public Message(Message m2) {
@@ -24,18 +24,18 @@ public class Message {
     }
 
     /**
-     * Return true iff elements of path match beginning of p
+     * Return true if elements of path match beginning of p
      */
     public boolean prefixMatch(Vector<Integer> p) {
         String s = path + ".prefixMatch(" + p + ")";
 
         for (int i : path) {
             if (i != p.elementAt(path.indexOf(i))) {
-                Byzantine.debugPrint("\t" + s + "-> false");
+                System.out.println("\t" + s + "-> false");
                 return false;
             }
         }
-        Byzantine.debugPrint("\t" + s + "-> true");
+        System.out.println("\t" + s + "-> true");
         return true;
     }
 

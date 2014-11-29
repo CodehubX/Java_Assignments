@@ -56,7 +56,7 @@ public class Mission {
             while (started == 0) {
                 try {
                     wait();
-                } catch (java.lang.InterruptedException e) {
+                } catch (InterruptedException e) {
 
                 }
             }
@@ -70,12 +70,12 @@ public class Mission {
         int arrive_index = 0;
         /* For now, completion of round is hearing from all generals.  We could
          * add message loss and a timeout as well. */
-        Byzantine.debugPrint("[" + id + "] sendRound(" + round + " ) of " + m);
+        System.out.println("[" + id + "] sendRound(" + round + " ) of " + m);
         if (m != null) {
             messages.addAll(m);
         }
 
-        Byzantine.debugPrint("\t[" + id + "] await sends");
+        System.out.println("\t[" + id + "] await sends");
         try {
             arrive_index = send_barrier.await();
         } catch (Exception e) {
@@ -92,7 +92,7 @@ public class Mission {
             }
         }
 
-        Byzantine.debugPrint("[" + id + "] sendRound(" + round + ") finished");
+        System.out.println("[" + id + "] sendRound(" + round + ") finished");
     }
 
     /**
@@ -100,11 +100,11 @@ public class Mission {
      */
     public Vector<Message> receiveRound(int id, int round) {
         int arrive_index = 0;
-        Byzantine.debugPrint("[" + id + "] receiveRound(" + round + ")");
+        System.out.println("[" + id + "] receiveRound(" + round + ")");
 
         // grab a reference to this round's messages
         Vector<Message> round_msgs = messages;
-        Byzantine.debugPrint("\t[" + id + "] await receives");
+        System.out.println("\t[" + id + "] await receives");
         try {
             arrive_index = receive_barrier.await();
         } catch (Exception e) {
@@ -116,7 +116,7 @@ public class Mission {
             receive_barrier.reset();
         }
 
-        Byzantine.debugPrint("[" + id + "]  receiveRound(" + round + ") -> " + round_msgs);
+        System.out.println("[" + id + "]  receiveRound(" + round + ") -> " + round_msgs);
         return round_msgs;
     }
 
@@ -126,7 +126,7 @@ public class Mission {
      */
     private class ReceiveCleanup implements Runnable {
         public void run() {
-            Byzantine.debugPrint("\t---Clearing messages.---");
+            System.out.println("\t---Clearing messages.---");
             messages = new Vector<Message>();
         }
     }
