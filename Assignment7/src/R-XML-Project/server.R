@@ -8,35 +8,38 @@
 library(shiny)
 library(XML)
 library(ggplot2)
+library(reshape2)
+library(tm)
+library(wordcloud)
+library(plyr)
 
 shinyServer(function(input, output) {
   
   dataReactive <- reactive({
-    book = xmlParse("dataNov-29-2014.xml")
-    df = xmlToDataFrame("dataNov-29-2014.xml", stringsAsFactors=FALSE)
-    class(df$Pin)
-    df$Pin  = as.numeric(df$Pin)
+    book = xmlParse("dataDec-1-2014.xml")
+    df = xmlToDataFrame(book, stringsAsFactors=FALSE)
+    class(df$PIN)
+    df$PIN = as.numeric(df$PIN)
+    class(df$PIN)
     class(df$Money)
-    df$Money = gsub("\\.", "", df$Money) # DELETE .
+    #df$Money = gsub("\\.", "", df$Money) # DELETE .
     df$Money = as.numeric(df$Money)
     data <- df
     
-    switch(input$dist,money = data$Money,pin = data$Pin)
+    switch(input$dist,money = data$Money,pin = data$PIN)
   })
   
   output$plot <- renderPlot({
     me.df = melt(dataReactive())
-    me.df = rename(me.df, c(X1="Hour", X2="Qtype"))
     me.df
     # Get all data that should be visible to the current user.
     data <- me.df
     # Generate the sales plot
-    p <- ggplot(data, aes(x1, x2))
-    p <- p+geom_line()
-    p <- p + xlim(0, 30)
-   p <- p + ggtitle("September Sales Projections")
-    p <- p + xlab("Day of Month")
-    p <- p + ylab("Total Sales (USD)")
+    p <- ggplot(data, aes(x=value))
+    p <- p + geom_dotplot()
+    p <- p + scale_y_continuous(breaks =NULL)
+    p <- p + ggtitle("Y is meaningless")
+    p <- p + xlab(input$dist)
     print(p) 
     
     #hist(dataReactive())
@@ -46,11 +49,21 @@ shinyServer(function(input, output) {
   output$summary <- renderPrint({
     summary(dataReactive())
   })
-  output$barplot <- renderPlot({
-    mtscaled <- as.matrix(scale(dataReactive()))
-    heatmap(mtscaled,
-            col = topo.colors(200, alpha=0.5),
-            Colv=F, scale="none")
+  
+  output$wordcloud <- renderPlot({
+    myCorpus = Corpus(VectorSource(data$Region))
+    myCorpus = tm_map(myCorpus, content_transformer(tolower))
+    myCorpus = tm_map(myCorpus, removePunctuation)
+    myCorpus = tm_map(myCorpus, removeNumbers)
+    myCorpus = tm_map(myCorpus, removeWords,
+                      c(stopwords("SMART"), "iowa", "island", "dazur", "munster", "rhinewestphalia","vic", "pays", "san", "sao", "wie", "pie", "loire", "sic", "nadu"))
+    
+    myDTM = TermDocumentMatrix(myCorpus, control = list(minWordLength = 1))
+    #class(myDTM)
+    m = as.matrix(myDTM)
+    v <- sort(rowSums(m), decreasing = TRUE)
+    wordcloud(names(v), v, min.freq = 15)
+    #print(w)    
   })
   # Generate an HTML table view of the data
   output$table <- renderTable({

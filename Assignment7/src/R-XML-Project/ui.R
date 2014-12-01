@@ -25,7 +25,7 @@ shinyUI(fluidPage(
                 tabPanel("Plot", plotOutput("plot")), 
                 tabPanel("Summary", verbatimTextOutput("summary")), 
                 tabPanel("Table", tableOutput("table")),
-                tabPanel("BarPlot", plotOutput("barplot")),
+                tabPanel("WordCloud", plotOutput("wordcloud")),
                 tabPanel("K-Means", plotOutput("plot1"))
       
       )
