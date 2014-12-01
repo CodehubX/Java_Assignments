@@ -24,7 +24,10 @@ shinyUI(fluidPage(
       tabsetPanel(type = "tabs", 
                 tabPanel("Plot", plotOutput("plot")), 
                 tabPanel("Summary", verbatimTextOutput("summary")), 
-                tabPanel("Table", tableOutput("table"))
+                tabPanel("Table", tableOutput("table")),
+                tabPanel("BarPlot", plotOutput("barplot")),
+                tabPanel("K-Means", plotOutput("plot1"))
+      
       )
     )
   )
