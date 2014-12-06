@@ -24,7 +24,7 @@ public class DefaultEngine implements Engine, Broadcaster {
         this.configuration = new Configuration(source, roundsOfMessages, numberOfProcesses);
         this.strategy = new DefaultValueStrategy(configuration);
         this.repository = new DefaultPathRepository(configuration);
-        this.processes = new ArrayList<Process>();
+        this.processes = new ArrayList<>();
     }
 
     /**

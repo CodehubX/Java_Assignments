@@ -14,9 +14,7 @@ public class ByzGenTwo {
         InetAddress lclhost;
         GenTwo gentwo, genthree, genfour;
 
-        for (icounter = 0; icounter < 2; icounter++)
-
-        {
+        for (icounter = 0; icounter < 2; icounter++) {
             lclhost = InetAddress.getLocalHost();
             gentwo = new GenTwo(lclhost);
             gentwo.setSendPort(9002);
@@ -71,9 +69,7 @@ class GenTwo {
         this.recport = recport;
     }
 
-    void sendData() throws Exception
-
-    {
+    void sendData() throws Exception {
         DatagramSocket ds;
         DatagramPacket dp;
         BufferedReader br;
@@ -93,9 +89,7 @@ class GenTwo {
         ds.close();
     }
 
-    void recData() throws Exception
-
-    {
+    public void recData() throws Exception {
         DatagramSocket ds;
         DatagramPacket dp;
         byte[] buf = new byte[256];
@@ -133,9 +127,7 @@ class GenTwo {
         }
     }
 
-    void maxval()
-
-    {
+    void maxval() {
         int ctr1, ctr2, i, j;
         boolean gentwo = false, genthree = false, genfour = false;
 

@@ -17,7 +17,7 @@ public class Kommander {
     private QueueConnectionFactory factory;
     private Queue queue1;
     private Queue queue2;
-    private javax.jms.Queue queue3;
+    private Queue queue3;
     private QueueConnection connection;
     private QueueSession session;
     private QueueSender sender1;

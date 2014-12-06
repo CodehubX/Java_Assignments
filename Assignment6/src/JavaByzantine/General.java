@@ -8,27 +8,26 @@ package JavaByzantine;
 import java.util.Vector;
 import java.util.concurrent.BrokenBarrierException;
 
-/**
- * A general in the Byzantine General problem, represented as a thread.
- *
- * @author fabbri
- */
-class General implements Runnable {
+public class General implements Runnable {
 
-    final boolean commander_should_attack = true;
-    Mission mission;
-    MessageTree m_tree;
+    public final boolean commander_should_attack = true;
+    public Mission mission;
+    public MessageTree m_tree; //for messagages
     int id;
 
     public General(Mission m) {
-        mission = m;
+        this.mission = m;
     }
 
-    boolean amCommander() {
+    /**
+     *
+     * @return true/false depending on if id is 0
+     */
+    public boolean amICommander() {
         return (id == 0);
     }
 
-    boolean majority(Vector<Message> messages) {
+    public boolean majority(Vector<Message> messages) {
         int truth_sum = 0;
         for (Message m : messages) {
             truth_sum += (m.value ? 1 : -1);
@@ -39,6 +38,14 @@ class General implements Runnable {
     public void assignId(int id) {
         this.id = id;
         m_tree = new MessageTree(id);
+    }
+
+    public void run() {
+        try {
+            communicationPhase();
+        } catch (InterruptedException | BrokenBarrierException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -54,7 +61,7 @@ class General implements Runnable {
         for (int round = 0; round < mission.numRounds(); round++) {
 
             // Sending phase
-            if (amCommander() && round == 0) {
+            if (amICommander() && round == 0) {
                 Message m = new Message(commander_should_attack);
                 m.path.add(id);
                 Vector<Message> v = new Vector<>();
@@ -85,14 +92,6 @@ class General implements Runnable {
 
             // Deciding phase
             decision_this_round = majority(messages);
-        }
-    }
-
-    public void run() {
-        try {
-            communicationPhase();
-        } catch (InterruptedException | BrokenBarrierException e) {
-            e.printStackTrace();
         }
     }
 }

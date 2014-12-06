@@ -7,29 +7,29 @@ import java.util.concurrent.CyclicBarrier;
 /**
  * Coordination between generals. Generals report for duty (register), and
  * coordinate their attack here.
- * @author fabbri
  */
 public class Mission {
 
-    Vector<General> generals;
+    public CyclicBarrier send_barrier;
+    public CyclicBarrier receive_barrier;
+    public Vector<General> generals;
+    /* Since we process one round at a time, we collect messages here. */
+    public Vector<Message> messages;
     int n, m;
     int id = 0;
     int started = 0;
-    CyclicBarrier send_barrier;
-    CyclicBarrier receive_barrier;
-
-    /* Since we process one round at a time, we collect messages here. */
-    Vector<Message> messages;
 
     public Mission(int num_generals, int num_traitors) {
         n = num_generals;
         m = num_traitors;
-        if (n <= 3 * m) {
+        if (n <= 3 * m) { // "must"
             throw new IllegalArgumentException("Requires n > 3*m.");
         }
         generals = new Vector<>();
         messages = new Vector<>();
+        // create two barrieres, one for commanders who recieve MSG from other commanders
         receive_barrier = new CyclicBarrier(n - 1, new ReceiveCleanup());
+        // barrier for general who sends MSG
         send_barrier = new CyclicBarrier(n);
     }
 
@@ -63,7 +63,6 @@ public class Mission {
      * Send your messages, if any for round.
      */
     public void sendRound(Vector<Message> msg, int id, int round) throws BrokenBarrierException, InterruptedException {
-        int arrive_index;
         /* For now, completion of round is hearing from all generals.  We could
          * add message loss and a timeout as well. */
         System.out.println("[" + id + "] send Round(" + round + " ) of messages" + msg);
@@ -71,7 +70,7 @@ public class Mission {
             messages.addAll(msg);
         }
         System.out.println("\t[" + id + "] await wartet");
-        arrive_index = send_barrier.await(); //exception
+        int arrive_index = send_barrier.await(); //exception
 
         if (arrive_index == 0) {
             if (round == 0) {
@@ -91,13 +90,11 @@ public class Mission {
      * Block until all generals are heard from, then return received messages.
      */
     public Vector<Message> receiveRound(int id, int round) throws BrokenBarrierException, InterruptedException {
-        int arrive_index;
         System.out.println("Process [" + id + "] receiveRound(" + round + ")");
-
         // grab a reference to this round's messages
         Vector<Message> round_msgs = messages;
         System.out.println("\t Process [" + id + "] await receives");
-        arrive_index = receive_barrier.await();
+        int arrive_index = receive_barrier.await();
 
         // This is not racy because threads will all reach send barrier
         // before reentering here.

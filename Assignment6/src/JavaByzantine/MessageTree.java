@@ -7,11 +7,11 @@ import java.util.Vector;
  * simplified, but it is late.
  */
 public class MessageTree {
-    MessageNode root;
+    public MessageNode root;
     int owner_id;
 
     public MessageTree(int id) {
-        owner_id = id;
+        this.owner_id = id;
     }
 
     /**
@@ -45,10 +45,8 @@ public class MessageTree {
             root.message = messages.firstElement();
             System.out.println("\t[" + owner_id + "] insert(..round 0..) -> root " + root);
         } else {
-
             for (Message m : messages) {
                 MessageNode parent = findParent(m, round);
-                // Could optimize this out
                 MessageNode node = new MessageNode();
                 node.message = m;
                 parent.children.add(node);

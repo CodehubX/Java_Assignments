@@ -14,9 +14,7 @@ public class ByzGenThree {
         InetAddress lclhost;
         GenThree gentwo, genthree, genfour;
 
-        for (icounter = 0; icounter < 2; icounter++)
-
-        {
+        for (icounter = 0; icounter < 2; icounter++) {
             lclhost = InetAddress.getLocalHost();
             gentwo = new GenThree(lclhost);
             gentwo.setSendPort(9004);

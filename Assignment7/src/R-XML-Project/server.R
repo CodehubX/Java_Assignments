@@ -12,12 +12,26 @@ library(reshape2)
 library(tm)
 library(wordcloud)
 library(plyr)
+library(maps)
+library(mapdata)
+library(rworldmap)
+library(ggmap)
+library(maptools)
 
 shinyServer(function(input, output) {
   
   dataReactive <- reactive({
-    book = xmlParse("dataDec-1-2014.xml")
+    xmlfile <- "dataDec-1-2014.xml"
+    book = xmlParse(xmlfile)
     df = xmlToDataFrame(book, stringsAsFactors=FALSE)
+    
+    xmltop = xmlRoot(book) #gives content of root
+    xmltop
+    class(xmltop)
+    xmlName(xmltop[[5]]) # records
+    xmlSApply(xmltop[[6]], xmlName)
+    #Madhu2012=ldply(xmlToList(xmlfile), data.frame)
+    #xmlEventParse(xmlfile) #SAX Parser
     class(df$PIN)
     df$PIN = as.numeric(df$PIN)
     class(df$PIN)
@@ -44,7 +58,13 @@ shinyServer(function(input, output) {
     
     #hist(dataReactive())
   })
-
+  output$worldmap <- renderPlot({
+    cou <- data$Country
+    lat <- data$LatLon
+    map("worldHires", unique(cou), fill=TRUE, col="white", bg="lightblue", mar=c(0,0,0,0))
+    
+  })
+  
   # Generate a summary of the data
   output$summary <- renderPrint({
     summary(dataReactive())
@@ -57,7 +77,6 @@ shinyServer(function(input, output) {
     myCorpus = tm_map(myCorpus, removeNumbers)
     myCorpus = tm_map(myCorpus, removeWords,
                       c(stopwords("SMART"), "iowa", "island", "dazur", "munster", "rhinewestphalia","vic", "pays", "san", "sao", "wie", "pie", "loire", "sic", "nadu"))
-    
     myDTM = TermDocumentMatrix(myCorpus, control = list(minWordLength = 1))
     #class(myDTM)
     m = as.matrix(myDTM)
@@ -65,6 +84,7 @@ shinyServer(function(input, output) {
     wordcloud(names(v), v, min.freq = 15)
     #print(w)    
   })
+  
   # Generate an HTML table view of the data
   output$table <- renderTable({
     data.frame(x=dataReactive())
@@ -83,6 +103,4 @@ shinyServer(function(input, output) {
          pch = 20, cex = 2) # type / size
     points(clusters()$centers, pch = 3, cex = 3, lwd = 3)
   })
-  
-  
 })

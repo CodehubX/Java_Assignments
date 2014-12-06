@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Destination without a configured SecurityManager or without a SecurityConf
+ will default to role guest with read=true, write=true, create=false. -->
+<server>
+    <mbean code="org.jboss.mq.server.jmx.Topic"
+        name="jboss.mq.destination:service=Topic,name=aufgabe5Topic">
+        <depends optional-attribute-name="DestinationManager">
+            jboss.mq:service=DestinationManager
+        </depends>
+        <depends optional-attribute-name="SecurityManager">
+            jboss.mq:service=SecurityManager
+        </depends>
+    </mbean>
+</server>

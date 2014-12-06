@@ -16,6 +16,10 @@ public class Message {
         path = (Vector<Integer>) m2.path.clone();
     }
 
+    /**
+     * @see method assignID
+     * @return Returns the last component of the vector.
+     */
     public int senderId() {
         return path.lastElement();
     }
@@ -25,7 +29,6 @@ public class Message {
      */
     public boolean prefixMatch(Vector<Integer> p) {
         String s = path + ".prefixMatch(" + p + ")";
-
         for (int i : path) {
             if (i != p.elementAt(path.indexOf(i))) {
                 System.out.println("\t" + s + "-> false");
