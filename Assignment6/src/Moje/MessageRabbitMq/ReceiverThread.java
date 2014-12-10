@@ -2,8 +2,10 @@ package Moje.MessageRabbitMq;
 
 import com.rabbitmq.client.QueueingConsumer;
 
+import java.util.concurrent.Callable;
+
 // Callable<String>,
-public class ReceiverThread implements Runnable {
+public class ReceiverThread implements Callable<String> {
     public QueueingConsumer consumer;
     public String message;
 
@@ -16,7 +18,7 @@ public class ReceiverThread implements Runnable {
      * only for runnable interface
      * We use callable for returning String for byzantine generals problem
      */
-    @Override public void run() {
+    @Override public String call() {
         QueueingConsumer.Delivery delivery = null;
         while (true) {
             try {
@@ -25,11 +27,9 @@ public class ReceiverThread implements Runnable {
                 e.printStackTrace();
             }
             String messageADS = new String(delivery.getBody());
-            //                String userID = message.split(":")[0];
-            //                userID.equalsIgnoreCase(String.valueOf(this.userID));
-            //                System.out.print(tm.toString() + "::::" + consumer.getConsumerTag() + "::::'" + message + "'\n");
             System.out.println(messageADS);
             this.message = messageADS;
+            return message;
         }
     }
 

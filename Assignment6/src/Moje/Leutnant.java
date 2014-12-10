@@ -24,8 +24,8 @@ public class Leutnant {
     }
 
     public void messageBekommen() throws IOException, InterruptedException, ExecutionException {
-        nachricht.consume();
-        System.out.println("Leutnant got: -> ");
+        String nach = nachricht.consume();
+        System.out.println("Leutnant got: -> " + nach);
     }
 
     public void botenWeiterleiten() throws IOException, InterruptedException {

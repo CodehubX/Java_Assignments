@@ -7,7 +7,10 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
+import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class User {
     public Connector connector;
@@ -29,7 +32,7 @@ public class User {
      * @throws InterruptedException
      * @link https://www.rabbitmq.com/tutorials/tutorial-three-java.html
      */
-    public void consume() throws IOException, InterruptedException, ExecutionException {
+    public String consume() throws IOException, InterruptedException, ExecutionException {
         // when we supply no parameters to queueDeclare() we create a non-durable, exclusive, autodelete queue with a generated name:
         String queueName = ch.queueDeclare().getQueue();
 
@@ -43,9 +46,12 @@ public class User {
         QueueingConsumer consumer = new QueueingConsumer(ch);
         ch.basicConsume(queueName, true, consumer);
 
-        ReceiverThread receiverThread = new ReceiverThread(consumer);
-        Thread th = new Thread(receiverThread);
-        th.start();
+        Callable<String> callable = new ReceiverThread(consumer);
+        ExecutorService executor = Executors.newFixedThreadPool(10);
+        executor.submit(callable);
+        //        Thread th = new Thread(receiverThread);
+        //        th.start();
+        return queueName;
     }
 
     public void publish(String msg) throws IOException {
