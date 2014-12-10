@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.concurrent.*;
 
 public class User {
@@ -42,11 +43,15 @@ public class User {
          */
         QueueingConsumer consumer = new QueueingConsumer(ch);
         ch.basicConsume(queueName, true, consumer);
+        ArrayList<Future<String>> list = new ArrayList<Future<String>>();
 
         Callable<String> callable = new ReceiverThread(consumer);
-        ExecutorService executor = Executors.newFixedThreadPool(1);
+        ExecutorService executor = Executors.newFixedThreadPool(10);
         Future<String> fut = executor.submit(callable);
-        System.out.println(fut.get());
+        list.add(fut);
+        for (Future<String> fute : list) {
+            System.out.println(fute.get());
+        }
         executor.shutdown();
         return "nic";
     }

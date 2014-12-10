@@ -18,10 +18,9 @@ public class ReceiverThread implements Callable<String> {
      * We use callable for returning String for byzantine generals problem
      */
     @Override public String call() {
-        String message = null;
         QueueingConsumer.Delivery delivery = null;
         int i = 0;
-        while (i < 1) {
+        while (true) {
             try {
                 delivery = consumer.nextDelivery();
             } catch (InterruptedException e) {
@@ -29,10 +28,9 @@ public class ReceiverThread implements Callable<String> {
             }
             String messageADS = new String(delivery.getBody());
             System.out.println(messageADS);
-            message = messageADS;
-            break;
+
+            return messageADS;
         }
-        return message;
     }
 
 }
