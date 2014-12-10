@@ -7,10 +7,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.*;
 
 public class User {
     public Connector connector;
@@ -47,11 +44,11 @@ public class User {
         ch.basicConsume(queueName, true, consumer);
 
         Callable<String> callable = new ReceiverThread(consumer);
-        ExecutorService executor = Executors.newFixedThreadPool(10);
-        executor.submit(callable);
-        //        Thread th = new Thread(receiverThread);
-        //        th.start();
-        return queueName;
+        ExecutorService executor = Executors.newFixedThreadPool(1);
+        Future<String> fut = executor.submit(callable);
+        System.out.println(fut.get());
+        executor.shutdown();
+        return "nic";
     }
 
     public void publish(String msg) throws IOException {

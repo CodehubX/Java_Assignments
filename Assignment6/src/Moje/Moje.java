@@ -21,7 +21,6 @@ public class Moje {
 
         Leutnant l1 = new Leutnant();
         l1.messageBekommen();
-
     }
 }
 

@@ -18,12 +18,11 @@ public class Leutnant {
     ArrayList<String> dorList = new ArrayList<>();
     ArrayList<String> odeList = new ArrayList<>();
 
-    public Leutnant()
-        throws URISyntaxException, KeyManagementException, NoSuchAlgorithmException, IOException {
+    public Leutnant() throws IOException, NoSuchAlgorithmException, KeyManagementException, URISyntaxException {
         nachricht = new User();
     }
 
-    public void messageBekommen() throws IOException, InterruptedException, ExecutionException {
+    public void messageBekommen() throws InterruptedException, ExecutionException, IOException {
         String nach = nachricht.consume();
         System.out.println("Leutnant got: -> " + nach);
     }
