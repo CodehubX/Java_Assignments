@@ -5,6 +5,7 @@ import java.net.URISyntaxException;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Scanner;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Inspired by https://github.com/zi-yang-zhang/Simple-Java-RabbitMQ-Chat
@@ -13,7 +14,7 @@ import java.util.Scanner;
  */
 public class Main {
 
-    public static void main(String[] args) throws URISyntaxException, IOException, NoSuchAlgorithmException, KeyManagementException, InterruptedException {
+    public static void main(String[] args) throws URISyntaxException, IOException, NoSuchAlgorithmException, KeyManagementException, InterruptedException, ExecutionException {
         Scanner sc = new Scanner(System.in);
         User user1 = new User();
         System.out.println("Your Name of the chat user");

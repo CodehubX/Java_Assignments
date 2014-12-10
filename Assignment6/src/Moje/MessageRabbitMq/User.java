@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
+import java.util.concurrent.ExecutionException;
 
 public class User {
     public Connector connector;
@@ -28,14 +29,14 @@ public class User {
      * @throws InterruptedException
      * @link https://www.rabbitmq.com/tutorials/tutorial-three-java.html
      */
-    public void consume() throws IOException, InterruptedException {
+    public void consume() throws IOException, InterruptedException, ExecutionException {
         // when we supply no parameters to queueDeclare() we create a non-durable, exclusive, autodelete queue with a generated name:
         String queueName = ch.queueDeclare().getQueue();
 
         //From now on the chat exchange will append messages to our generated queue.
         ch.queueBind(queueName, "chat", "");
 
-        /**
+        /*
          * is deprecated but easier to do.
          * "Convenience class: an implementation of Consumer with straightforward <b>blocking</b> semantics."
          */
@@ -47,14 +48,9 @@ public class User {
         th.start();
     }
 
-    /**
-     * @param msg
-     * @throws IOException
-     */
     public void publish(String msg) throws IOException {
-
-        msg = name + " says " + " --> " + msg;
         ch.basicPublish("chat", "", null, msg.getBytes());
+        System.out.println(msg);
     }
 }
 

@@ -1,22 +1,25 @@
 package Moje;
 
+import Moje.MessageRabbitMq.User;
+
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 
 public class Generals {
-    public Message nachricht;
+    public User nachricht;
+    private int szenarium;
+    private String befehl;
 
-    public Generals() throws URISyntaxException, KeyManagementException, NoSuchAlgorithmException, IOException {
-        nachricht = new Message();
+    public Generals(int i) throws URISyntaxException, KeyManagementException, NoSuchAlgorithmException, IOException {
+        this.szenarium = i;
+        nachricht = new User();
     }
 
-    public void bootenSenden(String l1, String l2, String l3, String l4) throws IOException {
-        nachricht.setNachricht(l1);
-        nachricht.setNachricht(l2);
-        nachricht.setNachricht(l3);
-        nachricht.setNachricht(l4);
-
+    public void bootenSenden(String befehl) throws IOException {
+        this.befehl = befehl;
+        System.out.println("message from general was : -> " + befehl);
+        nachricht.publish(befehl);
     }
 }
