@@ -6,8 +6,10 @@
 # http://www.generatedata.com/
 
 library(shiny)
+library(shinyapps)
 library(XML)
 library(ggplot2)
+library(rCharts)
 library(reshape2)
 library(tm)
 library(wordcloud)
@@ -17,12 +19,15 @@ library(mapdata)
 library(rworldmap)
 library(ggmap)
 library(maptools)
+library(gridSVG)
+library(Cairo)
 
 shinyServer(function(input, output) {
   
   dataReactive <- reactive({
     xmlfile <- "dataDec-1-2014.xml"
     book = xmlParse(xmlfile)
+    # xml Tree Parse -> tree data
     df = xmlToDataFrame(book, stringsAsFactors=FALSE)
     
     xmltop = xmlRoot(book) #gives content of root
@@ -38,56 +43,68 @@ shinyServer(function(input, output) {
     class(df$Money)
     #df$Money = gsub("\\.", "", df$Money) # DELETE .
     df$Money = as.numeric(df$Money)
-    data <- df
     
-    switch(input$dist,money = data$Money,pin = data$PIN)
+    switch(input$dist,money = df$Money,pin = df$PIN)
   })
   
   output$plot <- renderPlot({
     me.df = melt(dataReactive())
     me.df
-    # Get all data that should be visible to the current user.
-    data <- me.df
     # Generate the sales plot
-    p <- ggplot(data, aes(x=value))
+    p <- ggplot(me.df, aes(x=value))
     p <- p + geom_dotplot()
     p <- p + scale_y_continuous(breaks =NULL)
     p <- p + ggtitle("Y is meaningless")
     p <- p + xlab(input$dist)
     print(p) 
+    # SVG
+    Cairo(500,500,file="cairo_2.svg",type="svg",bg="transparent",pointsize=5, 
+          units="in",dpi="auto")
+    print(p)
+    dev.off()
     
+    # another possibility
     #hist(dataReactive())
   })
-  output$worldmap <- renderPlot({
-    cou <- data$Country
-    lat <- data$LatLon
-    map("worldHires", unique(cou), fill=TRUE, col="white", bg="lightblue", mar=c(0,0,0,0))
+  
+  output$wp1 <- renderPlot({
+    cou <- df$Country
+    lat <- df$LatLon
+    map("world", cou, fill=TRUE, col="white", bg="lightblue", mar=c(0,0,0,0))
+    #print(mp)
     
   })
   
-  # Generate a summary of the data
-  output$summary <- renderPrint({
-    summary(dataReactive())
-  })
-  
-  output$wordcloud <- renderPlot({
-    myCorpus = Corpus(VectorSource(data$Region))
+  output$cloud <- renderPlot({
+    myCorpus = Corpus(VectorSource(df$Region))
     myCorpus = tm_map(myCorpus, content_transformer(tolower))
     myCorpus = tm_map(myCorpus, removePunctuation)
     myCorpus = tm_map(myCorpus, removeNumbers)
     myCorpus = tm_map(myCorpus, removeWords,
-                      c(stopwords("SMART"), "iowa", "island", "dazur", "munster", "rhinewestphalia","vic", "pays", "san", "sao", "wie", "pie", "loire", "sic", "nadu"))
+                      c(stopwords("SMART"), 
+                        "iowa", "island", "dazur", "munster", "rhinewestphalia","vic", "pays", 
+                        "san", "sao", "wie", "pie", "loire", "sic", "nadu"))
     myDTM = TermDocumentMatrix(myCorpus, control = list(minWordLength = 1))
     #class(myDTM)
     m = as.matrix(myDTM)
     v <- sort(rowSums(m), decreasing = TRUE)
     wordcloud(names(v), v, min.freq = 15)
+    
     #print(w)    
   })
   
   # Generate an HTML table view of the data
   output$table <- renderTable({
     data.frame(x=dataReactive())
+  })
+  
+  output$betterTable <- renderDataTable({
+    df
+  })
+  
+  # Generate a summary of the data
+  output$summary <- renderPrint({
+    summary(dataReactive())
   })
   
   clusters <- reactive({
@@ -103,4 +120,24 @@ shinyServer(function(input, output) {
          pch = 20, cex = 2) # type / size
     points(clusters()$centers, pch = 3, cex = 3, lwd = 3)
   })
+  
+  output$myChart <- renderChart({
+    names(iris) = gsub("\\.", "", names(iris))
+    cars <- c(1:20)
+    yc <- c(4:23)
+    dt <- data.frame(cars, yc)
+    dt
+    # color = "Species", facet = "Species", type = 'point'
+    p1 <- mPlot(x="cars", y="yc", data = dt, type = 'Line')
+    
+    p1$addParams(dom = 'myChart')
+    p1$set(pointSize = 0, lineWidth = 1)
+    p1
+    return(p1)
+        
+    
+    
+    
+  })
+  
 })
