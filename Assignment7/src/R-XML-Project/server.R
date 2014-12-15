@@ -21,45 +21,46 @@ library(Cairo)
 
 shinyServer(function(input, output) {
   
+  xmlfile <- "dataDec-1-2014.xml"
+  # Parses an XML or HTML file or string containing XML/HTML content, 
+  # and generates an R structure representing the XML/HTML tree. 
+  # Return value is, an object of (S3) class XMLDocument
+  # Same to
+  file.xml <- xmlTreeParse(xmlfile)
+  #file.xml = xmlParse(xmlfile)
+  class(file.xml)
+  
+  # xml Tree Parse -> tree data
+  df = xmlToDataFrame(xmlfile, stringsAsFactors=FALSE)
+  
+  # Analysis
+  # print all records of our XML file (!not view(df)-> console)
+  xmlroot = xmlRoot(file.xml) #gives content of root
+  xmlroot
+  class(xmlroot)
+  xmlName(xmlroot[[5]]) # records
+  
+  #
+  # for each xmlroot element #6, print all names of elements
+  xmlSApply(xmlroot[[6]], xmlName)
+  # Analysis ende
+  
+  # Madhu2012=ldply(xmlToList(file.xml), data.frame)
+  # xmlEventParse(file.xml) #SAX Parser
+  
+  class(df$PIN)
+  df$PIN = as.numeric(df$PIN)
+  class(df$PIN)
+  
+  class(df$Money)
+  # Not used anymore
+  # df$Money = gsub("\\.", "", df$Money) # DELETE .
+  df$Money = as.numeric(df$Money)
+  class(df$Money)
+  
+  
   # A reactive expression (a function) is a expression whose result will change over time.
   dataReactive <- reactive({
-    xmlfile <- "dataDec-1-2014.xml"
-    # Parses an XML or HTML file or string containing XML/HTML content, 
-    # and generates an R structure representing the XML/HTML tree. 
-    # Return value is, an object of (S3) class XMLDocument
-    # Same to
-    file.xml <- xmlTreeParse(xmlfile)
-    #file.xml = xmlParse(xmlfile)
-    class(file.xml)
-    
-    # xml Tree Parse -> tree data
-    df = xmlToDataFrame(xmlfile, stringsAsFactors=FALSE)
-    
-    # Analysis
-    # print all records of our XML file (!not view(df)-> console)
-    xmlroot = xmlRoot(file.xml) #gives content of root
-    xmlroot
-    class(xmlroot)
-    xmlName(xmlroot[[5]]) # records
-    
-    #
-    # for each xmlroot element #6, print all names of elements
-    xmlSApply(xmlroot[[6]], xmlName)
-    # Analysis ende
-    
-    # Madhu2012=ldply(xmlToList(file.xml), data.frame)
-    # xmlEventParse(file.xml) #SAX Parser
-    
-    class(df$PIN)
-    df$PIN = as.numeric(df$PIN)
-    class(df$PIN)
-    
-    class(df$Money)
-    # Not used anymore
-    # df$Money = gsub("\\.", "", df$Money) # DELETE .
-    df$Money = as.numeric(df$Money)
-    class(df$Money)
-    
     switch(input$dist, money = df$Money,pin = df$PIN)
   })
   
@@ -154,18 +155,29 @@ shinyServer(function(input, output) {
   
   # Our SVG Chart with data from below (NOT XML DATA)
   output$myChart <- renderChart({
+    
     #create dataframe
     cars <- c(1:20)
-    yc <- c(4:23)
+    cars
+    yc <- c(1:20)
     dt <- data.frame(cars, yc)
     dt
     
     # plot using MorrisJS
     p1 <- mPlot(x="cars", y="yc", data = dt, type = 'Line')
-    
     p1$addParams(dom = 'myChart')
     p1$set(pointSize = 0, lineWidth = 1)
     return(p1)
+  })
+  
+  # Our SVG Chart with data XML
+  output$second <- renderChart({
+    #add new column with row index
+    df$index<-as.numeric(rownames(df))
+    #df
+    p2 <- mPlot(x="Money", y="index", data = df, type = "Line")
+    p2$addParams(dom = 'second')
+    return(p2)
   })
   
 })

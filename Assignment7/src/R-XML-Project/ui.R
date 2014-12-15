@@ -32,7 +32,8 @@ shinyUI(fluidPage(
         tabPanel("WordCloud", plotOutput("cloud")),
         tabPanel("WorldMap", plotOutput("wp1")),
         tabPanel("K-Means", plotOutput("plot1")),
-        tabPanel("SVG", showOutput("myChart", "morris"))
+        tabPanel("SVG", showOutput("myChart", "morris")),
+        tabPanel("SVG #2", showOutput("second", "morris"))
       )
     )
     
