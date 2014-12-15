@@ -13,25 +13,28 @@ shinyUI(fluidPage(
   # Application title
   titlePanel("XML Visualization - Assignment 7"),
   
-  
   sidebarLayout(
     
+    #LEFT PANEL
     sidebarPanel(
-      radioButtons("dist", "Data inside data frame:",
+      radioButtons("dist", "Choose data to display in our small (df) data frame:",
                    c("pin" = "pin","money" = "money")
       )
     ),
+    
+    # TABS
     mainPanel(
       tabsetPanel(
-        tabPanel("Plot", plotOutput("plot")), 
+        tabPanel("Dot Plot", plotOutput("plot")), 
         tabPanel("Summary", verbatimTextOutput("summary")), 
         tabPanel("Table", tableOutput("table")),
         tabPanel("DataFrame Table",  dataTableOutput(outputId="betterTable")),
         tabPanel("WordCloud", plotOutput("cloud")),
         tabPanel("WorldMap", plotOutput("wp1")),
         tabPanel("K-Means", plotOutput("plot1")),
-        tabPanel("Test", showOutput("myChart", "morris"))
+        tabPanel("SVG", showOutput("myChart", "morris"))
       )
     )
+    
   )
 ))
