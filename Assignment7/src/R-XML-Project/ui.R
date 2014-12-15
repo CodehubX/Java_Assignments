@@ -11,25 +11,27 @@ library(rCharts)
 shinyUI(fluidPage(
   
   # Application title
-  titlePanel("XML Visualization"),
+  titlePanel("XML Visualization - Assignment 7"),
   
-  fluidRow(
-    column(12,
-           radioButtons("dist", "Data inside data frame:",
-                        c("pin" = "pin","money" = "money")
-           ),
-           navlistPanel(            
-             "Header B",
-             tabPanel("Plot", plotOutput("plot")), 
-             tabPanel("Summary", verbatimTextOutput("summary")), 
-             tabPanel("Table", tableOutput("table")),
-             tabPanel("DataFrame Table",  dataTableOutput(outputId="betterTable")),
-             tabPanel("WordCloud", plotOutput("cloud")),
-             tabPanel("WorldMap", plotOutput("wp1")),
-             tabPanel("K-Means", plotOutput("plot1")),
-             well=TRUE
-           ), 
-           mainPanel(showOutput("myChart", "morris"))
+  
+  sidebarLayout(
+    
+    sidebarPanel(
+      radioButtons("dist", "Data inside data frame:",
+                   c("pin" = "pin","money" = "money")
+      )
+    ),
+    mainPanel(
+      tabsetPanel(
+        tabPanel("Plot", plotOutput("plot")), 
+        tabPanel("Summary", verbatimTextOutput("summary")), 
+        tabPanel("Table", tableOutput("table")),
+        tabPanel("DataFrame Table",  dataTableOutput(outputId="betterTable")),
+        tabPanel("WordCloud", plotOutput("cloud")),
+        tabPanel("WorldMap", plotOutput("wp1")),
+        tabPanel("K-Means", plotOutput("plot1")),
+        tabPanel("Test", showOutput("myChart", "morris"))
+      )
     )
   )
 ))
