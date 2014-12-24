@@ -114,7 +114,7 @@ shinyServer(function(input, output) {
     v <- sort(rowSums(m), decreasing = TRUE)
     
     # diplay them
-    # v
+    v
     # some color
     pal <- brewer.pal(11,"RdYlBu")
     pal <- pal[-(1:4)]
